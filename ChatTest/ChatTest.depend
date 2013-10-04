@@ -1,0 +1,28 @@
+# depslib dependency file v1.0
+1380872503 source:d:\c++\nethelper\chattest\main.cpp
+	"network_core.h"
+
+1380872859 d:\c++\nethelper\chattest\network_core.h
+	<stdio.h>
+	<winsock2.h>
+	<windows.h>
+	<string>
+	<iostream>
+	<vector>
+
+1380872367 source:d:\c++\nethelper\chattest\network_core.cpp
+	"network_core.h"
+
+1380796074 source:d:\palm\c++\nethelper\chattest\main.cpp
+	"network_core.h"
+
+1380796048 d:\palm\c++\nethelper\chattest\network_core.h
+	<stdio.h>
+	<winsock2.h>
+	<windows.h>
+	<string>
+	<iostream>
+
+1380796214 source:d:\palm\c++\nethelper\chattest\network_core.cpp
+	"network_core.h"
+
