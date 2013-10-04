@@ -2,17 +2,15 @@
 
 vector<net_sockHandle> clientList;
 
-int main()
+void startServer()
 {
-    net_init();
     SOCKET sock = net_createSocket();
     net_bindAndListen(sock,net_createAddr(4567));
     if(net_error()) {
         cout << "Server Socket creation error : " << net_lastError << endl;
-        net_close();
-        return 1;
+        return;
     }
-    cout << "Waiting ... ";
+    cout << "Waiting For connection ..." << endl;
     int delay = 0;
     while(!(GetAsyncKeyState(VK_SPACE) && GetAsyncKeyState(VK_LSHIFT)))
     {
@@ -22,7 +20,7 @@ int main()
             net_sockHandle hnd = net_accept(sock);
             if(hnd.sock != INVALID_SOCKET)
             {
-                cout << "\r                                \r" << "Got connection from : " << net_getIpFromHandle(hnd) << endl;
+                cout << "Got connection from : " << net_getIpFromHandle(hnd) << endl;
                 clientList.push_back(hnd);
             }
             delay = 0;
@@ -45,6 +43,22 @@ int main()
         }
         Sleep(16);
     }
+}
+
+void startClient()
+{
+
+}
+
+int main()
+{
+    net_init();
+    int mode;
+    cout << "Please select mode ( 0=Server , 1=Client ) : ";
+    cin >> mode;
+    if(mode == 0) { startServer(); }
+    else if(mode == 1) { startClient(); }
+
     net_close();
     return 0;
 }

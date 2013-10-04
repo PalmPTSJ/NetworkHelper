@@ -26,3 +26,17 @@
 1380796214 source:d:\palm\c++\nethelper\chattest\network_core.cpp
 	"network_core.h"
 
+1380872892 source:c:\users\acer\documents\networkhelper\chattest\network_core.cpp
+	"network_core.h"
+
+1380872860 c:\users\acer\documents\networkhelper\chattest\network_core.h
+	<stdio.h>
+	<winsock2.h>
+	<windows.h>
+	<string>
+	<iostream>
+	<vector>
+
+1380878900 source:c:\users\acer\documents\networkhelper\chattest\main.cpp
+	"network_core.h"
+
