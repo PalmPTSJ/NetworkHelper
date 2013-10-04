@@ -8,6 +8,8 @@
 #include <iostream>
 #include <vector>
 
+#define NET_DEFAULT_PORT 4657
+
 using namespace std;
 
 struct net_sockHandle
@@ -20,14 +22,20 @@ string net_getIpFromHandle(net_sockHandle& hnd);
 
 void net_init();
 
-sockaddr_in net_createAddr(int port,string ip = "");
+sockaddr_in net_createAddr(string ip,int port);
+
 SOCKET net_createSocket();
 bool net_bindAndListen(SOCKET &sock,sockaddr_in addr);
 
 net_sockHandle net_accept(SOCKET &sock);
 
+bool net_connect(SOCKET &sock,sockaddr_in addr,int timeout);
+
 void net_send(SOCKET &sock, string data);
 string net_recv(SOCKET &sock);
+
+void net_closeSocket(SOCKET& sock);
+void net_closeHandle(net_sockHandle hnd);
 
 void net_close();
 

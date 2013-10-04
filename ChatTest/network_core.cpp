@@ -12,7 +12,7 @@ void net_close() {
     WSACleanup();
 }
 
-sockaddr_in net_createAddr(int port,string ip)
+sockaddr_in net_createAddr(string ip,int port)
 {
     sockaddr_in toRet;
     toRet.sin_family = AF_INET;
@@ -88,4 +88,28 @@ bool net_error()
 {
     if(net_lastError.size() > 0) return true;
     return false;
+}
+
+void net_closeSocket(SOCKET& sock)
+{
+    closesocket(sock);
+}
+void net_closeHandle(net_sockHandle& hnd)
+{
+    closesocket(hnd.sock);
+}
+
+bool net_connect(SOCKET &sock,sockaddr_in addr,int timeout)
+{
+    int retStat = connect(sock, reinterpret_cast<sockaddr*>(&addr), sizeof(addr));
+    fd_set socket_set;
+    socket_set.fd_array[0] = sock;
+    socket_set.fd_count = 1;
+    timeval timer;
+    timer.tv_sec = timeout;
+
+    int ret = select(sock, NULL, &socket_set, NULL, &timer);
+
+    if(ret == 0) return false;
+    return true;
 }

@@ -5,7 +5,7 @@ vector<net_sockHandle> clientList;
 void startServer()
 {
     SOCKET sock = net_createSocket();
-    net_bindAndListen(sock,net_createAddr(4567));
+    net_bindAndListen(sock,net_createAddr("",4567));
     if(net_error()) {
         cout << "Server Socket creation error : " << net_lastError << endl;
         return;
@@ -47,7 +47,14 @@ void startServer()
 
 void startClient()
 {
-
+    SOCKET sock = net_createSocket();
+    cout << "IP Address : ";
+    string ip;
+    cin >> ip;
+    bool con = net_connect(sock,net_createAddr(ip,4567),5);
+    if(con) cout << "Connect success !";
+    else cout << "Connect Failed";
+    net_closeSocket(sock);
 }
 
 int main()
