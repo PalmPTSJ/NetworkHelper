@@ -139,3 +139,8 @@ string net_getWsaError()
             return string(str);
     }
 }
+
+void net_shutdownHandle(net_sockHandle& hnd)
+{
+    shutdown(hnd.sock,SD_SEND);
+}

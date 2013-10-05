@@ -26,10 +26,10 @@
 1380796214 source:d:\palm\c++\nethelper\chattest\network_core.cpp
 	"network_core.h"
 
-1380970824 source:c:\users\acer\documents\networkhelper\chattest\network_core.cpp
+1380981846 source:c:\users\acer\documents\networkhelper\chattest\network_core.cpp
 	"network_core.h"
 
-1380970115 c:\users\acer\documents\networkhelper\chattest\network_core.h
+1380981830 c:\users\acer\documents\networkhelper\chattest\network_core.h
 	<stdio.h>
 	<winsock2.h>
 	<windows.h>
@@ -38,5 +38,17 @@
 	<vector>
 
 1380970842 source:c:\users\acer\documents\networkhelper\chattest\main.cpp
+	"network_core.h"
+
+1380981697 source:c:\users\acer\documents\networkhelper\chattest\network_ext.cpp
+	"network_ext.h"
+
+1380981413 source:c:\users\acer\documents\networkhelper\chattest\network_server.cpp
+	"network_server.h"
+
+1380981492 c:\users\acer\documents\networkhelper\chattest\network_server.h
+	"network_ext.h"
+
+1380981772 c:\users\acer\documents\networkhelper\chattest\network_ext.h
 	"network_core.h"
 

@@ -42,6 +42,8 @@ int net_recv(SOCKET &sock,string& str);
 void net_closeSocket(SOCKET& sock);
 void net_closeHandle(net_sockHandle& hnd);
 
+void net_shutdownHandle(net_sockHandle& hnd);
+
 void net_close();
 
 bool net_error();
