@@ -72,21 +72,20 @@ string net_getIpFromHandle(net_sockHandle& hnd)
     return inet_ntoa(hnd.addr.sin_addr);
 }
 
-string net_recv(SOCKET &sock)
+int net_recv(SOCKET &sock,string& str)
 {
     memset(net_tempBuffer,0,2048);
     int recvStat = recv(sock,net_tempBuffer,2048,0);
     if(recvStat != 0 && recvStat != SOCKET_ERROR)
     {
-        string str = net_tempBuffer;
-        return str;
+        str = net_tempBuffer;
+        return NET_RECV_OK;
     }
-    if(recvStat == SOCKET_ERROR)
-    {
-        net_lastError = "Socket Error while recieving";
-        return "";
-    }
-    return "";
+    if(recvStat == 0)
+        return NET_RECV_CLOSE;
+    if(recvStat == SOCKET_ERROR && WSAGetLastError() != 10035)
+        return NET_RECV_ERROR;
+    return NET_RECV_NONE;
 }
 
 bool net_error()
@@ -117,4 +116,26 @@ bool net_connect(SOCKET &sock,sockaddr_in addr,int timeout)
 
     if(ret == 0) return false;
     return true;
+}
+
+void net_send(SOCKET &sock, string data)
+{
+    char toSend_buff[data.size()+1];
+    strcpy(toSend_buff,data.c_str());
+    send(sock,toSend_buff,data.size()+1,0);
+}
+
+string net_getWsaError()
+{
+    int wsaErr = WSAGetLastError();
+    switch(wsaErr)
+    {
+        case 0 : return "";
+        case 10035 : return "Would Block (10035)";
+        case 10054 : return "Connection Reset (10054)";
+        default :
+            char str[20];
+            sprintf(str,"%d",wsaErr);
+            return string(str);
+    }
 }

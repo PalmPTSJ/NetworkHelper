@@ -10,6 +10,11 @@
 
 #define NET_DEFAULT_PORT 4657
 
+#define NET_RECV_OK 0
+#define NET_RECV_CLOSE 1
+#define NET_RECV_NONE 2
+#define NET_RECV_ERROR 3
+
 using namespace std;
 
 struct net_sockHandle
@@ -32,7 +37,7 @@ net_sockHandle net_accept(SOCKET &sock);
 bool net_connect(SOCKET &sock,sockaddr_in addr,int timeout);
 
 void net_send(SOCKET &sock, string data);
-string net_recv(SOCKET &sock);
+int net_recv(SOCKET &sock,string& str);
 
 void net_closeSocket(SOCKET& sock);
 void net_closeHandle(net_sockHandle& hnd);
@@ -40,6 +45,8 @@ void net_closeHandle(net_sockHandle& hnd);
 void net_close();
 
 bool net_error();
+
+string net_getWsaError();
 
 extern WSADATA net_wsaData;
 extern string net_lastError;

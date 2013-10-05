@@ -12,41 +12,49 @@ void startServer()
     }
     cout << "Waiting For connection ..." << endl;
     int delay = 0;
-    while(!(GetAsyncKeyState(VK_SPACE) && GetAsyncKeyState(VK_LSHIFT)))
+    while(!(GetAsyncKeyState(VK_SPACE) && GetAsyncKeyState(VK_LSHIFT))) /** Run ( Space + Left_Shift to exit )*/
     {
         ++delay;
-        if(delay > 60) // Heavy network loop
-        {
+        if(delay > 60) /** Heavy network loop */ {
             net_sockHandle hnd = net_accept(sock);
-            if(hnd.sock != INVALID_SOCKET)
-            {
+            if(hnd.sock != INVALID_SOCKET) {
                 cout << "Got connection from : " << net_getIpFromHandle(hnd) << endl;
                 clientList.push_back(hnd);
             }
             delay = 0;
         }
-        if(delay % 6 == 0) // Small network loop
-        {
-            for(int i = 0;i < clientList.size();i++)
-            {
-                string str = net_recv(clientList[i].sock);
-                if(str.size() > 0)
-                {
+        if(delay % 6 == 0) /** Small network loop */ {
+            for(int i = 0;i < clientList.size();i++) { /** Loop through every client */
+                string str;
+                int recvStat = net_recv(clientList[i].sock,str); // Recieve data
+                if(recvStat == NET_RECV_OK) /** If have any data */ {
                     cout << "Recieve from " << net_getIpFromHandle(clientList[i]) << " ( " << i << " ) : " << str << endl;
+                }
+                else if(recvStat == NET_RECV_CLOSE)
+                {
+                    cout << "Connection close from " << net_getIpFromHandle(clientList[i]) << endl;
+                    net_closeHandle(clientList[i]);
+                    clientList.erase(clientList.begin() + i);
+                    i--;
+                }
+                else if(recvStat == NET_RECV_ERROR)
+                {
+                    cout << "Recieve error from " << net_getIpFromHandle(clientList[i]) << " : " << net_getWsaError() << endl;
+                    net_closeHandle(clientList[i]);
+                    clientList.erase(clientList.begin() + i);
+                    i--;
                 }
             }
         }
-        if(net_error())
+        if(net_error()) /** If have error */
         {
             cout << endl << "Error recieve : " << net_lastError << endl;
             break;
         }
         Sleep(16);
     }
-    for(int i = 0;i < clientList.size();i++)
-    {
+    for(int i = 0;i < clientList.size();i++) /** Close all socket ( handle ) */
         net_closeHandle(clientList[i]);
-    }
 }
 
 void startClient()
@@ -56,7 +64,20 @@ void startClient()
     string ip;
     cin >> ip;
     bool con = net_connect(sock,net_createAddr(ip,4567),5);
-    if(con) cout << "Connect success !";
+    if(con) {
+        cout << "Connect success !";
+        while(true)
+        {
+            if(GetAsyncKeyState(VK_SPACE))
+            {
+                string toSend;
+                cout << endl << "To Send : ";
+                cin >> toSend; // This function will block everything
+                net_send(sock,toSend);
+            }
+            Sleep(16);
+        }
+    }
     else cout << "Connect Failed";
     net_closeSocket(sock);
 }
