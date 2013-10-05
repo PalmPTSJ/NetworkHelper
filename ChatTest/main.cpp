@@ -5,15 +5,15 @@ net_server_serverClass server;
 
 void startServer()
 {
-    server.init();
-    server.setup(4567);
-    if(!server.start()) {
+    server.init(); /** init */
+    server.setup(4567); /** Port 4567 */
+    if(!server.start()) { /** if start() return false */
         cout << "Server Starting error : " << net_lastError << WSAGetLastError() << endl;
         return;
     }
     cout << "Waiting For connection ..." << endl;
     int delay = 0;
-    while(server.isStart) /** Run ( Space + Left_Shift to exit )*/
+    while(server.isStart) /** Run ( Space + Left_Shift to exit ) */
     {
         ++delay;
         if(delay > 60) /** Heavy network loop */ {
@@ -38,7 +38,7 @@ void startServer()
             break;
         }
         if(GetAsyncKeyState(VK_SPACE) && GetAsyncKeyState(VK_LSHIFT))
-        {
+        { /** Shutdown */
             if(!server.isShuttingDown) {
                 cout << "Graceful shutdown mode start ( Will wait for all client to close ) " << endl;
                 server.stop(); // start stop signal ( gracefully )

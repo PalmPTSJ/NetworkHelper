@@ -38,6 +38,10 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="network_core.cpp" />
 		<Unit filename="network_core.h" />
+		<Unit filename="network_ext.cpp" />
+		<Unit filename="network_ext.h" />
+		<Unit filename="network_server.cpp" />
+		<Unit filename="network_server.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
