@@ -1,8 +1,10 @@
 #include "network_server.h"
-
 net_server_serverClass::net_server_serverClass()
 {
     /** Constructor */
+}
+void net_server_serverClass::init()
+{
     sock = net_createSocket();
     port = NET_DEFAULT_PORT;
     isStart = false;
@@ -32,19 +34,28 @@ bool net_server_serverClass::start()
 void net_server_serverClass::stop()
 {
     for(int i = 0;i < clientList.size();i++) {
-        /** Initialize graceful shutdown */
+        /** Initialize graceful shutdown ( will wait until the other side close ) */
         clientList[i].status = NET_EXT_SOCK_CLOSING;
         net_shutdownHandle(clientList[i].sockHandle);
     }
     isShuttingDown = true;
 }
-
+void net_server_serverClass::forceStop()
+{
+    for(int i = 0;i < clientList.size();i++) {
+        /** force close everything */
+        net_closeHandle(clientList[i].sockHandle);
+    }
+    net_closeSocket(sock);
+    isStart = false;
+}
 int net_server_serverClass::run()
 {
     for(int i = 0;i < clientList.size();i++) {
         // send pending data
         if(clientList[i].sendBuff.size() > 0) {
             net_send(clientList[i].sockHandle.sock,clientList[i].sendBuff);
+            clientList[i].sendBuff = "";
         }
         // recv
         string recvStr;
@@ -85,4 +96,26 @@ int net_server_serverClass::acceptNewRequest()
         return 1;
     }
     return 0;
+}
+
+string net_server_serverClass::getRecvDataFrom(int index)
+{
+    if(index < 0 || index >= clientList.size()) return "";
+    string toRet = clientList[index].recvBuff;
+    clientList[index].recvBuff.clear();
+    return toRet;
+}
+
+string net_server_serverClass::getIpFrom(int index)
+{
+    if(index < 0 || index >= clientList.size()) return "";
+    return net_getIpFromHandle(clientList[index].sockHandle);
+}
+
+void net_server_serverClass::sendToAllClient(string data)
+{
+    for(int i = 0;i < clientList.size();i++)
+    {
+        clientList[i].sendBuff.append(data);
+    }
 }

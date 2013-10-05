@@ -1,48 +1,34 @@
 #include "network_core.h"
+#include "network_server.h"
 
-vector<net_sockHandle> clientList;
+net_server_serverClass server;
 
 void startServer()
 {
-    SOCKET sock = net_createSocket();
-    net_bindAndListen(sock,net_createAddr("",4567));
-    if(net_error()) {
-        cout << "Server Socket creation error : " << net_lastError << endl;
+    server.init();
+    server.setup(4567);
+    if(!server.start()) {
+        cout << "Server Starting error : " << net_lastError << WSAGetLastError() << endl;
         return;
     }
     cout << "Waiting For connection ..." << endl;
     int delay = 0;
-    while(!(GetAsyncKeyState(VK_SPACE) && GetAsyncKeyState(VK_LSHIFT))) /** Run ( Space + Left_Shift to exit )*/
+    while(server.isStart) /** Run ( Space + Left_Shift to exit )*/
     {
         ++delay;
         if(delay > 60) /** Heavy network loop */ {
-            net_sockHandle hnd = net_accept(sock);
-            if(hnd.sock != INVALID_SOCKET) {
-                cout << "Got connection from : " << net_getIpFromHandle(hnd) << endl;
-                clientList.push_back(hnd);
-            }
+            server.acceptNewRequest();
             delay = 0;
         }
         if(delay % 6 == 0) /** Small network loop */ {
-            for(int i = 0;i < clientList.size();i++) { /** Loop through every client */
-                string str;
-                int recvStat = net_recv(clientList[i].sock,str); // Recieve data
-                if(recvStat == NET_RECV_OK) /** If have any data */ {
-                    cout << "Recieve from " << net_getIpFromHandle(clientList[i]) << " ( " << i << " ) : " << str << endl;
-                }
-                else if(recvStat == NET_RECV_CLOSE)
-                {
-                    cout << "Connection close from " << net_getIpFromHandle(clientList[i]) << endl;
-                    net_closeHandle(clientList[i]);
-                    clientList.erase(clientList.begin() + i);
-                    i--;
-                }
-                else if(recvStat == NET_RECV_ERROR)
-                {
-                    cout << "Recieve error from " << net_getIpFromHandle(clientList[i]) << " : " << net_getWsaError() << endl;
-                    net_closeHandle(clientList[i]);
-                    clientList.erase(clientList.begin() + i);
-                    i--;
+            server.run();
+            for(int i = 0;i < server.clientList.size();i++) {
+                if(server.clientList[i].recvBuff.size() > 0) {
+                    string recvStr = server.getRecvDataFrom(i);
+                    cout << "Recv from " << server.getIpFrom(i) << " : " << recvStr << endl;
+                    // will echo to all
+                    server.sendToAllClient("New message : ");
+                    server.sendToAllClient(recvStr);
                 }
             }
         }
@@ -51,10 +37,21 @@ void startServer()
             cout << endl << "Error recieve : " << net_lastError << endl;
             break;
         }
+        if(GetAsyncKeyState(VK_SPACE) && GetAsyncKeyState(VK_LSHIFT))
+        {
+            if(!server.isShuttingDown) {
+                cout << "Graceful shutdown mode start ( Will wait for all client to close ) " << endl;
+                server.stop(); // start stop signal ( gracefully )
+            }
+            if(GetAsyncKeyState(VK_LCONTROL))
+            {
+                // force shutdown
+                cout << "Force shutdown ! ";
+                server.forceStop();
+            }
+        }
         Sleep(16);
     }
-    for(int i = 0;i < clientList.size();i++) /** Close all socket ( handle ) */
-        net_closeHandle(clientList[i]);
 }
 
 void startClient()
@@ -66,14 +63,30 @@ void startClient()
     bool con = net_connect(sock,net_createAddr(ip,4567),5);
     if(con) {
         cout << "Connect success !";
+        int delay = 0;
         while(true)
         {
-            if(GetAsyncKeyState(VK_SPACE))
+            if(GetAsyncKeyState(13) && GetAsyncKeyState(VK_SPACE)) /** Space + Enter to type */
             {
                 string toSend;
-                cout << endl << "To Send : ";
+                cout << endl << "$";
                 cin >> toSend; // This function will block everything
                 net_send(sock,toSend);
+            }
+            if(++delay > 60)
+            {
+                delay = 0;
+                string str;
+                int stat = net_recv(sock,str);
+                if(stat == NET_RECV_CLOSE || stat == NET_RECV_ERROR)
+                {
+                    // close
+                    cout << "Error / Close recieve , exitting" << endl;
+                    break;
+                }
+                else if(stat == NET_RECV_OK) {
+                    cout << "Recieve : " << str << endl;
+                }
             }
             Sleep(16);
         }
@@ -85,6 +98,7 @@ void startClient()
 int main()
 {
     net_init();
+
     int mode;
     cout << "Please select mode ( 0=Server , 1=Client ) : ";
     cin >> mode;

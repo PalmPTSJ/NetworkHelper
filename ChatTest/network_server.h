@@ -11,22 +11,27 @@ public:
     net_server_serverClass();
     ~net_server_serverClass();
     void setup(int _port);
+    void init();
     bool start();
     void stop();
+    void forceStop();
 
     int acceptNewRequest();
+    string getRecvDataFrom(int index);
+    string getIpFrom(int index);
     int run();
+
+    void sendToAllClient(string data);
 
     string getError();
 
-
-private:
     SOCKET sock;
     bool isStart;
     bool isShuttingDown;
     int port;
     string error;
     vector<net_ext_sock> clientList;
+
 };
 
 #endif // NETWORK_SERVER_H_INCLUDED

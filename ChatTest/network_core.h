@@ -8,7 +8,7 @@
 #include <iostream>
 #include <vector>
 
-#define NET_DEFAULT_PORT 4657
+#define NET_DEFAULT_PORT 4567
 
 #define NET_RECV_OK 0
 #define NET_RECV_CLOSE 1
