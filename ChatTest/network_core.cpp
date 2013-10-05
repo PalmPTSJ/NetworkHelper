@@ -81,6 +81,11 @@ string net_recv(SOCKET &sock)
         string str = net_tempBuffer;
         return str;
     }
+    if(recvStat == SOCKET_ERROR)
+    {
+        net_lastError = "Socket Error while recieving";
+        return "";
+    }
     return "";
 }
 

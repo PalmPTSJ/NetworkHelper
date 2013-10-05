@@ -35,7 +35,7 @@ void net_send(SOCKET &sock, string data);
 string net_recv(SOCKET &sock);
 
 void net_closeSocket(SOCKET& sock);
-void net_closeHandle(net_sockHandle hnd);
+void net_closeHandle(net_sockHandle& hnd);
 
 void net_close();
 

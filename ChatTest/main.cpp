@@ -43,6 +43,10 @@ void startServer()
         }
         Sleep(16);
     }
+    for(int i = 0;i < clientList.size();i++)
+    {
+        net_closeHandle(clientList[i]);
+    }
 }
 
 void startClient()
