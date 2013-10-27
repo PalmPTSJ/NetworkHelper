@@ -22,6 +22,9 @@ public:
     int run();
 
     void sendToAllClient(string data);
+    void sendToAllClientExcept(string data,int exceptIndex);
+
+    bool isClientHaveData(int index);
 
     string getError();
 

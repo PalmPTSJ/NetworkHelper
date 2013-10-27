@@ -23,12 +23,11 @@ void startServer()
         if(delay % 6 == 0) /** Small network loop */ {
             server.run();
             for(int i = 0;i < server.clientList.size();i++) {
-                if(server.clientList[i].recvBuff.size() > 0) {
+                if(server.isClientHaveData(i)) {
                     string recvStr = server.getRecvDataFrom(i);
                     cout << "Recv from " << server.getIpFrom(i) << " : " << recvStr << endl;
                     // will echo to all
-                    server.sendToAllClient("New message : ");
-                    server.sendToAllClient(recvStr);
+                    server.sendToAllClientExcept(recvStr,i);
                 }
             }
         }

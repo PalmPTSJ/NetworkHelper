@@ -53,3 +53,30 @@
 1380981772 c:\users\acer\documents\networkhelper\chattest\network_ext.h
 	"network_core.h"
 
+1382855445 source:d:\palm\c++\networkhelper\chattest\main.cpp
+	"network_core.h"
+	"network_server.h"
+
+1382855445 d:\palm\c++\networkhelper\chattest\network_core.h
+	<stdio.h>
+	<winsock2.h>
+	<windows.h>
+	<string>
+	<iostream>
+	<vector>
+
+1382855802 d:\palm\c++\networkhelper\chattest\network_server.h
+	"network_ext.h"
+
+1382855445 d:\palm\c++\networkhelper\chattest\network_ext.h
+	"network_core.h"
+
+1382855445 source:d:\palm\c++\networkhelper\chattest\network_core.cpp
+	"network_core.h"
+
+1382855445 source:d:\palm\c++\networkhelper\chattest\network_ext.cpp
+	"network_ext.h"
+
+1382855906 source:d:\palm\c++\networkhelper\chattest\network_server.cpp
+	"network_server.h"
+

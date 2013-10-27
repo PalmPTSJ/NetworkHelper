@@ -98,6 +98,11 @@ int net_server_serverClass::acceptNewRequest()
     return 0;
 }
 
+bool net_server_serverClass::isClientHaveData(int index)
+{
+    return (clientList[index].recvBuff.size()>0)?true:false;
+}
+
 string net_server_serverClass::getRecvDataFrom(int index)
 {
     if(index < 0 || index >= clientList.size()) return "";
@@ -115,7 +120,12 @@ string net_server_serverClass::getIpFrom(int index)
 void net_server_serverClass::sendToAllClient(string data)
 {
     for(int i = 0;i < clientList.size();i++)
-    {
         clientList[i].sendBuff.append(data);
-    }
 }
+void net_server_serverClass::sendToAllClientExcept(string data,int exceptIndex)
+{
+    for(int i = 0;i < clientList.size();i++)
+        if(i != exceptIndex)
+            clientList[i].sendBuff.append(data);
+}
+
