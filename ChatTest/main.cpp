@@ -1,50 +1,64 @@
 #include "network_core.h"
 #include "network_server.h"
 
+void clearScreen() {
+    COORD topLeft  = { 0, 0 };
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO screen;
+    DWORD written;
+
+    GetConsoleScreenBufferInfo(console, &screen);
+    FillConsoleOutputCharacterA(
+        console, ' ', screen.dwSize.X * screen.dwSize.Y, topLeft, &written
+    );
+    FillConsoleOutputAttribute(
+        console, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE,
+        screen.dwSize.X * screen.dwSize.Y, topLeft, &written
+    );
+    SetConsoleCursorPosition(console, topLeft);
+}
+
 net_server_serverClass server;
 
 void startServer()
 {
-    server.init(); /** init */
-    server.setup(4567); /** Port 4567 */
-    if(!server.start()) { /** if start() return false */
+    server.init(); /* init */
+    server.setup(4567); /* Port 4567 */
+    if(!server.start()) { /* if start() return false ( not success ) */
         cout << "Server Starting error : " << net_lastError << WSAGetLastError() << endl;
         return;
     }
     cout << "Waiting For connection ..." << endl;
     int delay = 0;
-    while(server.isStart) /** Run ( Space + Left_Shift to exit ) */
+    while(server.isStart) /* Run ( Space + Left_Shift to exit ) */
     {
         ++delay;
-        if(delay > 60) /** Heavy network loop */ {
+        if(delay > 60) /* Heavy network loop */ {
             server.acceptNewRequest();
             delay = 0;
         }
-        if(delay % 6 == 0) /** Small network loop */ {
+        if(delay % 6 == 0) /* Small network loop */ {
             server.run();
             for(int i = 0;i < server.clientList.size();i++) {
-                if(server.isClientHaveData(i)) {
+                if(server.isClientHaveData(i)) { /* if this client have data */
                     string recvStr = server.getRecvDataFrom(i);
                     cout << "Recv from " << server.getIpFrom(i) << " : " << recvStr << endl;
-                    // will echo to all
-                    server.sendToAllClientExcept(recvStr,i);
+                    server.sendToAllClientExcept(recvStr,i); /* echo to every client except itself */
                 }
             }
         }
-        if(net_error()) /** If have error */
+        if(net_error()) /* If have error */
         {
             cout << endl << "Error recieve : " << net_lastError << endl;
-            break;
+            break; /* Force exit */
         }
         if(GetAsyncKeyState(VK_SPACE) && GetAsyncKeyState(VK_LSHIFT))
-        { /** Shutdown */
-            if(!server.isShuttingDown) {
+        { /* Shutdown */
+            if(!server.isShuttingDown) { /* If not shutting down */
                 cout << "Graceful shutdown mode start ( Will wait for all client to close ) " << endl;
-                server.stop(); // start stop signal ( gracefully )
+                server.stop(); /* Start shutting down mode ( graceful ) */
             }
-            if(GetAsyncKeyState(VK_LCONTROL))
-            {
-                // force shutdown
+            if(GetAsyncKeyState(VK_LCONTROL)) { /* Force shutdown */
                 cout << "Force shutdown ! ";
                 server.forceStop();
             }
@@ -60,19 +74,18 @@ void startClient()
     string ip;
     cin >> ip;
     bool con = net_connect(sock,net_createAddr(ip,4567),5);
+    vector<string> chatHistory;
+    string typing = "";
     if(con) {
         cout << "Connect success !";
         int delay = 0;
         while(true)
         {
-            if(GetAsyncKeyState(13) && GetAsyncKeyState(VK_SPACE)) /** Space + Enter to type */
-            {
-                string toSend;
-                cout << endl << "$";
-                cin >> toSend; // This function will block everything
-                net_send(sock,toSend);
+            /* if any char type */
+            for(int i = 'a';i <= 'z';i++) {
+
             }
-            if(++delay > 60)
+            if(++delay > 60) /* Recieve data */
             {
                 delay = 0;
                 string str;
@@ -80,11 +93,12 @@ void startClient()
                 if(stat == NET_RECV_CLOSE || stat == NET_RECV_ERROR)
                 {
                     // close
-                    cout << "Error / Close recieve , exitting" << endl;
+                    cout << "Error / Close signal recieved , exitting" << endl;
                     break;
                 }
                 else if(stat == NET_RECV_OK) {
-                    cout << "Recieve : " << str << endl;
+                    chatHistory.push_back(str);
+                    if(chatHistory.size() > 20) chatHistory.erase(chatHistory.begin());
                 }
             }
             Sleep(16);
