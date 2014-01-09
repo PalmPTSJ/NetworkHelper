@@ -31,6 +31,16 @@ bool net_server_serverClass::start()
     isStart = true;
     return true;
 }
+void net_server_serverClass::disconnect(int index)
+{
+    if(index < 0 || index >= clientList.size()) return;
+    // if still have pending data
+    if(clientList[index].sendBuff.size() > 0) {
+        net_send(clientList[index].sockHandle.sock,clientList[index].sendBuff);
+    }
+    clientList[index].status = NET_EXT_SOCK_CLOSING;
+    net_shutdownHandle(clientList[index].sockHandle);
+}
 void net_server_serverClass::stop()
 {
     for(int i = 0;i < clientList.size();i++) {
@@ -69,6 +79,9 @@ int net_server_serverClass::run()
         }
         else if(ret == NET_RECV_OK) {
             clientList[i].recvBuff.append(recvStr);
+        }
+        else if(ret == NET_RECV_CLOSE) {
+            cout << "Client " << net_getIpFromHandle(clientList[i].sockHandle) << " ( id " << i << " ) disconnected ( Close signal Recieved )\n";
         }
     }
     if(isShuttingDown && clientList.size() == 0)
@@ -116,7 +129,11 @@ string net_server_serverClass::getIpFrom(int index)
     if(index < 0 || index >= clientList.size()) return "";
     return net_getIpFromHandle(clientList[index].sockHandle);
 }
-
+void net_server_serverClass::sendTo(string data,int index)
+{
+    if(index < 0 || index >= clientList.size()) return;
+    clientList[index].sendBuff.append(data);
+}
 void net_server_serverClass::sendToAllClient(string data)
 {
     for(int i = 0;i < clientList.size();i++)

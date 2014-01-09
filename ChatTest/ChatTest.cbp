@@ -42,6 +42,8 @@
 		<Unit filename="network_ext.h" />
 		<Unit filename="network_server.cpp" />
 		<Unit filename="network_server.h" />
+		<Unit filename="packet_rule.cpp" />
+		<Unit filename="packet_rule.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

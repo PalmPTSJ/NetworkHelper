@@ -21,8 +21,11 @@ public:
     string getIpFrom(int index);
     int run();
 
+    void sendTo(string data,int index);
     void sendToAllClient(string data);
     void sendToAllClientExcept(string data,int exceptIndex);
+
+    void disconnect(int index);
 
     bool isClientHaveData(int index);
 

@@ -1,23 +1,7 @@
 #include "network_core.h"
 #include "network_server.h"
-
-void clearScreen() {
-    COORD topLeft  = { 0, 0 };
-    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_SCREEN_BUFFER_INFO screen;
-    DWORD written;
-
-    GetConsoleScreenBufferInfo(console, &screen);
-    FillConsoleOutputCharacterA(
-        console, ' ', screen.dwSize.X * screen.dwSize.Y, topLeft, &written
-    );
-    FillConsoleOutputAttribute(
-        console, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE,
-        screen.dwSize.X * screen.dwSize.Y, topLeft, &written
-    );
-    SetConsoleCursorPosition(console, topLeft);
-}
-
+#include <time.h>
+#include <fstream>
 net_server_serverClass server;
 
 void startServer()
@@ -81,9 +65,12 @@ void startClient()
         int delay = 0;
         while(true)
         {
-            /* if any char type */
-            for(int i = 'a';i <= 'z';i++) {
-
+            if(GetAsyncKeyState(VK_SPACE) && GetAsyncKeyState('T')) {
+                string toSend;
+                char buff[1000];
+                fgets(buff,1000,stdin);
+                toSend = buff;
+                net_send(sock,toSend);
             }
             if(++delay > 60) /* Recieve data */
             {
@@ -107,17 +94,85 @@ void startClient()
     else cout << "Connect Failed";
     net_closeSocket(sock);
 }
+string htmlField(string fieldName,int d)
+{
+    char toRet[10000];
+    sprintf(toRet,"%s: %d\n",fieldName.c_str(),d);
+    string toR = toRet;
+    return toR;
+}
+void startHTTPserv()
+{
+    // load
+    string body,line;
+    ifstream mf("test.html");
+    while (getline(mf,line) )
+    {
+      body.append(line);
+      body.push_back('\n');
+    }
+    mf.close();
+
+    server.init();
+    server.setup(80);
+    server.start();
+    int delay = 0;
+    while(server.isStart) {
+        --delay;
+        if(delay < 0) {
+            delay = 60;
+            server.acceptNewRequest();
+        }
+        if(delay % 6 == 0) {
+            server.run();
+            for(int i = 0;i < server.clientList.size();i++) {
+                if(server.isClientHaveData(i)) { /* if this client have data */
+                    string recvStr = server.getRecvDataFrom(i);
+                    // if HTTP request
+                    if(recvStr.find("GET / HTTP/1.1") != string::npos) {
+                        cout << "Got a http request from : #" << i << "\n";
+                        // send back HTTP response and close connection
+                        string response = "HTTP/1.1 200 OK\r\n";
+                        response.append("\r\n");
+                        response.append(body);
+                        // send
+                        server.sendTo(response,i);
+                        response.append("\r\n");
+                        // close connection
+                        cout << "Sent HTTP response to : #" << i << " , Disconnecting ...\n";
+                        server.disconnect(i);
+                    }
+                }
+            }
+        }
+        if(GetAsyncKeyState(VK_SPACE) && GetAsyncKeyState(VK_LSHIFT))
+        { /* Shutdown */
+            if(!server.isShuttingDown) { /* If not shutting down */
+                cout << "Graceful shutdown mode start ( Will wait for all client to close ) " << endl;
+                server.stop(); /* Start shutting down mode ( graceful ) */
+            }
+            if(GetAsyncKeyState(VK_LCONTROL)) { /* Force shutdown */
+                cout << "Force shutdown ! ";
+                server.forceStop();
+            }
+        }
+        Sleep(16);
+    }
+}
 
 int main()
 {
     net_init();
 
     int mode;
-    cout << "Please select mode ( 0=Server , 1=Client ) : ";
+    /*cout << "Please select mode ( 0=Server , 1=Client ) : ";
     cin >> mode;
     if(mode == 0) { startServer(); }
-    else if(mode == 1) { startClient(); }
+    else if(mode == 1) { startClient(); }*/
+    cout << "Welcome to HTTP server test !\n";
+    startHTTPserv();
 
     net_close();
+    system("pause");
     return 0;
 }
