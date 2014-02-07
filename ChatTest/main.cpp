@@ -38,10 +38,7 @@ void startServer()
         }
         if(GetAsyncKeyState(VK_SPACE) && GetAsyncKeyState(VK_LSHIFT))
         { /* Shutdown */
-            if(!server.isShuttingDown) { /* If not shutting down */
-                cout << "Graceful shutdown mode start ( Will wait for all client to close ) " << endl;
-                server.stop(); /* Start shutting down mode ( graceful ) */
-            }
+            server.stop();
             if(GetAsyncKeyState(VK_LCONTROL)) { /* Force shutdown */
                 cout << "Force shutdown ! ";
                 server.forceStop();
@@ -101,10 +98,39 @@ string htmlField(string fieldName,int d)
     string toR = toRet;
     return toR;
 }
+
+void debug(string str) {
+    cout << "Server : " << str << endl;
+}
+string body,line;
+void reply(string str,int i) {
+    if(str.find("GET / HTTP/1.1") != string::npos) {
+        cout << "Got a http request from : #" << i << "\n";
+        // send back HTTP response and close connection
+        string response = "HTTP/1.1 200 OK\r\n";
+        response.append("\r\n");
+        response.append(body);
+        // send
+        server.sendTo(response,i);
+        response.append("\r\n");
+        // close connection
+        cout << "Sent HTTP response to : #" << i << " , Disconnecting ...\n";
+        server.disconnect(i);
+    } else {
+        server.disconnect(i); // junk request
+    }
+}
+void run() {
+    // catch shutdown button
+    if(GetAsyncKeyState(VK_SPACE) && GetAsyncKeyState(VK_LSHIFT)) {
+        server.stop();
+        if(GetAsyncKeyState(VK_LCONTROL))
+            server.forceStop();
+    }
+}
 void startHTTPserv()
 {
     // load
-    string body,line;
     ifstream mf("test.html");
     while (getline(mf,line) )
     {
@@ -113,51 +139,14 @@ void startHTTPserv()
     }
     mf.close();
 
+    server.setDebugFunc(debug);
+    server.setRecvFunc(reply);
+    server.setRunFunc(run);
+
     server.init();
     server.setup(80);
     server.start();
-    int delay = 0;
-    while(server.isStart) {
-        --delay;
-        if(delay < 0) {
-            delay = 60;
-            server.acceptNewRequest();
-        }
-        if(delay % 6 == 0) {
-            server.run();
-            for(int i = 0;i < server.clientList.size();i++) {
-                if(server.isClientHaveData(i)) { /* if this client have data */
-                    string recvStr = server.getRecvDataFrom(i);
-                    // if HTTP request
-                    if(recvStr.find("GET / HTTP/1.1") != string::npos) {
-                        cout << "Got a http request from : #" << i << "\n";
-                        // send back HTTP response and close connection
-                        string response = "HTTP/1.1 200 OK\r\n";
-                        response.append("\r\n");
-                        response.append(body);
-                        // send
-                        server.sendTo(response,i);
-                        response.append("\r\n");
-                        // close connection
-                        cout << "Sent HTTP response to : #" << i << " , Disconnecting ...\n";
-                        server.disconnect(i);
-                    }
-                }
-            }
-        }
-        if(GetAsyncKeyState(VK_SPACE) && GetAsyncKeyState(VK_LSHIFT))
-        { /* Shutdown */
-            if(!server.isShuttingDown) { /* If not shutting down */
-                cout << "Graceful shutdown mode start ( Will wait for all client to close ) " << endl;
-                server.stop(); /* Start shutting down mode ( graceful ) */
-            }
-            if(GetAsyncKeyState(VK_LCONTROL)) { /* Force shutdown */
-                cout << "Force shutdown ! ";
-                server.forceStop();
-            }
-        }
-        Sleep(16);
-    }
+    server.runLoop();
 }
 
 int main()

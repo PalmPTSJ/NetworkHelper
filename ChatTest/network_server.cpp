@@ -9,6 +9,7 @@ void net_server_serverClass::init()
     port = NET_DEFAULT_PORT;
     isStart = false;
     isShuttingDown = false;
+    if(debugFunc != NULL) (*debugFunc)("Server init");
 }
 net_server_serverClass::~net_server_serverClass()
 {
@@ -43,6 +44,8 @@ void net_server_serverClass::disconnect(int index)
 }
 void net_server_serverClass::stop()
 {
+    if(isShuttingDown) return;
+    if(debugFunc != NULL) (*debugFunc)("Shutting down");
     for(int i = 0;i < clientList.size();i++) {
         /** Initialize graceful shutdown ( will wait until the other side close ) */
         clientList[i].status = NET_EXT_SOCK_CLOSING;
@@ -52,6 +55,7 @@ void net_server_serverClass::stop()
 }
 void net_server_serverClass::forceStop()
 {
+    if(debugFunc != NULL) (*debugFunc)("Force close");
     for(int i = 0;i < clientList.size();i++) {
         /** force close everything */
         net_closeHandle(clientList[i].sockHandle);
@@ -81,7 +85,8 @@ int net_server_serverClass::run()
             clientList[i].recvBuff.append(recvStr);
         }
         else if(ret == NET_RECV_CLOSE) {
-            cout << "Client " << net_getIpFromHandle(clientList[i].sockHandle) << " ( id " << i << " ) disconnected ( Close signal Recieved )\n";
+            char cc[100]; sprintf(cc,"%s [%d] disconnected (CSIG)",net_getIpFromHandle(clientList[i].sockHandle).c_str(),i);
+            if(debugFunc != NULL) (*debugFunc)(string(cc));
         }
     }
     if(isShuttingDown && clientList.size() == 0)
@@ -104,7 +109,8 @@ int net_server_serverClass::acceptNewRequest()
         net_ext_sock client = net_ext_createSock();
         client.sockHandle = hnd;
         client.status = NET_EXT_SOCK_ONLINE;
-        cout << "Got connection from : " << net_getIpFromHandle(hnd) << endl;
+        char cc[100]; sprintf(cc,"%s connected",net_getIpFromHandle(hnd).c_str());
+        if(debugFunc != NULL) (*debugFunc)(string(cc));
         clientList.push_back(client);
         return 1;
     }
@@ -146,3 +152,37 @@ void net_server_serverClass::sendToAllClientExcept(string data,int exceptIndex)
             clientList[i].sendBuff.append(data);
 }
 
+void net_server_serverClass::setDebugFunc(void(*f)(string))
+{
+    debugFunc = f;
+}
+void net_server_serverClass::setRecvFunc(void(*f)(string,int))
+{
+    recvFunc = f;
+}
+void net_server_serverClass::setRunFunc(void(*f)())
+{
+    runFunc = f;
+}
+
+void net_server_serverClass::runLoop()
+{
+    while(isStart) {
+        --delay;
+        if(delay < 0) {
+            delay = NET_SERVER_ACCEPT;
+            acceptNewRequest();
+        }
+        if(delay % NET_SERVER_RUN == 0) {
+            run();
+            for(int i = 0;i < clientList.size();i++) {
+                if(isClientHaveData(i)) { /* if this client have data */
+                    string recvStr = getRecvDataFrom(i);
+                    if(recvFunc != NULL) (*recvFunc)(recvStr,i);
+                }
+            }
+        }
+        if(runFunc != NULL) (*runFunc)();
+        Sleep(NET_SERVER_SLEEP);
+    }
+}
