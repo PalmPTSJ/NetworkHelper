@@ -36,13 +36,14 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="main.cpp" />
+		<Unit filename="network_client.cpp" />
+		<Unit filename="network_client.h" />
 		<Unit filename="network_core.cpp" />
 		<Unit filename="network_core.h" />
 		<Unit filename="network_ext.cpp" />
 		<Unit filename="network_ext.h" />
 		<Unit filename="network_server.cpp" />
 		<Unit filename="network_server.h" />
-		<Unit filename="packet_rule.cpp" />
 		<Unit filename="packet_rule.h" />
 		<Extensions>
 			<code_completion />

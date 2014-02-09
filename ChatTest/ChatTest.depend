@@ -26,7 +26,7 @@
 1380796214 source:d:\palm\c++\nethelper\chattest\network_core.cpp
 	"network_core.h"
 
-1380985055 source:c:\users\acer\documents\networkhelper\chattest\network_core.cpp
+1391845759 source:c:\users\acer\documents\networkhelper\chattest\network_core.cpp
 	"network_core.h"
 
 1380984681 c:\users\acer\documents\networkhelper\chattest\network_core.h
@@ -37,19 +37,20 @@
 	<iostream>
 	<vector>
 
-1391780236 source:c:\users\acer\documents\networkhelper\chattest\main.cpp
+1391846044 source:c:\users\acer\documents\networkhelper\chattest\main.cpp
 	"network_core.h"
 	"network_server.h"
+	"network_client.h"
 	<time.h>
 	<fstream>
 
 1380984019 source:c:\users\acer\documents\networkhelper\chattest\network_ext.cpp
 	"network_ext.h"
 
-1391779174 source:c:\users\acer\documents\networkhelper\chattest\network_server.cpp
+1391846286 source:c:\users\acer\documents\networkhelper\chattest\network_server.cpp
 	"network_server.h"
 
-1391780042 c:\users\acer\documents\networkhelper\chattest\network_server.h
+1391788761 c:\users\acer\documents\networkhelper\chattest\network_server.h
 	"network_ext.h"
 
 1380981772 c:\users\acer\documents\networkhelper\chattest\network_ext.h
@@ -87,4 +88,10 @@
 
 1384012543 c:\users\acer\documents\networkhelper\chattest\packet_rule.h
 	"network_core.h"
+
+1391846240 source:c:\users\acer\documents\networkhelper\chattest\network_client.cpp
+	"network_client.h"
+
+1391828935 c:\users\acer\documents\networkhelper\chattest\network_client.h
+	"network_ext.h"
 

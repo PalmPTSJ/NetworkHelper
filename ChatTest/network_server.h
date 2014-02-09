@@ -12,30 +12,33 @@ class net_server_serverClass
 public:
     net_server_serverClass();
     ~net_server_serverClass();
-    void setup(int _port);
+
     void init();
+
+    void setup(int _port); // Using manual flow
+    void setup(int _port,void(*run)(),void(*recv)(string,int),void(*err)(string)); // Using automatic flow
+
     bool start();
+
+    int acceptNewRequest(); // Check for new request
+
+    int run(); // Manual flow recieving
+    void runLoop(); // Automatic flow recieving & accept & error
+
+    void disconnect(int index);
+
     void stop();
     void forceStop();
 
-    int acceptNewRequest();
     string getRecvDataFrom(int index);
+     bool isClientHaveData(int index);
     string getIpFrom(int index);
-    int run();
 
     void sendTo(string data,int index);
     void sendToAllClient(string data);
     void sendToAllClientExcept(string data,int exceptIndex);
 
     void setDebugFunc(void(*f)(string));
-    void setRunFunc(void(*f)());
-    void setRecvFunc(void(*f)(string,int));
-
-    void disconnect(int index);
-
-    void runLoop();
-
-    bool isClientHaveData(int index);
 
     string getError();
 
@@ -48,6 +51,7 @@ public:
     void (*debugFunc)(string);
     void (*runFunc)();
     void (*recvFunc)(string,int);
+    void (*errFunc)(string);
     int delay;
 };
 

@@ -19,8 +19,18 @@ sockaddr_in net_createAddr(string ip,int port)
     toRet.sin_port = htons(port);
     if(ip.size() == 0)
         toRet.sin_addr.S_un.S_addr = INADDR_ANY;
-    else
-        toRet.sin_addr.S_un.S_addr = inet_addr(ip.c_str());
+    else {
+        // resolve host name
+        hostent* host = gethostbyname(ip.c_str()) ;
+        //toRet.sin_addr.S_un.S_addr = inet_addr(ip.c_str());
+        if(host == NULL) {
+            // error
+            net_lastError = "Host name can't be resolved";
+            toRet.sin_addr.S_un.S_addr = 0;
+            return toRet;
+        }
+        toRet.sin_addr.S_un.S_addr = *((unsigned long*)host->h_addr);
+    }
     return toRet;
 }
 
@@ -105,6 +115,8 @@ void net_closeHandle(net_sockHandle& hnd)
 
 bool net_connect(SOCKET &sock,sockaddr_in addr,int timeout)
 {
+    // check addr validity
+    if(addr.sin_addr.S_un.S_addr == 0) return false; // incorrect ip
     int retStat = connect(sock, reinterpret_cast<sockaddr*>(&addr), sizeof(addr));
     fd_set socket_set;
     socket_set.fd_array[0] = sock;
