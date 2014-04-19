@@ -133,7 +133,8 @@ void chttp_reply(string str) {
         char cc[100];
         sprintf(cc,"%s",weather.c_str());
         sscanf(cc,"%f",&temp);
-        cout << "Now : " << temp <<" F = " << (temp-32)*5/9 << " C (Auto-fetched from www.weather.com)"<< endl;
+        //cout << "Now : " << temp <<" F = " << (temp-32)*5/9 << " C (Auto-fetched from www.weather.com)"<< endl;
+        cout << int((temp-32)*5/9 + 0.5) << " C";
         client.disconnect(); // disconnect
     }
 }
@@ -141,7 +142,7 @@ void startHTTPclient()
 {
     string host = "www.weather.com";
     // ok connect !!
-    client.setDebugFunc(debug);
+    //client.setDebugFunc(debug);
     client.setup(chttp_run,chttp_reply,error);
     if(client.connect(host,80,5)) {
         // send http request
@@ -155,7 +156,7 @@ void startHTTPclient()
 int main()
 {
     net_init();
-
+    freopen("output.txt","w",stdout);
     /*int mode;
     cout << "Please select mode ( 0=Server , 1=Client ) : ";
     cin >> mode;
@@ -167,11 +168,11 @@ int main()
     string str;
     cin >> str;
     cout << "IP : " << inet_ntoa(net_createAddr(str,80).sin_addr);*/
-    cout << "Welcome to HTTP client\n";
+    //cout << "Welcome to HTTP client\n";
     startHTTPclient();
 
     net_close();
-    cout << "Net closed , ";
-    system("pause");
+    //cout << "Net closed , ";
+    //system("pause");
     return 0;
 }
