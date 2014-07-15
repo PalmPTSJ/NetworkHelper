@@ -1,0 +1,65 @@
+.fullWidth {
+    width:100%;
+    min-width:800px;
+}
+body {
+    padding:0px;
+    margin:0px;
+    font-size:20px;
+}
+#headDiv {
+    height:32px;
+    background-color:#EEEEEE;
+    font-size:16px;
+    overflow:hidden;
+}
+.navBtn {
+    cursor:pointer;
+    height:24px;
+    padding:5px;
+    padding-left:10px;
+    padding-right:10px;
+    display:inline-block;
+    text-align:center;
+    border-left:1px solid #FFFFFF;
+    border-right:1px solid #FFFFFF;
+}
+.btnOn {
+    border-bottom:2px solid red;
+}
+.logo {
+    height:50px;
+    display:inline-block;
+    float:left;
+}
+#navHolder {
+    display:inline-block;
+    margin-left:10px;
+}
+#contentDiv {
+    margin:auto;
+    color:black;
+    text-align:center;
+}
+.hidden {
+    display:none;
+}
+.center {
+    text-align:center;
+}
+.contentBlock {
+	min-width:800px;
+	margin:auto;
+	padding:10px;
+	overflow:hidden;
+}
+.contentPicR {
+	float:right;
+	margin-right:20px;
+	margin-left:20px;
+}
+.contentPicL {
+	float:left;
+	margin-left:20px;
+	margin-right:20px;
+}
