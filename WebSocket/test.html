@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>My Web</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	</head>
+	<body>
+		<p style="text-align:center; color:#FF0000;">Welcome To My Website !!!</p>
+		<p style="font-size:2em">HELLO WORLD !!!</p>
+		<p style="font-size:0.7em; color:#AAAAAA">hosted by : Palm C++ HTTP server</p>
+	</body>
+	<script type="text/javascript">
+	    var connection = new WebSocket("ws://127.0.0.1");
+	    var tm;
+	    connection.onopen = function () {
+	        tm = setInterval('onTO()',2000);
+            connection.send('Hello World');
+            //alert("I sent something");
+        };
+        function onTO() {
+            connection.send('Hello World');
+        }
+        
+        // Log errors
+        connection.onerror = function (error) {
+            console.log('WebSocket Error ' + error);
+        };
+        
+        // Log messages from the server
+        connection.onmessage = function (e) {
+            console.log('Server: ' + e.data);
+            alert("I recieved : "+e.data);
+        };
+	</script>
+</html>
