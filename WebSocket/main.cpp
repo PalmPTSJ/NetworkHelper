@@ -219,26 +219,33 @@ byteArray wsPing()
     toRet.push_back(0);
     return toRet;
 }
-string wsDecodeMsg(string wsMessage)
+wstring wsDecodeMsg(byteArray wsMessage)
 {
-    string toRet = "";
+    wstring toRet = L"";
     int meta[6];
     meta[0] = wsMessage[0]; // type
     meta[1] = wsMessage[1] & 127;
     int nowPtr = 2;
+    int metaLen = 6;
     if(meta[1] == 126) {
         // additional 2 bytes will be used for length
         nowPtr = 4;
+        metaLen = 8;
     }
     else if(meta[1] == 127) {
-        // additional 8 bytes will be used
+        // additional 8 bytes will be used for length
         nowPtr = 10;
+        metaLen = 14;
     }
     for(int i = 0;i < 4;i++) {
         meta[i+2] = wsMessage[nowPtr++];
     }
-    for(int i = nowPtr;i < wsMessage.size();i++) {
-        toRet.push_back(cvt(wsMessage[i]) ^ meta[((i-6)%4) + 2]);
+    // parsing wString
+    for(int i = nowPtr;i < wsMessage.size();i+=2) {
+        if(i == wsMessage.size()-1) break; // shouldn't happen
+        int charcode = 0;
+        charcode = ((cvt(wsMessage[i]) ^ meta[((i-metaLen)%4) + 2])<<8) + ((cvt(wsMessage[i+1]) ^ meta[((i-metaLen+1)%4) + 2]));
+        toRet.push_back(wchar_t(charcode));
     }
     return toRet;
 }
@@ -273,7 +280,7 @@ byteArray wsEncodeMsg(string str)
     //toRet.push_back(0);
     return toRet;
 }
-string retr(string dir)
+string retr(wstring dir)
 {
     byteArray toRetBA;
     cout << "RETR ING" << endl;
@@ -338,32 +345,32 @@ void recv(byteArray data,int i) {
             // return webSocket upgrade response ( handshake )
             server.sendTo(wsHandshake(str),i);
             cout << "ws : Handshaked with " << i << " (" << server.getIpFrom(i) << ")" << endl;
+            cout << wsHandshake(str) << endl;
         }
     }
     else {
-        string decodeMsg = wsDecodeMsg(str);
-        cout << "Message from " << i << " (" <<server.getIpFrom(i)<<") : " << decodeMsg << " [HEX] " << hex(str) << endl;
-        if(decodeMsg.size() == 2) {
+        wstring decodeMsg = wsDecodeMsg(data);
+        //cout << "Message from " << i << " (" <<server.getIpFrom(i)<<") : " << decodeMsg << " [HEX] " << hex(str) << endl;
+        if(decodeMsg.size() == 1) {
             // try to convert to int
-            int num = cvt(decodeMsg[0])*256+cvt(decodeMsg[1]);
-            if(num == 1001) {
+            //int num = cvt(data[6])*256+cvt(data[7]);
+            if(int(decodeMsg[0]) == 1001) {
                 cout << "Get 1001 (GOAWY) code from " << i << " (" <<server.getIpFrom(i)<<")" << endl;
                 server.disconnect(i);
             }
             else {
-                cout << "Decoded number : " << num << endl;
+                cout << "Decoded number : " << int(decodeMsg[0]) << endl;
             }
         }
         else {
-            cout << "Recv : " << decodeMsg << " [HEX] " << hex(str) << endl;
-            if(decodeMsg.find("RETR ") == 0) {
+            //cout << "Recv : " << decodeMsg << " [HEX] " << hex(str) << endl;
+            cout << "Recv : " << hex(str) << " [WSTR] ";
+            wcout << decodeMsg << endl << endl;
+            if(decodeMsg.find(L"RETR ") == 0) {
                 /// RETR [DIR] : retrieve file list at DIR
                 string toRet = retr(decodeMsg.substr(5));
                 server.sendTo(wsEncodeMsg(toRet),i);
             }
-            // reply back also
-            //server.sendTo(wsEncodeMsg("I recieved your message finally !!!"),i);
-            //cout << "SENT : " << hex(wsEncodeMsg("ABCD")) << endl;
         }
     }
 }

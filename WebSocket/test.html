@@ -27,10 +27,34 @@
 		    .cardFolder {
 		        border:1px solid green;
 		    }
+		    .cardActive {
+		        background-color:#AAFFCC;
+		    }
+		    #navBar {
+		        position:fixed;
+		        left:0px;
+		        top:0px;
+		        display:inline-block;
+                width:100%;
+                background-color:rgba(150,255,200,1);
+                overflow:hidden;
+		    }
+		    body {
+		        padding:0px;
+		        margin:0px;
+		    }
+		    #audioID {
+		        width:100%;
+		    }
 		</style>
+		<script src="jquery.js"></script>
 	</head>
 	<body>
-		<p style="text-align:center; color:#FF0000;">Welcome To File browser !!!</p>
+	    <div id="navBar" style="height:0px;">
+            <audio id="audioID"> </audio>
+            Now playing : <span id="musicName"> </span>
+        </div>
+		<p style="text-align:center; color:#FF0000; margin-top:30px;">Welcome To Music Browser !!!</p>
 		<div class="cardHolder" id="browseArea">
 		    <div class="card cardFile">TEST</div>
 		    <div class="card cardFile">TEST</div>
@@ -45,32 +69,43 @@
 	    var connection = new WebSocket("ws://127.0.0.1");
 	    var tm;
 	    var nowDir = "";
+	    var nowPlaying = "";
 	    connection.onopen = function () {
-	        //tm = setInterval('onTO()',2000);
-            connection.send('RETR C:\\Users\\acer\\Documents\\NetworkHelper\\WebSocket\\TestDifLang');
-            //alert("I sent something");
+            //connection.send(wEncoding('RETR C:\\Users\\acer\\Documents\\NetworkHelper\\WebSocket'));
+            connection.send(wEncoding('RETR D:\\'));
         };
-        function onTO() {
-            connection.send('Hello World');
-        }
-        
         // Log errors
         connection.onerror = function (error) {
             console.log('WebSocket Error ' + error);
         };
-        
+        function wEncoding(str)
+        {
+            var encoded = "";
+            var toAlert = "";
+            for(var i = 0;i < str.length;i++) {
+                encoded += String.fromCharCode(Math.floor((str[i].charCodeAt())/256));
+                encoded += String.fromCharCode(str[i].charCodeAt()%256);
+                toAlert += Math.floor((str[i].charCodeAt())/256);
+                toAlert += '+';
+                toAlert += str[i].charCodeAt()%256;
+                toAlert += ' ';
+            }
+            return encoded;
+        }
+        function wDecoding(str)
+        {
+            var parsed = "";
+            for(var i = 0;i < str.length;i+=2) {
+                var code = (str[i].charCodeAt()*256)+(str[i+1].charCodeAt());
+                parsed += String.fromCharCode(code);
+            }
+            return parsed;
+        }
         // Log messages from the server
         connection.onmessage = function (e) {
             // merge 2 bytes data into string
-            var rawData = new ArrayBuffer(e.data);
-            var viewData = new Int8Array();
-            alert(viewData);
-            var str = "";
-            for(var i = 0;i < e.data.length;i+=2) {
-                var code = parseInt(e.data[i].charCodeAt())*256+parseInt(e.data[i+1].charCodeAt());
-                str += (String.fromCharCode(code));
-            }
-            alert("Parsed : "+str);
+            var str = wDecoding(e.data);
+            //alert("Parsed : "+str);
             var dataArr = str.split('|');
             if(dataArr[0] == "DIRLST") {
                 nowDir = dataArr[1];
@@ -84,7 +119,6 @@
                         dataArr[i] = dataArr[i].substr(1);
                     }
                     else inHTML += "cardFile";
-                    
                     inHTML+=("' onclick='clicked(this)'>"+dataArr[i]+"</div>");
                 }
                 elem("browseArea").innerHTML = inHTML;
@@ -92,14 +126,32 @@
             console.log('Server: ' + e.data);
             //alert("I recieved : "+e.data);
         };
+        function playMusic(path)
+        {
+            elem("audioID").setAttribute("src",path);
+            elem("audioID").play();
+            jQuery("#navBar").animate(
+                    {height:0}
+                    ,250,function() {elem("musicName").innerHTML = nowPlaying;});
+            jQuery("#navBar").animate(
+                    {height:25}
+                    ,250);
+        }
         function clicked(e)
         {
             if(e.className.indexOf("cardFolder") != -1) {
                 // is a folder , requesting new directory
-                connection.send("RETR "+nowDir+"\\"+e.innerHTML);
+                connection.send(wEncoding("RETR "+nowDir+"\\"+e.innerHTML));
             }
             else {
-                alert("File "+e.innerHTML+" clicked");
+                //alert("File "+e.innerHTML+" clicked");
+                var fileName = e.innerHTML
+                if(fileName.indexOf(".mp3") != -1) {
+                    // play this music
+                    nowPlaying = fileName;
+                    
+                    playMusic('file:\\'+nowDir+"\\"+fileName);
+                }
             }
         }
 	</script>
