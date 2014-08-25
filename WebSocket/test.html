@@ -3,18 +3,51 @@
 	<head>
 		<title>My Web</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<style>
+		    .cardHolder {
+		        width:100%;
+		        text-align:center;
+		    }
+		    .card {
+		        display:inline-block;
+                width:90%;
+                text-align:left;
+                border-radius:15px;
+                padding:15px;
+                margin:5px;
+                cursor:pointer;
+		    }
+		    .card:hover {
+		        background-color:#EEEEFF;
+		        box-shadow: 0px 1px 1px black;
+		    }
+		    .cardFile {
+		        border:1px solid blue;
+		    }
+		    .cardFolder {
+		        border:1px solid green;
+		    }
+		</style>
 	</head>
 	<body>
-		<p style="text-align:center; color:#FF0000;">Welcome To My Website !!!</p>
-		<p style="font-size:2em">HELLO WORLD !!!</p>
-		<p style="font-size:0.7em; color:#AAAAAA">hosted by : Palm C++ HTTP server</p>
+		<p style="text-align:center; color:#FF0000;">Welcome To File browser !!!</p>
+		<div class="cardHolder" id="browseArea">
+		    <div class="card cardFile">TEST</div>
+		    <div class="card cardFile">TEST</div>
+		    <div class="card cardFolder">TEST</div>
+		</div>
 	</body>
 	<script type="text/javascript">
+	    function elem(id)
+	    {
+	        return document.getElementById(id);
+	    }
 	    var connection = new WebSocket("ws://127.0.0.1");
 	    var tm;
+	    var nowDir = "";
 	    connection.onopen = function () {
-	        tm = setInterval('onTO()',2000);
-            connection.send('Hello World');
+	        //tm = setInterval('onTO()',2000);
+            connection.send('RETR C:\\Users\\acer\\Documents\\NetworkHelper\\WebSocket\\TestDifLang');
             //alert("I sent something");
         };
         function onTO() {
@@ -28,8 +61,46 @@
         
         // Log messages from the server
         connection.onmessage = function (e) {
+            // merge 2 bytes data into string
+            var rawData = new ArrayBuffer(e.data);
+            var viewData = new Int8Array();
+            alert(viewData);
+            var str = "";
+            for(var i = 0;i < e.data.length;i+=2) {
+                var code = parseInt(e.data[i].charCodeAt())*256+parseInt(e.data[i+1].charCodeAt());
+                str += (String.fromCharCode(code));
+            }
+            alert("Parsed : "+str);
+            var dataArr = str.split('|');
+            if(dataArr[0] == "DIRLST") {
+                nowDir = dataArr[1];
+                // directory list
+                var inHTML = "";
+                for(var i = 2;i < dataArr.length;i++) {
+                    if(dataArr[i].length==0) continue;
+                    inHTML += "<div class='card ";
+                    if(dataArr[i][0] == '>') {
+                        inHTML += "cardFolder";
+                        dataArr[i] = dataArr[i].substr(1);
+                    }
+                    else inHTML += "cardFile";
+                    
+                    inHTML+=("' onclick='clicked(this)'>"+dataArr[i]+"</div>");
+                }
+                elem("browseArea").innerHTML = inHTML;
+            }
             console.log('Server: ' + e.data);
-            alert("I recieved : "+e.data);
+            //alert("I recieved : "+e.data);
         };
+        function clicked(e)
+        {
+            if(e.className.indexOf("cardFolder") != -1) {
+                // is a folder , requesting new directory
+                connection.send("RETR "+nowDir+"\\"+e.innerHTML);
+            }
+            else {
+                alert("File "+e.innerHTML+" clicked");
+            }
+        }
 	</script>
 </html>

@@ -3,6 +3,8 @@
 #include "network_client.h"
 #include <time.h>
 #include <fstream>
+#include <string.h>
+#include <tchar.h>
 net_server_serverClass server;
 unsigned int cvt(int a) {
     if(a>=0) return a;
@@ -271,17 +273,63 @@ byteArray wsEncodeMsg(string str)
     //toRet.push_back(0);
     return toRet;
 }
+string retr(string dir)
+{
+    byteArray toRetBA;
+    cout << "RETR ING" << endl;
+    wstring path(dir.begin(),dir.end());
+    path.append(L"\\*");
+    WIN32_FIND_DATAW FindData;
+    HANDLE hFind;
+    hFind = FindFirstFileW( path.c_str(), &FindData );
+    wstring toRet = L"DIRLST|";
+    wstring cvt;
+    cvt.assign(dir.begin(),dir.end());
+    toRet.append(cvt);
+    toRet.push_back(L'|');
+    if( hFind == INVALID_HANDLE_VALUE ) {
+        return "";
+    }
+    do
+    {
+        if (FindData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+            toRet.append(L">");
+            toRet.append(FindData.cFileName);
+            //cout << "DIRECT : " << FindData.cFileName << endl;
+        }
+        else {
+            toRet.append(FindData.cFileName);
+            wcout << "FILE : " << FindData.cFileName << endl;
+        }
+        toRet.push_back('|');
+    }
+    while( FindNextFileW(hFind, &FindData) > 0 );
+
+    if( GetLastError() != ERROR_NO_MORE_FILES )
+    {
+        cout << "Something went wrong during searching\n";
+    }
+    // convert wstring to 2 bytes array
+    string toRetStr = "";
+    for(int i = 0;i < toRet.size();i++) {
+        //cout << int(toRet[i]) << ",";
+        toRetStr.push_back(toRet[i]>>8);
+        toRetStr.push_back(toRet[i]&255);
+    }
+    //cout << endl;
+    return toRetStr;
+}
 void run() {
     if(GetAsyncKeyState(VK_SPACE) && !sp) {
         sp = true;
         if(server.clientList.size() > 0) {
-            server.sendTo(wsEncodeMsg("abc"),0);
+            //server.sendTo(wsEncodeMsg("abc"),0);
         }
     }
     if(!GetAsyncKeyState(VK_SPACE) && sp) sp = false;
 }
 void recv(byteArray data,int i) {
-    // parsing HTML
+    // parsing HTMLk
     string str = toString(data);
     if(str.find("GET / HTTP/1.1") != string::npos) {
         // is HTML request
@@ -307,9 +355,14 @@ void recv(byteArray data,int i) {
             }
         }
         else {
-            cout << "Recv : " << wsDecodeMsg(str) << " [HEX] " << hex(str) << endl;
+            cout << "Recv : " << decodeMsg << " [HEX] " << hex(str) << endl;
+            if(decodeMsg.find("RETR ") == 0) {
+                /// RETR [DIR] : retrieve file list at DIR
+                string toRet = retr(decodeMsg.substr(5));
+                server.sendTo(wsEncodeMsg(toRet),i);
+            }
             // reply back also
-            server.sendTo(wsEncodeMsg("I recieved your message finally !!!"),i);
+            //server.sendTo(wsEncodeMsg("I recieved your message finally !!!"),i);
             //cout << "SENT : " << hex(wsEncodeMsg("ABCD")) << endl;
         }
     }
