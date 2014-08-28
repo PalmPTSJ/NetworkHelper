@@ -3,62 +3,89 @@
 	<head>
 		<title>My Web</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 		<style>
-		    .cardHolder {
-		        width:100%;
+		    #browseArea {
+		        vertical-align:top;
+		        width:50%;
 		        text-align:center;
+		        display:inline-block;
 		    }
 		    .card {
 		        display:inline-block;
-                width:90%;
+                width:100%;
                 text-align:left;
-                border-radius:15px;
-                padding:15px;
-                margin:5px;
                 cursor:pointer;
+                margin:3px;
 		    }
 		    .card:hover {
 		        background-color:#EEEEFF;
-		        box-shadow: 0px 1px 1px black;
+		    }
+		    .card:active {
+		        background-color:#EEFFEE;
 		    }
 		    .cardFile {
-		        border:1px solid blue;
+		        color:blue;
 		    }
 		    .cardFolder {
-		        border:1px solid green;
-		    }
-		    .cardActive {
-		        background-color:#AAFFCC;
+		        color:green;
 		    }
 		    #navBar {
 		        position:fixed;
 		        left:0px;
-		        top:0px;
+		        bottom:0px;
 		        display:inline-block;
                 width:100%;
-                background-color:rgba(150,255,200,1);
                 overflow:hidden;
+		    }
+		    #nav_music {
+		        background-color:rgba(150,255,200,1);
+		        overflow:hidden;
+		    }
+		    #nav_alert {
+		        background-color:rgba(255,150,150,1);
+		        overflow:hidden;
+		    }
+		    html {
+		        height:100%;
+		        overflow-x:hidden;
 		    }
 		    body {
 		        padding:0px;
 		        margin:0px;
+		        font-family:"Roboto";
+		        background:linear-gradient(to top,#CCEEEE,#EEFFFF);
+		        background-attachment:fixed;
+		        min-height:100%;
 		    }
 		    #audioID {
 		        width:100%;
+		    }
+		    #titleArea {
+		        background-color: #b3e5fc;
+		        width:100%;
+		        height:44px;
+		        font-size:24px;
+		        padding-top:10px;
+		    }
+		    #addressBar {
+		        margin-left:10px;
+		        cursor:text;
 		    }
 		</style>
 		<script src="jquery.js"></script>
 	</head>
 	<body>
-	    <div id="navBar" style="height:0px;">
+	    <div id="navBar">
             <audio id="audioID"> </audio>
-            Now playing : <span id="musicName"> </span>
+            <div id="nav_alert" style="height:0px">Random Alert : </div>
+            <div id="nav_music" style="height:0px">Now playing : <span id="musicName"> </span></div>
         </div>
-		<p style="text-align:center; color:#FF0000; margin-top:30px;">Welcome To Music Browser !!!</p>
-		<div class="cardHolder" id="browseArea">
-		    <div class="card cardFile">TEST</div>
-		    <div class="card cardFile">TEST</div>
-		    <div class="card cardFolder">TEST</div>
+		<div id="titleArea">
+		    <div id="addressBar">D:\</div>
+		</div>
+		<div id="browseArea">
+
 		</div>
 	</body>
 	<script type="text/javascript">
@@ -66,12 +93,14 @@
 	    {
 	        return document.getElementById(id);
 	    }
+	    var nav_mini = 25;
+	    var nav_full = 600;
+	    
 	    var connection = new WebSocket("ws://127.0.0.1");
 	    var tm;
 	    var nowDir = "";
 	    var nowPlaying = "";
 	    connection.onopen = function () {
-            //connection.send(wEncoding('RETR C:\\Users\\acer\\Documents\\NetworkHelper\\WebSocket'));
             connection.send(wEncoding('RETR D:\\'));
         };
         // Log errors
@@ -101,6 +130,24 @@
             }
             return parsed;
         }
+        function parseDir(dir)
+        {
+            var lst = dir.split("\\");
+            var lstParsed = [];
+            var str = "";
+            for(var i = 0;i < lst.length;i++) {
+                if(lst[i] == '.') continue;
+                if(lst[i] == "..") {
+                    lstParsed.pop();
+                    continue;
+                }
+                lstParsed.push(lst[i]);
+            }
+            for(var i = 0;i < lstParsed.length;i++) {
+                str += lstParsed[i]+'\\';
+            }
+            return str;
+        }
         // Log messages from the server
         connection.onmessage = function (e) {
             // merge 2 bytes data into string
@@ -108,7 +155,8 @@
             //alert("Parsed : "+str);
             var dataArr = str.split('|');
             if(dataArr[0] == "DIRLST") {
-                nowDir = dataArr[1];
+                nowDir = parseDir(dataArr[1]);
+                elem("addressBar").innerHTML = nowDir;
                 // directory list
                 var inHTML = "";
                 for(var i = 2;i < dataArr.length;i++) {
@@ -124,35 +172,63 @@
                 elem("browseArea").innerHTML = inHTML;
             }
             console.log('Server: ' + e.data);
-            //alert("I recieved : "+e.data);
         };
-        function playMusic(path)
+        function playMusic(fileName)
         {
+            var path = "file:\\"+nowDir+fileName;
+            nowPlaying = fileName;
             elem("audioID").setAttribute("src",path);
             elem("audioID").play();
-            jQuery("#navBar").animate(
+            jQuery("#nav_music").animate(
                     {height:0}
                     ,250,function() {elem("musicName").innerHTML = nowPlaying;});
-            jQuery("#navBar").animate(
-                    {height:25}
+            jQuery("#nav_music").animate(
+                    {height:nav_mini}
+                    ,250);
+            navAlert("Music playback started");
+        }
+        function musicOff()
+        {
+            navAlert("Music playback ended");
+            jQuery("#nav_music").animate(
+                    {height:0}
                     ,250);
         }
+        var navAlertTO;
+        function navAlert(test)
+        {
+            clearTimeout(navAlertTO);
+            navAlertOff();
+            elem("nav_alert").innerHTML = test;
+            jQuery("#nav_alert").animate(
+                    {height:nav_mini}
+                    ,250,function() {navAlertTO = window.setTimeout(navAlertOff,3000)});
+        }
+        function navAlertOff()
+        {
+            jQuery("#nav_alert").animate(
+                    {height:0}
+                    ,250);
+        }
+        // connection.send(wEncoding("RETR D:\\DAD\\Musics 2\\รวมฮิต\\ดา\\"));
+        var musicExt = ["mp3","wav","ogg","m4a"];
         function clicked(e)
         {
             if(e.className.indexOf("cardFolder") != -1) {
                 // is a folder , requesting new directory
-                connection.send(wEncoding("RETR "+nowDir+"\\"+e.innerHTML));
+                connection.send(wEncoding("RETR "+nowDir+e.innerHTML));
             }
             else {
-                //alert("File "+e.innerHTML+" clicked");
-                var fileName = e.innerHTML
-                if(fileName.indexOf(".mp3") != -1) {
-                    // play this music
-                    nowPlaying = fileName;
-                    
-                    playMusic('file:\\'+nowDir+"\\"+fileName);
+                var fileName = e.innerHTML;
+                for(var i = 0;i < musicExt.length;i++) {
+                    if(fileName.indexOf("."+musicExt[i]) != -1) {
+                        playMusic(fileName);
+                        return;
+                    }
                 }
+                navAlert("File "+e.innerHTML+" can't be opened");
             }
         }
+        elem("audioID").addEventListener('ended',musicOff);
 	</script>
 </html>

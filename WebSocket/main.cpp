@@ -283,7 +283,7 @@ byteArray wsEncodeMsg(string str)
 string retr(wstring dir)
 {
     byteArray toRetBA;
-    cout << "RETR ING" << endl;
+    //cout << "RETR ING" << endl;
     wstring path(dir.begin(),dir.end());
     path.append(L"\\*");
     WIN32_FIND_DATAW FindData;
@@ -306,7 +306,7 @@ string retr(wstring dir)
         }
         else {
             toRet.append(FindData.cFileName);
-            wcout << "FILE : " << FindData.cFileName << endl;
+            //wcout << "FILE : " << FindData.cFileName << endl;
         }
         toRet.push_back('|');
     }
@@ -336,38 +336,27 @@ void run() {
     if(!GetAsyncKeyState(VK_SPACE) && sp) sp = false;
 }
 void recv(byteArray data,int i) {
-    // parsing HTMLk
     string str = toString(data);
-    if(str.find("GET / HTTP/1.1") != string::npos) {
-        // is HTML request
-        // check webSocket upgrade
-        if(str.find("Upgrade: websocket") != string::npos) {
-            // return webSocket upgrade response ( handshake )
+    if(str.find("GET / HTTP/1.1") != string::npos) { // is HTML request
+        if(str.find("Upgrade: websocket") != string::npos) { // is WebSocket handshake
             server.sendTo(wsHandshake(str),i);
             cout << "ws : Handshaked with " << i << " (" << server.getIpFrom(i) << ")" << endl;
-            cout << wsHandshake(str) << endl;
         }
     }
     else {
         wstring decodeMsg = wsDecodeMsg(data);
-        //cout << "Message from " << i << " (" <<server.getIpFrom(i)<<") : " << decodeMsg << " [HEX] " << hex(str) << endl;
         if(decodeMsg.size() == 1) {
-            // try to convert to int
-            //int num = cvt(data[6])*256+cvt(data[7]);
             if(int(decodeMsg[0]) == 1001) {
                 cout << "Get 1001 (GOAWY) code from " << i << " (" <<server.getIpFrom(i)<<")" << endl;
                 server.disconnect(i);
             }
             else {
-                cout << "Decoded number : " << int(decodeMsg[0]) << endl;
+                cout << "Recieved code number : " << int(decodeMsg[0]) << endl;
             }
         }
         else {
-            //cout << "Recv : " << decodeMsg << " [HEX] " << hex(str) << endl;
-            cout << "Recv : " << hex(str) << " [WSTR] ";
-            wcout << decodeMsg << endl << endl;
-            if(decodeMsg.find(L"RETR ") == 0) {
-                /// RETR [DIR] : retrieve file list at DIR
+            if(decodeMsg.find(L"RETR ") == 0) { /// RETR [DIR] : retrieve file list at DIR
+                wcout << L"Recieve RETR cmd : " << decodeMsg << L" (" << i << L")" << endl;
                 string toRet = retr(decodeMsg.substr(5));
                 server.sendTo(wsEncodeMsg(toRet),i);
             }
@@ -378,8 +367,7 @@ void err(string str) {
     cout << "Error : " << str << endl;
 }
 void debug(string str) {
-    if(str.find("Run") == 0) cout << ".";
-    else cout << "DBG : " << str << endl;
+    cout << "DBG : " << str << endl;
 }
 void startServer()
 {

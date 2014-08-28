@@ -209,9 +209,8 @@ void net_server_serverClass::runLoop()
             acceptNewRequest();
         }
         if(delay % NET_SERVER_RUN == 0) {
-            if(debugFunc != NULL) (*debugFunc)("Run");
-            if(isShuttingDown && (run() == NET_SERVER_STOPSUCCESS)) break;
-            run();
+            int runStat = run();
+            if(isShuttingDown && (runStat == NET_SERVER_STOPSUCCESS)) break;
             for(int i = 0;i < clientList.size();i++) {
                 if(isClientHaveData(i)) { /* if this client have data */
                     byteArray recvData = getRecvDataFrom(i);
