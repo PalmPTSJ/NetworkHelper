@@ -7,7 +7,6 @@
 		<style>
 		    #browseArea {
 		        vertical-align:top;
-		        width:50%;
 		        text-align:center;
 		        display:inline-block;
 		    }
@@ -37,14 +36,28 @@
 		        display:inline-block;
                 width:100%;
                 overflow:hidden;
+                max-height:200px;
 		    }
 		    #nav_music {
-		        background-color:rgba(150,255,200,1);
+		        //repeat scroll 0% 0% transparent;
+		        background:linear-gradient(to right, #8ca 50%, #afc 50%);
+		        border-top:1px solid #88CC88;
 		        overflow:hidden;
 		    }
-		    #nav_alert {
-		        background-color:rgba(255,150,150,1);
+		    #nav_alert_holder {
 		        overflow:hidden;
+		        vertical-align:top;
+		        max-height:100px;
+		    }
+		    .nav_card {
+		        border-top:1px solid #888888;
+		        padding-left:10px;
+		    }
+		    .nav_alert_info {
+		        background-color:yellow;
+		    }
+		    .nav_alert_error {
+		        background-color:red;
 		    }
 		    html {
 		        height:100%;
@@ -72,14 +85,28 @@
 		        margin-left:10px;
 		        cursor:text;
 		    }
+		    .nav_btn {
+		        height:16px;
+		        vertical-align:middle;
+		        cursor:pointer;
+		    }
+		    .nav_icon {
+		        height:16px;
+                vertical-align:middle;
+		    }
 		</style>
 		<script src="jquery.js"></script>
 	</head>
 	<body>
 	    <div id="navBar">
             <audio id="audioID"> </audio>
-            <div id="nav_alert" style="height:0px">Random Alert : </div>
-            <div id="nav_music" style="height:0px">Now playing : <span id="musicName"> </span></div>
+            <div id="nav_alert_holder">
+                
+            </div>
+            <div id="nav_music" class="nav_card" style="height:0px">
+                 <img src="play.png" id="music_btn1" class="nav_btn" onclick="music_pp()"> 
+                 <span id="musicName" style="vertical-align:middle;"> </span>
+            </div>
         </div>
 		<div id="titleArea">
 		    <div id="addressBar">D:\</div>
@@ -95,19 +122,21 @@
 	    }
 	    var nav_mini = 25;
 	    var nav_full = 600;
+	    var nav_delay = 3000;
+	    var nav_anim = 250;
 	    
 	    var connection = new WebSocket("ws://127.0.0.1");
 	    var tm;
 	    var nowDir = "";
 	    var nowPlaying = "";
 	    connection.onopen = function () {
-            connection.send(wEncoding('RETR D:\\'));
+            connection.send(wEncode('RETR D:\\'));
         };
         // Log errors
         connection.onerror = function (error) {
             console.log('WebSocket Error ' + error);
         };
-        function wEncoding(str)
+        function wEncode(str)
         {
             var encoded = "";
             var toAlert = "";
@@ -121,7 +150,7 @@
             }
             return encoded;
         }
-        function wDecoding(str)
+        function wDecode(str)
         {
             var parsed = "";
             for(var i = 0;i < str.length;i+=2) {
@@ -150,14 +179,11 @@
         }
         // Log messages from the server
         connection.onmessage = function (e) {
-            // merge 2 bytes data into string
-            var str = wDecoding(e.data);
-            //alert("Parsed : "+str);
+            var str = wDecode(e.data);
             var dataArr = str.split('|');
             if(dataArr[0] == "DIRLST") {
                 nowDir = parseDir(dataArr[1]);
                 elem("addressBar").innerHTML = nowDir;
-                // directory list
                 var inHTML = "";
                 for(var i = 2;i < dataArr.length;i++) {
                     if(dataArr[i].length==0) continue;
@@ -171,52 +197,92 @@
                 }
                 elem("browseArea").innerHTML = inHTML;
             }
-            console.log('Server: ' + e.data);
-        };
+        }
+        
+        var audioElem = elem("audioID");
         function playMusic(fileName)
         {
             var path = "file:\\"+nowDir+fileName;
             nowPlaying = fileName;
-            elem("audioID").setAttribute("src",path);
-            elem("audioID").play();
+            audioElem.setAttribute("src",path);
+            audioElem.play();
             jQuery("#nav_music").animate(
                     {height:0}
-                    ,250,function() {elem("musicName").innerHTML = nowPlaying;});
+                    ,nav_anim,function() {elem("musicName").innerHTML = nowPlaying;});
             jQuery("#nav_music").animate(
                     {height:nav_mini}
-                    ,250);
-            navAlert("Music playback started");
+                    ,nav_anim);
         }
-        function musicOff()
+        function musicEnd()
         {
-            navAlert("Music playback ended");
+            navAlert("Music playback ended","INF");
             jQuery("#nav_music").animate(
                     {height:0}
-                    ,250);
+                    ,nav_anim);
         }
-        var navAlertTO;
-        function navAlert(test)
+        function musicPlay()
         {
-            clearTimeout(navAlertTO);
-            navAlertOff();
-            elem("nav_alert").innerHTML = test;
-            jQuery("#nav_alert").animate(
+            navAlert("Music playback played","INF");
+            elem("music_btn1").setAttribute("src","pause.png");
+        }
+        function musicPause()
+        {
+            if(audioElem.ended) {
+                musicEnd();
+            }
+            else {
+                navAlert("Music playback paused","INF");
+                elem("music_btn1").setAttribute("src","play.png");
+            }
+        }
+        function musicProgress()
+        {
+            var perc = audioElem.currentTime / audioElem.duration * 100;
+            elem("nav_music").style.background = "linear-gradient(to right, #9db "+perc+"%, #afc "+perc+"%) no-repeat";
+        }
+        function music_pp()
+        {
+            // Play & Pause
+            if(audioElem.paused) {
+                audioElem.play();
+            }
+            else {
+                audioElem.pause();   
+            }
+        }
+        var navAlert_icon = new Array();
+        navAlert_icon["INF"] = "info.png";
+        navAlert_icon["ERR"] = "pause.png";
+        function navAlert(text,type)
+        {
+            var alertDiv = document.createElement("div");
+            alertDiv.className = "nav_card ";
+            if(type=="ERR") alertDiv.className += "nav_alert_error ";
+            else if(type=="INF") alertDiv.className += "nav_alert_info ";
+            alertDiv.style.height = 0;
+            alertDiv.innerHTML = "<img src='"+navAlert_icon[type]+"' class='nav_icon'> ";
+            alertDiv.innerHTML += text;
+            elem("nav_alert_holder").insertBefore(alertDiv,elem("nav_alert_holder").firstChild);
+            jQuery(alertDiv).animate(
                     {height:nav_mini}
-                    ,250,function() {navAlertTO = window.setTimeout(navAlertOff,3000)});
+                    ,nav_anim);
+            //alert("TEST1");
+            window.setTimeout(function(){navAlertOff(alertDiv)},nav_delay);
         }
-        function navAlertOff()
+        function navAlertOff(targ)
         {
-            jQuery("#nav_alert").animate(
+            //alert("TEST2");
+            jQuery(targ).animate(
                     {height:0}
-                    ,250);
+                    ,nav_anim,function() {targ.remove();});
         }
-        // connection.send(wEncoding("RETR D:\\DAD\\Musics 2\\รวมฮิต\\ดา\\"));
+        // connection.send(wEncode("RETR D:\\DAD\\Musics 2\\รวมฮิต\\ดา\\"));
         var musicExt = ["mp3","wav","ogg","m4a"];
         function clicked(e)
         {
             if(e.className.indexOf("cardFolder") != -1) {
                 // is a folder , requesting new directory
-                connection.send(wEncoding("RETR "+nowDir+e.innerHTML));
+                connection.send(wEncode("RETR "+nowDir+e.innerHTML));
             }
             else {
                 var fileName = e.innerHTML;
@@ -226,9 +292,12 @@
                         return;
                     }
                 }
-                navAlert("File "+e.innerHTML+" can't be opened");
+                navAlert("File "+e.innerHTML+" will be executed from your system","INF");
+                connection.send(wEncode("EXEC "+nowDir+e.innerHTML+""));
             }
         }
-        elem("audioID").addEventListener('ended',musicOff);
+        audioElem.addEventListener('play',musicPlay);
+        audioElem.addEventListener('pause',musicPause);
+        audioElem.addEventListener("timeupdate", musicProgress);
 	</script>
 </html>

@@ -356,9 +356,17 @@ void recv(byteArray data,int i) {
         }
         else {
             if(decodeMsg.find(L"RETR ") == 0) { /// RETR [DIR] : retrieve file list at DIR
-                wcout << L"Recieve RETR cmd : " << decodeMsg << L" (" << i << L")" << endl;
+                wcout << L"RETR cmd : " << decodeMsg << L" (" << i << L")" << endl;
                 string toRet = retr(decodeMsg.substr(5));
                 server.sendTo(wsEncodeMsg(toRet),i);
+            }
+            else if(decodeMsg.find(L"EXEC") == 0) { /// EXEC [PATH] : Execute file
+                wcout << L"EXEC cmd : " << decodeMsg << L" (" << i << L")" << endl;
+                // parse for dir , filename
+                wstring fullpath = decodeMsg.substr(5);
+                wstring dir = fullpath.substr(0,fullpath.find_last_of(L"/\\"));
+                wcout << dir << endl;
+                ShellExecuteW(NULL, NULL, fullpath.c_str(), NULL, dir.c_str(), SW_SHOWNORMAL);
             }
         }
     }
