@@ -9,6 +9,7 @@
 		        vertical-align:top;
 		        text-align:center;
 		        display:inline-block;
+		        padding-bottom:200px;
 		    }
 		    .card {
 		        display:inline-block;
@@ -109,7 +110,7 @@
             </div>
         </div>
 		<div id="titleArea">
-		    <div id="addressBar">D:\</div>
+		    <div id="addressBar">...</div>
 		</div>
 		<div id="browseArea">
 
@@ -130,7 +131,7 @@
 	    var nowDir = "";
 	    var nowPlaying = "";
 	    connection.onopen = function () {
-            connection.send(wEncode('RETR D:\\'));
+            connection.send(wEncode('RETD'));
         };
         // Log errors
         connection.onerror = function (error) {
@@ -187,6 +188,7 @@
                 var inHTML = "";
                 for(var i = 2;i < dataArr.length;i++) {
                     if(dataArr[i].length==0) continue;
+                    if(dataArr[i] == ">.") continue;
                     inHTML += "<div class='card ";
                     if(dataArr[i][0] == '>') {
                         inHTML += "cardFolder";
@@ -194,6 +196,15 @@
                     }
                     else inHTML += "cardFile";
                     inHTML+=("' onclick='clicked(this)'>"+dataArr[i]+"</div>");
+                }
+                elem("browseArea").innerHTML = inHTML;
+            }
+            else if(dataArr[0] == "DRIVE") {
+                var inHTML = "";
+                for(var i = 1;i < dataArr.length;i++) {
+                    if(dataArr[i].length==0) continue;
+                    inHTML += "<div class='card cardFolder";
+                    inHTML+=("' onclick='clicked(this)'>"+dataArr[i]+":\\"+"</div>");
                 }
                 elem("browseArea").innerHTML = inHTML;
             }

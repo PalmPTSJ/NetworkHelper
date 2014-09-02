@@ -1,3 +1,4 @@
+#define WINVER 0x0601
 #include "network_core.h"
 #include "network_server.h"
 #include "network_client.h"
@@ -5,6 +6,7 @@
 #include <fstream>
 #include <string.h>
 #include <tchar.h>
+#include <windows.h>
 net_server_serverClass server;
 unsigned int cvt(int a) {
     if(a>=0) return a;
@@ -249,6 +251,24 @@ wstring wsDecodeMsg(byteArray wsMessage)
     }
     return toRet;
 }
+string translate_s1_to_s2(string str) // ABCDE -> _A_B_C_D_E
+{
+    string toRetStr = "";
+    for(int i = 0;i < str.size();i++) {
+        toRetStr.push_back(0);
+        toRetStr.push_back(str[i]);
+    }
+    return toRetStr;
+}
+string translate_ws_to_s1(wstring str) // ABCD(Unicode char) -> ABCD*
+{
+    string toRetStr = "";
+    for(int i = 0;i < str.size();i++) {
+        if(int(str[i]) > 255) toRetStr.push_back('*');
+        else toRetStr.push_back(str[i]);
+    }
+    return toRetStr;
+}
 byteArray wsEncodeMsg(string str)
 {
     byteArray toRet;
@@ -355,18 +375,43 @@ void recv(byteArray data,int i) {
             }
         }
         else {
+            cout << "(" << i << ")" << " : " << translate_ws_to_s1(decodeMsg);
             if(decodeMsg.find(L"RETR ") == 0) { /// RETR [DIR] : retrieve file list at DIR
-                wcout << L"RETR cmd : " << decodeMsg << L" (" << i << L")" << endl;
+                cout << " [RETR]" << endl;
                 string toRet = retr(decodeMsg.substr(5));
                 server.sendTo(wsEncodeMsg(toRet),i);
             }
-            else if(decodeMsg.find(L"EXEC") == 0) { /// EXEC [PATH] : Execute file
-                wcout << L"EXEC cmd : " << decodeMsg << L" (" << i << L")" << endl;
+            else if(decodeMsg.find(L"EXEC ") == 0) { /// EXEC [PATH] : Execute file
+                cout << " [EXEC]" << endl;
                 // parse for dir , filename
                 wstring fullpath = decodeMsg.substr(5);
                 wstring dir = fullpath.substr(0,fullpath.find_last_of(L"/\\"));
                 wcout << dir << endl;
                 ShellExecuteW(NULL, NULL, fullpath.c_str(), NULL, dir.c_str(), SW_SHOWNORMAL);
+            }
+            else if(decodeMsg.find(L"RETD") == 0) { /// RETD : retrieve drive letter
+                cout << " [RETD]" << endl;
+                DWORD dMask = GetLogicalDrives();
+                string toRet = "DRIVE|";
+                char dLetter = 'A';
+                while(dMask) {
+                    if(dMask & 1) {
+                        string getType = "";
+                        getType.push_back(dLetter);
+                        getType.append(":\\");
+                        int res = GetDriveType(getType.c_str());
+                        if(res != DRIVE_UNKNOWN && res != DRIVE_NO_ROOT_DIR) {
+                            char str[1000];
+                            if(GetVolumeInformation(getType.c_str(),str,1000,NULL,NULL,NULL,NULL,0) != 0) {
+                                toRet.push_back(dLetter);
+                                toRet.push_back('|');
+                            }
+                        }
+                    }
+                    dLetter++;
+                    dMask >>= 1;
+                }
+                server.sendTo(wsEncodeMsg(translate_s1_to_s2(toRet)),i);
             }
         }
     }
@@ -388,6 +433,7 @@ void startServer()
 int main()
 {
     net_init();
+    SetErrorMode(SEM_NOOPENFILEERRORBOX); // for drives detection
     startServer();
     net_close();
     return 0;
