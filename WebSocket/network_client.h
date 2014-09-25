@@ -5,6 +5,7 @@
 
 #define NET_CLIENT_ONLINE 1
 #define NET_CLIENT_OFFLINE 0
+#define NET_CLIENT_SHUTTINGDOWN 2
 
 #define NET_CLIENT_SLEEP 16 // time sleep
 #define NET_CLIENT_DELAY 1
@@ -20,10 +21,13 @@ public:
 
     bool connect(string ip,int port,int timeout);
 
+    bool run();
     void runLoop();
+
     void send(byteArray data);
 
     void disconnect();
+    void forceShutdown();
 
     void (*debugFunc)(string);
     void (*runFunc)();

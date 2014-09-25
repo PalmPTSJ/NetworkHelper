@@ -1,0 +1,1494 @@
+HTTP/1.1 200 OK
+Date: Mon, 22 Sep 2014 06:28:29 GMT
+Server: gwiseguy/2.0
+Content-Type: text/html; charset=utf-8
+Cache-Control: no-cache
+P3P: CP="This is not a P3P policy! See http://support.google.com/accounts/bin/answer.py?answer=151657&hl=th for more info."
+Expires: Tue, 27 Apr 1971 19:44:06 EST
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+Set-Cookie: PREF=f1=50000000; path=/; domain=.youtube.com; expires=Sat, 23-May-2015 18:21:29 GMT
+Set-Cookie: YSC=23ZA-ATfmx4; path=/; domain=.youtube.com; httponly
+Set-Cookie: VISITOR_INFO1_LIVE=kPK8XXjDZ44; path=/; domain=.youtube.com; expires=Sat, 23-May-2015 18:21:29 GMT
+X-XSS-Protection: 1; mode=block; report=https://www.google.com/appserve/security-bugs/log/youtube
+Alternate-Protocol: 80:quic,p=0.002
+Transfer-Encoding: chunked
+
+1083
+  <!DOCTYPE html><html lang="th" data-cast-api-enabled="true"><head><script>var ytcsi = {gt: function(n) {n = (n || '') + 'data_';return ytcsi[n] || (ytcsi[n] = {tick: {},span: {},info: {}});},tick: function(l, t, n) {ytcsi.gt(n).tick[l] = t || +new Date();},span: function(l, s, n) {ytcsi.gt(n).span[l] = (typeof s == 'number') ? s :+new Date() - ytcsi.data_.tick[l];},info: function(k, v, n) {ytcsi.gt(n).info[k] = v;}};(function(w, d) {ytcsi.perf = w.performance || w.mozPerformance ||w.msPerformance || w.webkitPerformance;ytcsi.tick('_start', ytcsi.perf ? ytcsi.perf.timing.responseStart : null);var isPrerender = (d.visibilityState || d.webkitVisibilityState) == 'prerender';var vName = d.webkitVisibilityState ? 'webkitvisibilitychange' : 'visibilitychange';if (isPrerender) {ytcsi.info('prerender', 1);var startTick = function() {ytcsi.tick('_start');d.removeEventListener(vName, startTick);};d.addEventListener(vName, startTick, false);}if (d.addEventListener) {d.addEventListener(vName, function() {ytcsi.tick('vc');}, false);}})(window, document);</script>  <script>
+    try {window.ytbuffer = {};ytbuffer.handleClick = function(e) {var element = e.target || e.srcElement;while (element.parentElement) {if (element.className.match(/(^| )yt-can-buffer( |$)/)) {window.ytbuffer = {bufferedClick: e};element.className += ' yt-is-buffered';break;}element = element.parentElement;}};if (document.addEventListener) {document.addEventListener('click', ytbuffer.handleClick);} else {document.attachEvent('onclick', ytbuffer.handleClick);}} catch(e) {}
+    (function(){function a(g,h,b){var k=document.getElementsByTagName("html")[0],e=[k.className];g&&1251<=(window.innerWidth||document.documentElement.clientWidth)&&(e.push("guide-pinned"),h&&e.push("show-guide"));b&&(b=(window.innerWidth||document.documentElement.clientWidth)-21-50,1251<=(window.innerWidth||document.documentElement.clientWidth)&&g&&h&&(b-=230),e.push(" ",1262<=b?"content-snap-width-3":1056<=b?"content-snap-width-2":"content-snap-width-1"));k.className=e.join(" ")}
+var c=["yt","www","masthead","sizing","runBeforeBodyIsReady"],d=this;c[0]in d||!d.execScript||d.execScript("var "+c[0]);for(var f;c.length&&(f=c.shift());)c.length||void 0===a?d[f]?d=d[f]:d=d[f]={}:d[f]=a;})();
+yt.www.masthead.sizing.runBeforeBodyIsReady(true,true,false);
+  </script>
+
+
+
+        <script src="//s.ytimg.com/yts/jsbin/www-scheduler-vfl_-DV3R/www-scheduler.js" type="text/javascript" name="www-scheduler"></script>
+
+
+  
+  <link rel="stylesheet" href="//s.ytimg.com/yts/cssbin/www-core-vfliKKe1s.css" name="www-core">
+  
+
+    
+<title>maps maroon 5 - YouTube</title><link rel="search" type="application/opensearchdescription+xml" href="http://www.youtube.com/opensearch?locale=th_TH" title="ค้นหาวิดีโอใน YouTube"><link rel="shortcut icon" href="http://s.ytimg.com/yts/img/favicon-vfldLzJxy.ico" type="image/x-icon">     <link rel="icon" href="//s.ytimg.com/yts/img/favicon_32-vflWoMFGx.png" sizes="32x32"><link rel="alternate" media="handheld" href="http://m.youtube.com/results?search_query=maps+maroon+5"><link rel="alternate" media="only screen and (max-width: 640px)" href="http://m.youtube.com/results?search_query=maps+maroon+5"><meta name="description" content="แชร์วิดีโอของคุณกับเพื่อน ครอบครัว และทุกคนทั่วโลก"><meta name="keywords" content="วิดีโอ, การแชร์, โทรศัพท์มีกล้อง, โทรศัพท์มีกล้องวิดีโอ, ไม่เสียค่าใช้จ่าย, อัปโหลด">  <link rel="stylesheet" href="//s.ytimg.com/yts/cssbin/www-pageframe-vfleFfVto.css" name="www-pageframe">
+  <link rel="stylesheet" href="//s.ytimg.com/yts/cssbin/www-guide-vfltJN7Tg.css" name="www-guide">
+    <link rel="stylesheet" href="//s.ytimg.com/yts/cssbin/www-results-vfl9Lw1c9.css" name="www-results">
+
+</head>
+    <body dir="ltr" class="  ltr  gecko gecko-27  exp-flexwatch-720-mini   site-center-aligned site-as-giant-card guide-pinning-enabled appbar-hidden     not-nirvana-dogfood  not-yt-legacy-css  watch8    delayed-frame-styles-not-in  " id="body">
+
+
+8000
+  <div id="early-body">    <iframe id="pyv-iframe-search" style="display:none;" src=""></iframe><script>var yt = yt || {};yt.www = yt.www || {};yt.www.ads = yt.www.ads || {};yt.www.ads.pyvsearch = yt.www.ads.pyvsearch || {};yt.www.ads.pyvsearch.searchTopAdsFromAfc = null;yt.www.ads.pyvsearch.pageJsInit = false;yt.www.ads.pyvsearch.requestAfcAd = function() {var iframeContent = "  \u003cscript\u003e\n    (function() {\n      var called = false;\n      parent.yt.www.ads.pyvsearch.pyvSearchTopAfcCbkWrapper = function(ads) {\n        clearTimeout(parent.yt.www.ads.pyvsearch.cancelTimer);\n        if (called) {\n          return;\n        }\n        called = true;\n        if (parent.yt.www.ads.pyvsearch.pageJsInit) {\n          parent.yt.www.ads.pyvsearch.pyvSearchTopAfcCallback(ads);\n        } else {\n          parent.yt.www.ads.pyvsearch.searchTopAdsFromAfc = ads;\n        }\n      };\n    })();\n\n    window['google_ad_client'] = 'ca-pub-6219811747049371';\n    window['google_ad_block'] = '3';\n    window['google_max_num_ads'] = 2;\n    window['google_ad_output'] = 'js';\n    window['google_ad_type'] = 'text';\n    window['google_loeid'] = \"937412,930817,900228,916638,945076,946013\";\n    window['google_only_pyv_ads'] = true;\n    window['google_page_url'] = parent.document.location.href;\n    window['google_ad_channel'] = \"PyvSearchAfcCpm+PyvWatchNoAdX+PyvSearchAfcNewTemplate+ytdevice_1\";\n    window['google_kw_type'] = 'broad';\n    window['google_kw'] = \"maps maroon 5\";\n\n      window['google_language'] = \"th\";\n\n\n\n    window['google_ad_request_done'] = parent.yt.www.ads.pyvsearch.pyvSearchTopAfcCbkWrapper;\n  \u003c\/script\u003e\n  \u003cscript s\u0072c=\"\/\/pagead2.googlesyndication.com\/pagead\/show_ads.js\"\u003e\u003c\/script\u003e\n";yt.www.ads.pyvsearch.adRequestStartTime = new Date().getTime();var frame = document.getElementById('pyv-iframe-search');var iframeDocument =frame.contentDocument || frame.contentWindow.document;iframeDocument.open();var content = '<!DOCTYPE html><html><head></head><body>' +iframeContent + '</body></html>';iframeDocument.write(content);iframeDocument.close();};yt.www.ads.pyvsearch.doAdsRequest = function() {if (window.ytcsi) {window.ytcsi.tick("resultspredclk", null, '');}clearTimeout(yt.www.ads.pyvsearch.timerId_);yt.www.ads.pyvsearch.timerId_ = setTimeout(yt.www.ads.pyvsearch.requestAfcAd, 5);yt.www.ads.pyvsearch.doAdsRequest = null;};yt.www.ads.pyvsearch.doAdsRequest();</script>
+    
+</div>
+  <div id="body-container"><form name="logoutForm" method="POST" action="/logout"><input type="hidden" name="action_logout" value="1"></form><div id="masthead-positioner">  
+  <div id="yt-masthead-container" class="yt-grid-box yt-base-gutter"><div id="yt-masthead" class=""><div class="yt-masthead-logo-container ">    <a id="logo-container" href="/" title="หน้าแรกของ YouTube" class="     spf-link 
+"><img id="logo" src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" alt="หน้าแรกของ YouTube"><span class="content-region">TH</span></a>
+  <div id="appbar-guide-button-container">
+    <button class="yt-uix-button yt-uix-button-size-default yt-uix-button-text yt-uix-button-empty yt-uix-button-has-icon appbar-guide-toggle appbar-guide-clickable-ancestor" type="button" onclick=";return false;" aria-controls="appbar-guide-menu" id="appbar-guide-button" aria-label="คำแนะนำ"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-appbar-guide yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+    <div id="appbar-guide-button-notification-check" class="yt-valign">
+      <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="appbar-guide-notification-icon yt-valign-content yt-sprite">
+    </div>
+  </div>
+  <div id="appbar-main-guide-notification-container"></div>
+</div><div id="yt-masthead-signin"><span id="appbar-onebar-upload-group"><a href="//www.youtube.com/upload" class="yt-uix-button   yt-uix-sessionlink yt-uix-button-default yt-uix-button-size-default" data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA&amp;feature=mhsb" id="upload-btn"><span class="yt-uix-button-content">อัปโหลด </span></a></span><button class="yt-uix-button yt-uix-button-size-default yt-uix-button-primary" type="button" onclick=";window.location.href=this.getAttribute(&#39;href&#39;);return false;" href="https://accounts.google.com/ServiceLogin?service=youtube&amp;continue=http%3A%2F%2Fwww.youtube.com%2Fsignin%3Fhl%3Dth%26feature%3Dsign_in_button%26action_handle_signin%3Dtrue%26next%3D%252Fresults%253Fsearch_query%253Dmaps%252Bmaroon%252B5%26app%3Ddesktop&amp;hl=th&amp;uilel=3&amp;passive=true"><span class="yt-uix-button-content">ลงชื่อเข้าใช้ </span></button></div><div id="yt-masthead-content"><form id="masthead-search" class="search-form consolidated-form" action="/results" onsubmit="if (_gel(&#39;masthead-search-term&#39;).value == &#39;&#39;) return false;"><button class="yt-uix-button yt-uix-button-size-default yt-uix-button-default search-btn-component search-button" type="submit" onclick="if (_gel(&#39;masthead-search-term&#39;).value == &#39;&#39;) return false; _gel(&#39;masthead-search&#39;).submit(); return false;;return true;" id="search-btn" tabindex="2" dir="ltr"><span class="yt-uix-button-content">ค้นหา </span></button><div id="masthead-search-terms" class="masthead-search-terms-border" dir="ltr"><label><input id="masthead-search-term" autocomplete="off"  class="search-term yt-uix-form-input-bidi" name="search_query" value="maps maroon 5" type="text" tabindex="1" title="ค้นหา"></label></div></form></div></div></div>
+    <div id="masthead-appbar-container" class="clearfix"><div id="masthead-appbar"><div id="appbar-content" class=""></div></div></div>
+
+</div><div id="masthead-positioner-height-offset"></div><div id="page-container"><div id="page" class="  search  branded-page-v2-secondary-column-wide  no-flex clearfix"><div id="guide" class="yt-scrollbar">      <div id="appbar-guide-menu" class="appbar-menu appbar-guide-menu-layout appbar-guide-clickable-ancestor yt-uix-scroller" role="navigation">
+    <div id="guide-container" class="vve-check" data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA&amp;ved=CBkQ_h4">
+        <div class="guide-module-content yt-scrollbar">
+    <ul class="guide-toplevel">
+            <li class="guide-section vve-check"
+    data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA&amp;ved=CBoQ5isoAA"
+    data-visibility-tracking="">
+    <div class="guide-item-container personal-item">
+      
+      <ul class="guide-user-links yt-uix-tdl yt-box" role="menu">
+              <li class="vve-check guide-channel guide-notification-item overflowable-list-item " id="what_to_watch-guide-item"
+      data-visibility-tracking="" aria-role="menuitem">
+      
+  <a class="guide-item yt-uix-sessionlink yt-valign spf-link   "
+    href="/"
+    title="ดูอะไรดี"
+    data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA&amp;feature=g-system&amp;ved=CBsQtSwoAA"
+    data-visibility-tracking=""
+    data-external-id="what_to_watch"
+    data-serialized-endpoint="0qDduQEREg9GRXdoYXRfdG9fd2F0Y2g%3D"
+  >
+    <span class="yt-valign-container">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="thumb guide-what-to-watch-icon yt-sprite">
+        <span class="display-name  no-count">
+          <span>
+            ดูอะไรดี
+          </span>
+        </span>
+    </span>
+  </a>
+
+  </li>
+
+      </ul>
+    </div>
+      <hr class="guide-section-separator">
+  </li>
+
+            <li class="guide-section vve-check"
+    data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA&amp;ved=CBwQ5isoAQ"
+    data-visibility-tracking="">
+    <div class="guide-item-container personal-item">
+          <h3>
+      เยี่ยมสุดใน YouTube
+    </h3>
+
+      <ul class="guide-user-links yt-uix-tdl yt-box" role="menu">
+              <li class="vve-check guide-channel guide-notification-item overflowable-list-item " id="UCBLGfSeyU52VOqZLhIm0xmg-guide-item"
+      data-visibility-tracking="" aria-role="menuitem">
+      
+  <a class="guide-item yt-uix-sessionlink yt-valign spf-link   "
+    href="/channel/UCBLGfSeyU52VOqZLhIm0xmg"
+    title="ได้รับความนิยมบน YouTube"
+    data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA&amp;feature=g-channel&amp;ved=CB0QtSwoAA"
+    data-visibility-tracking=""
+    data-external-id="UCBLGfSeyU52VOqZLhIm0xmg"
+    data-serialized-endpoint="0qDduQEaEhhVQ0JMR2ZTZXlVNTJWT3FaTGhJbTB4bWc%3D"
+  >
+    <span class="yt-valign-container">
+        <span class="thumb">    <span class="video-thumb  yt-thumb yt-thumb-20"
+      >
+      <span class="yt-thumb-square">
+        <span class="yt-thumb-clip">
+          <img data-thumb="//i.ytimg.com/i/BLGfSeyU52VOqZLhIm0xmg/1.jpg" src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" aria-hidden="true" alt="" width="20"  height="20" >
+          <span class="vertical-align"></span>
+        </span>
+      </span>
+    </span>
+</span>
+        <span class="display-name  no-count">
+          <span>
+            ได้รับความนิยมบน YouTube
+          </span>
+        </span>
+    </span>
+  </a>
+
+  </li>
+
+              <li class="vve-check guide-channel guide-notification-item overflowable-list-item " id="UC-9-kyTW8ZkZNDHQJ6FgpwQ-guide-item"
+      data-visibility-tracking="" aria-role="menuitem">
+      
+  <a class="guide-item yt-uix-sessionlink yt-valign spf-link   "
+    href="/channel/UC-9-kyTW8ZkZNDHQJ6FgpwQ"
+    title="เพลง"
+    data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA&amp;feature=g-channel&amp;ved=CB4QtSwoAQ"
+    data-visibility-tracking=""
+    data-external-id="UC-9-kyTW8ZkZNDHQJ6FgpwQ"
+    data-serialized-endpoint="0qDduQEaEhhVQy05LWt5VFc4WmtaTkRIUUo2Rmdwd1E%3D"
+  >
+    <span class="yt-valign-container">
+        <span class="thumb">    <span class="video-thumb  yt-thumb yt-thumb-20"
+      >
+      <span class="yt-thumb-square">
+        <span class="yt-thumb-clip">
+          <img data-thumb="//i.ytimg.com/i/-9-kyTW8ZkZNDHQJ6FgpwQ/1.jpg" src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" aria-hidden="true" alt="" width="20"  height="20" >
+          <span class="vertical-align"></span>
+        </span>
+      </span>
+    </span>
+</span>
+        <span class="display-name  no-count">
+          <span>
+            เพลง
+          </span>
+        </span>
+    </span>
+  </a>
+
+  </li>
+
+              <li class="vve-check guide-channel guide-notification-item overflowable-list-item " id="UCEgdi0XIXXZ-qJOFPf4JSKw-guide-item"
+      data-visibility-tracking="" aria-role="menuitem">
+      
+  <a class="guide-item yt-uix-sessionlink yt-valign spf-link   "
+    href="/channel/UCEgdi0XIXXZ-qJOFPf4JSKw"
+    title="กีฬา"
+    data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA&amp;feature=g-channel&amp;ved=CB8QtSwoAg"
+    data-visibility-tracking=""
+    data-external-id="UCEgdi0XIXXZ-qJOFPf4JSKw"
+    data-serialized-endpoint="0qDduQEaEhhVQ0VnZGkwWElYWFotcUpPRlBmNEpTS3c%3D"
+  >
+    <span class="yt-valign-container">
+        <span class="thumb">    <span class="video-thumb  yt-thumb yt-thumb-20"
+      >
+      <span class="yt-thumb-square">
+        <span class="yt-thumb-clip">
+          <img data-thumb="//i.ytimg.com/i/Egdi0XIXXZ-qJOFPf4JSKw/1.jpg" src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" aria-hidden="true" alt="" width="20"  height="20" >
+          <span class="vertical-align"></span>
+        </span>
+      </span>
+    </span>
+</span>
+        <span class="display-name  no-count">
+          <span>
+            กีฬา
+          </span>
+        </span>
+    </span>
+  </a>
+
+  </li>
+
+              <li class="vve-check guide-channel guide-notification-item overflowable-list-item " id="UCOpNcN46UbXVtpKMrmU4Abg-guide-item"
+      data-visibility-tracking="" aria-role="menuitem">
+      
+  <a class="guide-item yt-uix-sessionlink yt-valign spf-link   "
+    href="/channel/UCOpNcN46UbXVtpKMrmU4Abg"
+    title="เกม"
+    data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA&amp;feature=g-channel&amp;ved=CCAQtSwoAw"
+    data-visibility-tracking=""
+    data-external-id="UCOpNcN46UbXVtpKMrmU4Abg"
+    data-serialized-endpoint="0qDduQEaEhhVQ09wTmNONDZVYlhWdHBLTXJtVTRBYmc%3D"
+  >
+    <span class="yt-valign-container">
+        <span class="thumb">    <span class="video-thumb  yt-thumb yt-thumb-20"
+      >
+      <span class="yt-thumb-square">
+        <span class="yt-thumb-clip">
+          <img data-thumb="//i.ytimg.com/i/OpNcN46UbXVtpKMrmU4Abg/1.jpg" src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" aria-hidden="true" alt="" width="20"  height="20" >
+          <span class="vertical-align"></span>
+        </span>
+      </span>
+    </span>
+</span>
+        <span class="display-name  no-count">
+          <span>
+            เกม
+          </span>
+        </span>
+    </span>
+  </a>
+
+  </li>
+
+      </ul>
+    </div>
+      <hr class="guide-section-separator">
+  </li>
+
+            <li class="guide-section vve-check"
+    data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA&amp;ved=CCEQ5isoAg"
+    data-visibility-tracking="">
+    <div class="guide-item-container personal-item">
+      
+      <ul class="guide-user-links yt-uix-tdl yt-box" role="menu">
+              <li class="vve-check guide-channel guide-notification-item overflowable-list-item " id="guide_builder-guide-item"
+      data-visibility-tracking="" aria-role="menuitem">
+      
+  <a class="guide-item yt-uix-sessionlink yt-valign spf-nolink   "
+    href="/channels"
+    title="หาช่องอื่นๆ"
+    data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA&amp;feature=g-manage&amp;ved=CCIQtSwoAA"
+    data-visibility-tracking=""
+    data-external-id="guide_builder"
+    data-serialized-endpoint="0qPduQECCAE%3D"
+  >
+    <span class="yt-valign-container">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="thumb guide-builder-icon yt-sprite">
+        <span class="display-name  no-count">
+          <span>
+            หาช่องอื่นๆ
+          </span>
+        </span>
+    </span>
+  </a>
+
+  </li>
+
+      </ul>
+    </div>
+      <hr class="guide-section-separator">
+  </li>
+
+            <li class="guide-section guide-header signup-promo ">
+    <p>
+      ลงชื่อเข้าใช้เลยเพื่อดูช่องและวิดีโอแนะนำของคุณ!
+    </p>
+    <div id="guide-builder-promo-buttons" class="signed-out clearfix">
+      <a href="https://accounts.google.com/ServiceLogin?service=youtube&amp;continue=http%3A%2F%2Fwww.youtube.com%2Fsignin%3Fhl%3Dth%26feature%3Dsign_in_promo%26action_handle_signin%3Dtrue%26next%3D%252Fresults%253Fsearch_query%253Dmaps%252Bmaroon%252B5%26app%3Ddesktop&amp;hl=th&amp;uilel=3&amp;passive=true" class="yt-uix-button   yt-uix-sessionlink yt-uix-button-primary yt-uix-button-size-default" data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA"><span class="yt-uix-button-content">ลงชื่อเข้าใช้ </span></a>
+    </div>
+  </li>
+
+    </ul>
+  </div>
+
+    </div>
+  </div>
+  <div id="appbar-guide-notifications" class="hid">
+        <div id="appbar-guide-notification-watch-later-video-added">
+    <!--
+    <div class="appbar-guide-notification "><span class="appbar-guide-notification-content-wrapper yt-valign"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="appbar-guide-notification-icon yt-sprite"><span class="appbar-guide-notification-text-content">เพิ่มใน &quot;ดูภายหลัง&quot; แล้ว</span></span></div>
+    -->
+  </div>
+
+
+    <div id="appbar-guide-notification-watch-later-video-removed">
+    <!--
+    <div class="appbar-guide-notification "><span class="appbar-guide-notification-content-wrapper yt-valign"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="appbar-guide-notification-icon yt-sprite"><span class="appbar-guide-notification-text-content">เอาออกจากรายการดูภายหลัง</span></span></div>
+    -->
+  </div>
+
+
+    <div id="appbar-guide-notification-subscription">
+    <!--
+    <div class="appbar-guide-notification "><span class="appbar-guide-notification-content-wrapper yt-valign"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="appbar-guide-notification-icon yt-sprite"><span class="appbar-guide-notification-text-content">เพิ่มการติดตามแล้ว</span></span></div>
+    -->
+  </div>
+
+
+    <div id="appbar-guide-notification-unsubscription">
+    <!--
+    <div class="appbar-guide-notification "><span class="appbar-guide-notification-content-wrapper yt-valign"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="appbar-guide-notification-icon yt-sprite"><span class="appbar-guide-notification-text-content">นำการติดตามออกแล้ว</span></span></div>
+    -->
+  </div>
+
+
+    <div id="appbar-guide-notification-playlist-like">
+    <!--
+    <div class="appbar-guide-notification "><span class="appbar-guide-notification-content-wrapper yt-valign"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="appbar-guide-notification-icon yt-sprite"><span class="appbar-guide-notification-text-content">บันทึกลงในเพลย์ลิสต์แล้ว</span></span></div>
+    -->
+  </div>
+
+
+    <div id="appbar-guide-notification-playlist-unlike">
+    <!--
+    <div class="appbar-guide-notification "><span class="appbar-guide-notification-content-wrapper yt-valign"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="appbar-guide-notification-icon yt-sprite"><span class="appbar-guide-notification-text-content">ลบจากเพลย์ลิสต์แล้ว</span></span></div>
+    -->
+  </div>
+
+
+    <div id="appbar-guide-notification-playlist-video-added">
+    <!--
+    <div class="appbar-guide-notification "><span class="appbar-guide-notification-content-wrapper yt-valign"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="appbar-guide-notification-icon yt-sprite"><span class="appbar-guide-notification-text-content">เพิ่มในเพลย์ลิสต์แล้ว</span></span></div>
+    -->
+  </div>
+
+
+    <div id="appbar-guide-notification-playlist-video-removed">
+    <!--
+    <div class="appbar-guide-notification "><span class="appbar-guide-notification-content-wrapper yt-valign"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="appbar-guide-notification-icon yt-sprite"><span class="appbar-guide-notification-text-content">นำออกจากเพลย์ลิสต์แล้ว</span></span></div>
+    -->
+  </div>
+
+
+    <div id="appbar-guide-notification-video-like">
+    <!--
+    <div class="appbar-guide-notification "><span class="appbar-guide-notification-content-wrapper yt-valign"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="appbar-guide-notification-icon yt-sprite"><span class="appbar-guide-notification-text-content">เพิ่มลงในวิดีโอที่ชอบแล้ว</span></span></div>
+    -->
+  </div>
+
+
+    <div id="appbar-guide-notification-video-unlike">
+    <!--
+    <div class="appbar-guide-notification "><span class="appbar-guide-notification-content-wrapper yt-valign"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="appbar-guide-notification-icon yt-sprite"><span class="appbar-guide-notification-text-content">ลบจากวิดีโอที่ชอบแล้ว</span></span></div>
+    -->
+  </div>
+
+
+    <div id="appbar-guide-notification-event-reminder-set">
+    <!--
+    <div class="appbar-guide-notification "><span class="appbar-guide-notification-content-wrapper yt-valign"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="appbar-guide-notification-icon yt-sprite"><span class="appbar-guide-notification-text-content">คุณจะได้รับการแจ้งเตือนเกี่ยวกับกิจกรรมนี้</span></span></div>
+    -->
+  </div>
+
+
+    <div id="appbar-guide-notification-event-reminder-removed">
+    <!--
+    <div class="appbar-guide-notification "><span class="appbar-guide-notification-content-wrapper yt-valign"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="appbar-guide-notification-icon yt-sprite"><span class="appbar-guide-notification-text-content">ลบการแจ้งเตือนกิจกรรมแล้ว</span></span></div>
+    -->
+  </div>
+
+
+  </div>
+  <div id="appbar-guide-item-templates" class="hid">
+        <div id="appbar-guide-item-template-playlist">
+      <!--
+          <li class="vve-check guide-channel guide-notification-item overflowable-list-item show-insertion-notification " id="__ID__-guide-item"
+      data-visibility-tracking="" aria-role="menuitem">
+      
+  <a class="guide-item yt-uix-sessionlink yt-valign spf-nolink   "
+    href="__URL__"
+    title="__TITLE__"
+    data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA&amp;feature=g-playlists"
+    data-visibility-tracking=""
+    data-external-id="__ID__"
+    data-serialized-endpoint=""
+  >
+    <span class="yt-valign-container">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="thumb guide-playlists-icon yt-sprite">
+        <span class="display-name  no-count">
+          <span>
+            __TITLE__
+          </span>
+        </span>
+    </span>
+  </a>
+
+      <div class="appbar-guide-notification guide-item-insertion-notification"><span class="appbar-guide-notification-content-wrapper yt-valign"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="appbar-guide-notification-icon yt-sprite"><span class="appbar-guide-notification-text-content">__NOTIFICATION_OVERLAY_MESSAGE__</span></span></div>
+  </li>
+
+      -->
+    </div>
+    <div id="appbar-guide-item-template-mix">
+      <!--
+          <li class="vve-check guide-channel guide-notification-item overflowable-list-item show-insertion-notification " id="__ID__-guide-item"
+      data-visibility-tracking="" aria-role="menuitem">
+      
+  <a class="guide-item yt-uix-sessionlink yt-valign spf-nolink   "
+    href="__URL__"
+    title="__TITLE__"
+    data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA&amp;feature=g-playlists"
+    data-visibility-tracking=""
+    data-external-id="__ID__"
+    data-serialized-endpoint=""
+  >
+    <span class="yt-valign-container">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="thumb guide-mix-icon yt-sprite">
+        <span class="display-name  no-count">
+          <span>
+            __TITLE__
+          </span>
+        </span>
+    </span>
+  </a>
+
+      <div class="appbar-guide-notification guide-item-insertion-notification"><span class="appbar-guide-notification-content-wrapper yt-valign"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="appbar-guide-notification-icon yt-sprite"><span class="appbar-guide-notification-text-content">__NOTIFICATION_OVERLAY_MESSAGE__</span></span></div>
+  </li>
+
+      -->
+    </div>
+    <div id="appbar-guide-item-template-channel">
+      <!--
+          <li class="vve-check guide-channel guide-notification-item overflowable-list-item show-insertion-notification " id="__ID__-guide-item"
+      data-visibility-tracking="" aria-role="menuitem">
+      
+  <a class="guide-item yt-uix-sessionlink yt-valign spf-nolink   "
+    href="__URL__"
+    title="__TITLE__"
+    data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA&amp;feature=g-channel"
+    data-visibility-tracking=""
+    data-external-id="__ID__"
+    data-serialized-endpoint=""
+  >
+    <span class="yt-valign-container">
+        <span class="thumb">    <span class="video-thumb  yt-thumb yt-thumb-20"
+      >
+      <span class="yt-thumb-square">
+        <span class="yt-thumb-clip">
+          <img src="__THUMBNAIL_URL__" aria-hidden="true" alt="" width="20"  height="20" >
+          <span class="vertical-align"></span>
+        </span>
+      </span>
+    </span>
+</span>
+        <span class="display-name  no-count">
+          <span>
+            __TITLE__
+          </span>
+        </span>
+    </span>
+  </a>
+
+      <div class="appbar-guide-notification guide-item-insertion-notification"><span class="appbar-guide-notification-content-wrapper yt-valign"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="appbar-guide-notification-icon yt-sprite"><span class="appbar-guide-notification-text-content">__NOTIFICATION_OVERLAY_MESSAGE__</span></span></div>
+  </li>
+
+      -->
+    </div>
+
+  </div>
+
+</div><div class="alerts-wrapper"><div id="alerts" class="content-alignment">    <div class="yt-alert yt-alert-default yt-alert-info  " id="yt-lang-alert-container">  <div class="yt-alert-icon">
+    <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="icon master-sprite yt-sprite">
+  </div>
+<div class="yt-alert-content" role="alert">    <div class="yt-alert-message">
+            เลือกภาษาของคุณ
+
+    </div>
+</div><div class="yt-alert-buttons"><button class="yt-uix-button yt-uix-button-size-default yt-uix-button-close close yt-uix-close" type="button" onclick=";return false;" data-close-parent-class="yt-alert" aria-label="ปิด"><span class="yt-uix-button-content">ปิด </span></button></div><div class="yt-alert-panel ">  <div class="yt-grid-box">
+    <div id="yt-lang-alert-content">
+      <div class="yt-lang-alert-controls">
+        <a href="//support.google.com/youtube/bin/answer.py?answer=1738660&amp;hl=en">Learn more</a><br>
+          <a href="javascript:void(0)" onclick="yt.style.toggle('default-language-message', 'default-language-message-english'); return false;">View this message in English</a>
+      </div>
+      <div id="default-language-message">
+คุณกำลังดู YouTube ในภาษา<strong>ภาษาไทย</strong>
+คุณสามารถ<a href="javascript:void(0)" onclick="yt.www.picker.displayLang();">เปลี่ยนการกำหนดค่าได้ที่ด้านล่าง</a>
+      </div>
+      <div id="default-language-message-english" class="hid">
+        You're viewing YouTube in <strong>Thai</strong>.
+          You can <a href="javascript:void(0)" onclick="yt.www.picker.displayLang();">change this preference below</a>.
+      </div>
+    </div>
+  </div>
+</div></div>
+
+</div></div><div id="header">  
+</div><div id="player" class="  off-screen  "><div id="theater-background"></div>  <div id="player-mole-container">
+
+    <div id="player-unavailable" class="  hid  ">
+      
+    </div>
+
+      <div id="player-api" class="player-width player-height off-screen-target player-api"></div>
+
+        <script>if (window.ytcsi) {window.ytcsi.tick("cfg", null, '');}</script>
+    <script>var ytplayer = ytplayer || {};ytplayer.config = {"sts": 16331, "args": {"fexp": "900228,916638,927622,930666,930817,931983,932404,934030,937412,945076,946013,947209,952302,953801", "cr": "TH", "autoplay": "0", "hl": "th_TH", "enablejsapi": 1, "host_language": "th"}, "url": "http:\/\/s.ytimg.com\/yts\/swfbin\/player-vflMN4k4K\/watch_as3.swf", "attrs": {"id": "movie_player"}, "min_version": "8.0.0", "html5": false, "messages": {"quicktime_fallback": "The Adobe Flash Player or QuickTime is required for video playback. \u003cbr\u003e \u003ca href=\"http:\/\/get.adobe.com\/flashplayer\/\"\u003eGet the latest Flash Player\u003c\/a\u003e \u003cbr\u003e \u003ca href=\"http:\/\/www.apple.com\/quicktime\/download\/\"\u003eGet the latest version of QuickTime\u003c\/a\u003e", "player_fallback": "The Adobe Flash Player or an HTML5 supported browser is required for video playback. \u003cbr\u003e \u003ca href=\"http:\/\/get.adobe.com\/flashplayer\/\"\u003eGet the latest Flash Player\u003c\/a\u003e \u003cbr\u003e \u003ca href=\"\/html5\"\u003eLearn more about upgrading to an HTML5 browser\u003c\/a\u003e"}, "url_v8": "http:\/\/s.ytimg.com\/yts\/swfbin\/player-vflMN4k4K\/cps.swf", "params": {"allowscriptaccess": "always", "allowfullscreen": "true", "bgcolor": "#000000"}, "url_v9as2": "http:\/\/s.ytimg.com\/yts\/swfbin\/player-vflMN4k4K\/cps.swf", "assets": {"html": "\/html5_player_template", "css": "\/\/s.ytimg.com\/yts\/cssbin\/www-player-vfl7MSHwQ.css", "js": "\/\/s.ytimg.com\/yts\/jsbin\/html5player-th_TH-vflt4Wpjy\/html5player.js"}};ytplayer.load = function() {yt.player.Application.create("player-api", ytplayer.config);ytplayer.config.loaded = true;};</script>
+
+
+      <div id="watch-queue-mole" class="video-mole mole-collapsed hid"><div id="watch-queue" class="watch-playlist"><div class="main-content"><div class="watch-queue-header"><div class="watch-queue-info"><div class="watch-queue-info-icon"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="tv-queue-list-icon yt-sprite"></div><h3 class="watch-queue-title">คิวการดู</h3><h3 class="tv-queue-title">คิวทีวี</h3><span class="tv-queue-details"></span></div><div class="watch-queue-control-bar control-bar-button"><div class="watch-queue-mole-info"><div class="watch-queue-control-bar-icon"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="watch-queue-icon yt-sprite"></div><div class="watch-queue-title-container"><span class="watch-queue-count"></span><span class="watch-queue-title">คิวการดู</span><span class="tv-queue-title">คิวทีวี</span></div></div>  <span class="dark-overflow-action-menu">
+    
+    
+    <button type="button" class="flip control-bar-button yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant="" aria-label="การทำงานสำหรับคิวนี้"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" role="menu" aria-haspopup="true" style="display: none;"><li role="menuitem" id="aria-id-30899661531"><span onclick=";return false;" class="watch-queue-menu-choice overflow-menu-choice yt-uix-button-menu-item" data-action="remove-all" >ลบทั้งหมด</span></li><li role="menuitem" id="aria-id-69507824517"><span onclick=";return false;" class="watch-queue-menu-choice overflow-menu-choice yt-uix-button-menu-item" data-action="disconnect" >ยกเลิกการเชื่อมต่อ</span></li></ul></button>
+  </span>
+  <div class="watch-queue-controls">
+    <button class="yt-uix-button yt-uix-button-size-default yt-uix-button-empty yt-uix-button-has-icon control-bar-button prev-watch-queue-button yt-uix-button-opacity yt-uix-tooltip yt-uix-tooltip" type="button" onclick=";return false;" title="วิดีโอก่อนหน้า"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="วิดีโอก่อนหน้า" class="yt-uix-button-icon yt-uix-button-icon-watch-queue-prev yt-sprite"></span></button>
+
+    <button class="yt-uix-button yt-uix-button-size-default yt-uix-button-empty yt-uix-button-has-icon control-bar-button play-watch-queue-button yt-uix-button-opacity yt-uix-tooltip yt-uix-tooltip" type="button" onclick=";return false;" title="เล่น"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="เล่น" class="yt-uix-button-icon yt-uix-button-icon-watch-queue-play yt-sprite"></span></button>
+
+    <button class="yt-uix-button yt-uix-button-size-default yt-uix-button-empty yt-uix-button-has-icon control-bar-button pause-watch-queue-button yt-uix-button-opacity yt-uix-tooltip hid yt-uix-tooltip" type="button" onclick=";return false;" title="หยุดชั่วคราว"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="หยุดชั่วคราว" class="yt-uix-button-icon yt-uix-button-icon-watch-queue-pause yt-sprite"></span></button>
+
+    <button class="yt-uix-button yt-uix-button-size-default yt-uix-button-empty yt-uix-button-has-icon control-bar-button next-watch-queue-button yt-uix-button-opacity yt-uix-tooltip yt-uix-tooltip" type="button" onclick=";return false;" title="วิดีโอถัดไป"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="วิดีโอถั�
+8000
+�ไป" class="yt-uix-button-icon yt-uix-button-icon-watch-queue-next yt-sprite"></span></button>
+  </div>
+</div></div><div class="watch-queue-items-container yt-scrollbar-dark yt-scrollbar"><ol class="watch-queue-items-list playlist-videos-list yt-uix-scroller" data-scroll-action="yt.www.watchqueue.loadThumbnails">  <p class="yt-spinner">
+      <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="กำลังโหลดไอคอน" class="yt-spinner-img yt-sprite">
+
+    <span class="yt-spinner-message">
+กำลังโหลด...
+    </span>
+  </p>
+</ol></div></div>  <div class="hid">
+    <div id="watch-queue-title-msg">
+คิวการดู
+    </div>
+
+    <div id="tv-queue-title-msg">
+คิวทีวี
+    </div>
+
+    <div id="watch-queue-count-msg">
+__count__/__total__
+    </div>
+
+    <div id="watch-queue-loading-template">
+      <!--
+          <p class="yt-spinner">
+      <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="กำลังโหลดไอคอน" class="yt-spinner-img yt-sprite">
+
+    <span class="yt-spinner-message">
+กำลังโหลด...
+    </span>
+  </p>
+
+      -->
+    </div>
+  </div>
+</div></div>
+  </div>
+
+  <div class="clear"></div>
+</div>
+<div id="content" class="  content-alignment  
+">  
+  
+
+
+
+
+  <div class="branded-page-v2-container branded-page-base-bold-titles branded-page-v2-container-flex-width" >
+
+    <div class="branded-page-v2-col-container">
+      <div class="branded-page-v2-col-container-inner">
+        <div class="branded-page-v2-primary-col">
+          <div class="   yt-card  clearfix">
+                <div class="branded-page-v2-primary-col-header-container branded-page-v2-primary-column-content">
+      
+    </div>
+  <div class="branded-page-v2-body branded-page-v2-primary-column-content" id="gh-activityfeed">
+            <noscript>
+      <div class="yt-alert yt-alert-default yt-alert-error  ">  <div class="yt-alert-icon">
+    <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="icon master-sprite yt-sprite">
+  </div>
+<div class="yt-alert-content" role="alert">    <div class="yt-alert-message">
+            สวัสดี ดูเหมือนคุณได้ปิดการทำงานของ JavaScript ไว้ โปรดเปิดใช้งานเพื่อให้สามารถแสดงผลการค้นหาได้อย่างถูกต้อง
+    </div>
+</div><div class="yt-alert-buttons"><button class="yt-uix-button yt-uix-button-size-default yt-uix-button-close close yt-uix-close" type="button" onclick=";return false;" data-close-parent-class="yt-alert" aria-label="ปิด"><span class="yt-uix-button-content">ปิด </span></button></div></div>
+
+  </noscript>
+
+
+
+  <div class="search-header yt-uix-expander yt-uix-expander-collapsed">
+      <div class="filter-top">
+    <div class="filter-bar-container">
+      <div class="filter-button-container">
+        <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default filter-button yt-uix-expander-head" type="button" onclick=";return false;" data-button-action="" data-button-menu-id="some-nonexistent-menu" data-button-toggle="true" aria-label="ตัวกรองการค้นหา"><span class="yt-uix-button-content">ตัวกรอง </span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+      </div>
+      <div class="filter-crumb-spacer"></div>
+      <p class="num-results">ผลลัพธ์ประมาณ <strong>962,000</strong> รายการ</p>
+    </div>
+  </div>
+
+    <div id="filter-dropdown" class="yt-uix-expander-body"><div class="filter-col"><h4 class="filter-col-title">วันที่อัปโหลด</h4><ul><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=hour&amp;filters=hour" title="ค้นหา maps maroon 5, Last hour" aria-label="กรองภายในชั่วโมงที่ผ่านมา"><span class="filter-text filter-ghost">ชั่วโมงที่ผ่านมา</span></a>
+</li><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=today&amp;filters=today" title="ค้นหา maps maroon 5, Today" aria-label="กรองภายในวันนี้"><span class="filter-text filter-ghost">วันนี้</span></a>
+</li><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=week&amp;filters=week" title="ค้นหา maps maroon 5, This week" aria-label="กรองภายในสัปดาห์นี้"><span class="filter-text filter-ghost">สัปดาห์นี้</span></a>
+</li><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=month&amp;filters=month" title="ค้นหา maps maroon 5, This month" aria-label="กรองภายในเดือนนี้"><span class="filter-text filter-ghost">เดือนนี้</span></a>
+</li><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=year&amp;filters=year" title="ค้นหา maps maroon 5, This year" aria-label="กรองภายในปีนี้"><span class="filter-text filter-ghost">ปีนี้</span></a>
+</li></ul></div><div class="filter-col"><h4 class="filter-col-title">ประเภทผลลัพธ์</h4><ul><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=video&amp;filters=video" title="ค้นหา maps maroon 5, Video" aria-label="กรองภายในวิดีโอ"><span class="filter-text filter-ghost">วิดีโอ</span></a>
+</li><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=channel&amp;filters=channel" title="ค้นหา maps maroon 5, Channel" aria-label="กรองภายในช่อง"><span class="filter-text filter-ghost">ช่อง</span></a>
+</li><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=playlist&amp;filters=playlist" title="ค้นหา maps maroon 5, Playlist" aria-label="กรองภายในเพลย์ลิสต์"><span class="filter-text filter-ghost">เพลย์ลิสต์</span></a>
+</li><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=movie&amp;filters=movie" title="ค้นหา maps maroon 5, Movie" aria-label="กรองภายในภาพยนตร์"><span class="filter-text filter-ghost">ภาพยนตร์</span></a>
+</li><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=show&amp;filters=show" title="ค้นหา maps maroon 5, Show" aria-label="กรองภายในแสดง"><span class="filter-text filter-ghost">แสดง</span></a>
+</li></ul></div><div class="filter-col"><h4 class="filter-col-title">ระยะเวลา</h4><ul><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=short&amp;filters=short" title="ค้นหา maps maroon 5, Short (~4 minutes)" aria-label="กรองภายในสั้น (ประมาณ 4 นาที)"><span class="filter-text filter-ghost">สั้น (ประมาณ 4 นาที)</span></a>
+</li><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=long&amp;filters=long" title="ค้นหา maps maroon 5, Long (20~ minutes)" aria-label="กรองภายในยาว (ประมาณ 20 นาที)"><span class="filter-text filter-ghost">ยาว (ประมาณ 20 นาที)</span></a>
+</li></ul></div><div class="filter-col"><h4 class="filter-col-title">คุณลักษณะ</h4><ul><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=hd&amp;filters=hd" title="ค้นหา maps maroon 5, HD (high definition)" aria-label="กรองภายในHD (ความละเอียดสูง)"><span class="filter-text filter-ghost">HD (ความละเอียดสูง)</span></a>
+</li><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=cc&amp;filters=cc" title="ค้นหา maps maroon 5, CC (closed caption)" aria-label="กรองภายในCC (คำอธิบายภาพที่ปิดไว้)"><span class="filter-text filter-ghost">CC (คำอธิบายภาพที่ปิดไว้)</span></a>
+</li><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=creativecommons&amp;filters=creativecommons" title="ค้นหา maps maroon 5, Creative Commons" aria-label="กรองภายในครีเอทีฟคอมมอนส์"><span class="filter-text filter-ghost">ครีเอทีฟคอมมอนส์</span></a>
+</li><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=3d&amp;filters=3d" title="ค้นหา maps maroon 5, 3D" aria-label="กรองภายใน3 มิติ"><span class="filter-text filter-ghost">3 มิติ</span></a>
+</li><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=live&amp;filters=live" title="ค้นหา maps maroon 5, Live" aria-label="กรองภายในสด"><span class="filter-text filter-ghost">สด</span></a>
+</li><li>
+  <a class="filter  spf-link " href="/results?search_query=maps+maroon+5&amp;lclk=purchased&amp;filters=purchased" title="ค้นหา maps maroon 5, Purchased" aria-label="กรองภายในซื้อแล้ว"><span class="filter-text filter-ghost">ซื้อแล้ว</span></a>
+</li></ul></div><div class="filter-col"><h4 class="filter-col-title">จัดเรียงตาม</h4><ul><li>
+
+  <span class="filter filter-sort  spf-link  filter-selected"  title="ความเกี่ยวข้อง" if#><span class="filter-text" aria-label="จัดเรียงตามความเกี่ยวข้องถูกเลือกอยู่">ความเกี่ยวข้อง</span></span>
+</li><li>
+
+  <a class="filter filter-sort  spf-link " href="/results?search_query=maps+maroon+5&amp;search_sort=video_date_uploaded" title="วันที่อัปโหลด" aria-label="จัดเรียงตามวันที่อัปโหลด"><span class="filter-text ">วันที่อัปโหลด</span></a>
+</li><li>
+
+  <a class="filter filter-sort  spf-link " href="/results?search_query=maps+maroon+5&amp;search_sort=video_view_count" title="จำนวนการดู" aria-label="จัดเรียงตามจำนวนการดู"><span class="filter-text ">จำนวนการดู</span></a>
+</li><li>
+
+  <a class="filter filter-sort  spf-link " href="/results?search_query=maps+maroon+5&amp;search_sort=video_avg_rating" title="เรตติง" aria-label="จัดเรียงตามเรตติง"><span class="filter-text ">เรตติง</span></a>
+</li></ul></div></div>
+  </div>
+  <div id="results">
+    
+
+      <div class="pyv-afc-ads-container spf-nolink yt-section-hover-container pyv-afc-mute"><div class="pyv-afc-ads-inner"><div class="pyv-afc-ads-video-template"><!--
+
+
+
+
+    <div class="yt-lockup clearfix yt-uix-tile yt-lockup-video yt-lockup-tile"
+      data-context-item-id="__video_id__"
+  >
+    <div class="yt-lockup-thumbnail"
+    >
+        <a href="__url__" class="ux-thumb-wrap yt-uix-sessionlink contains-addto  spf-link "  data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA">    <span class="video-thumb  yt-thumb yt-thumb-185"
+      >
+      <span class="yt-thumb-default">
+        <span class="yt-thumb-clip">
+          <img src="__thumbnail_url__" aria-hidden="true" alt="" width="185"  >
+          <span class="vertical-align"></span>
+        </span>
+      </span>
+    </span>
+    <span class="video-time">__length_seconds__</span>
+  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="__video_id__">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="__video_id__">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="__video_id__" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="__video_id__" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a>
+
+    </div>
+    <div class="yt-lockup-content">
+          <h3 class="yt-lockup-title"><a class="yt-uix-sessionlink yt-uix-tile-link  spf-link  yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr" title="__title__" data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA" href="__url__">__title__</a></h3>
+
+  <div class="yt-lockup-meta">
+    <ul class="yt-lockup-meta-info">
+<li><span class="yt-badge ad-badge-byline yt-badge-ad" >โฆษณา</span>
+โดย <a href="__channel_url__" class="yt-uix-sessionlink yt-user-name  spf-link " data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA" dir="ltr">__channel_name__</a></li><li>ดู __views__ ครั้ง</li>    </ul>
+  </div>
+
+
+      <div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" >
+        __second_line__<br />__third_line__
+    </div>
+
+
+  
+
+  
+
+    </div>
+    
+  </div>
+
+--></div><div class="pyv-afc-ads-channel-template"><!--
+
+
+
+    <div class="yt-lockup clearfix yt-uix-tile yt-lockup-channel yt-lockup-tile"
+  >
+    <div class="yt-lockup-thumbnail"
+    >
+        <a href="__url__" class="ux-thumb-wrap yt-uix-sessionlink  spf-link " data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA">    <span class="video-thumb  yt-thumb yt-thumb-104"
+      >
+      <span class="yt-thumb-square">
+        <span class="yt-thumb-clip">
+          <img src="__thumbnail_url__" aria-hidden="true" alt="" width="104"  height="104" >
+          <span class="vertical-align"></span>
+        </span>
+      </span>
+    </span>
+</a>
+
+    </div>
+    <div class="yt-lockup-content">
+        <h3 class="yt-lockup-title"><a class="yt-uix-sessionlink yt-uix-tile-link  spf-link  yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr" title="__title__" data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA" href="__url__">__title__</a></h3>
+<div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li><span class="yt-badge ad-badge-byline yt-badge-ad" >โฆษณา</span>
+โดย <a href="__channel_url__" class="yt-uix-sessionlink yt-user-name  spf-link " data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA" dir="ltr">__channel_name__</a></li></ul></div>    <div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr">
+        __second_line__<br />__third_line__
+    </div>
+<div class="yt-lockup-badges"><ul class="item-badge-line"><li class="yt-lockup-badge-item"><span class="yt-badge " >ช่อง</span></li></ul></div>
+    </div>
+    
+  </div>
+
+--></div><div class="pyv-mute-template"><!--<div class="ads-mute-survey"><span class="ads-mute-check"></span><b>__mute_gone__</b> __mute_question__<div class="ads-mute-undo">__mute_undo__</div></div>--></div></div>  <div class="yt-uix-clickcard ad-info-container">
+    <span class="yt-uix-clickcard-target " data-position="bottomleft" data-orientation="vertical">
+      <span class="ad-info-icon"></span>
+    </span>
+    <div class="yt-uix-clickcard-content">
+<p>ไปที่<a href="http://www.google.com/settings/ads" target="_top">การตั้งค่าโฆษณา</a>ของ Google เพื่อเรียนรู้เพิ่มเติมเกี่ยวกับวิธีการกำหนดเป้าหมายของโฆษณาหรือเลือกไม่ใช้โฆษณาที่ปรับเปลี่ยนในแบบของคุณ</p>
+    </div>
+  </div>
+</div>
+
+
+      
+<ol id="section-list" class="section-list">
+<li>
+<ol class="item-section">
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="xj6fHiF8Osg"><div class="yt-lockup-thumbnail"><a href="/watch?v=xj6fHiF8Osg" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBgQ3DAYACITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><div class="video-thumb"><img src="//i.ytimg.com/vi/xj6fHiF8Osg/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">3:10</span>  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="xj6fHiF8Osg">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="xj6fHiF8Osg">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="xj6fHiF8Osg" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="xj6fHiF8Osg" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=xj6fHiF8Osg" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBgQ3DAYACITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="Maroon 5 - Maps (Audio)" dir="ltr">Maroon 5 - Maps (Audio)</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/user/Maroon5VEVO" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCN1hnUccO4FD5WfM7ithXaw" data-sessionlink="itct=CBgQ3DAYACITCPCc6viY9MACFdSjjgod7QgAjCj0JA">Maroon5VEVO</a>&nbsp;<img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ยืนยันแล้ว" class="yt-uix-tooltip yt-channel-title-icon-verified yt-sprite"></li><li>3 เดือนที่ผ่านมา</li><li>ดู 18,242,862 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr"><b>Maroon 5</b> - <b>Maps</b> (Audio) Buy Now! <a href="http://smarturl.it/M5Maps" target="_blank" title="http://smarturl.it/M5Maps" rel="nofollow" dir="ltr" class="yt-uix-redirect-link">http://smarturl.it/M5Maps</a>.</div><div class="yt-lockup-badges"><ul class="yt-badge-list "><li class="yt-badge-item" ><span class="yt-badge " >HD</span></li></ul> </div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="NmugSMBh_iI"><div class="yt-lockup-thumbnail"><a href="/watch?v=NmugSMBh_iI" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBcQ3DAYASITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><div class="video-thumb"><img src="//i.ytimg.com/vi/NmugSMBh_iI/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">3:29</span>  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="NmugSMBh_iI">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="NmugSMBh_iI">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="NmugSMBh_iI" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="NmugSMBh_iI" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=NmugSMBh_iI" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBcQ3DAYASITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="Maroon 5 - Maps (Explicit)" dir="ltr">Maroon 5 - Maps (Explicit)</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/user/Maroon5VEVO" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCN1hnUccO4FD5WfM7ithXaw" data-sessionlink="itct=CBcQ3DAYASITCPCc6viY9MACFdSjjgod7QgAjCj0JA">Maroon5VEVO</a>&nbsp;<img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ยืนยันแล้ว" class="yt-uix-tooltip yt-channel-title-icon-verified yt-sprite"></li><li>2 เดือนที่ผ่านมา</li><li>ดู 36,671,698 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr"><b>Maroon 5</b> - <b>Maps</b> (Explicit) Buy Now! <a href="http://smarturl.it/M5Maps" target="_blank" title="http://smarturl.it/M5Maps" rel="nofollow" dir="ltr" class="yt-uix-redirect-link">http://smarturl.it/M5Maps</a>.</div><div class="yt-lockup-badges"><ul class="yt-badge-list "><li class="yt-badge-item" ><span class="yt-badge " >HD</span></li></ul> </div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="Y7ix6RITXM0"><div class="yt-lockup-thumbnail"><a href="/watch?v=Y7ix6RITXM0" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBYQ3DAYAiITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><div class="video-thumb"><img src="//i.ytimg.com/vi/Y7ix6RITXM0/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">3:10</span>  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="Y7ix6RITXM0">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="Y7ix6RITXM0">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="Y7ix6RITXM0" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="Y7ix6RITXM0" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=Y7ix6RITXM0" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBYQ3DAYAiITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="Maroon 5 - Maps (Lyric)" dir="ltr">Maroon 5 - Maps (Lyric)</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/user/Maroon5VEVO" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCN1hnUccO4FD5WfM7ithXaw" data-sessionlink="itct=CBYQ3DAYAiITCPCc6viY9MACFdSjjgod7QgAjCj0JA">Maroon5VEVO</a>&nbsp;<img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ยืนยันแล้ว" class="yt-uix-tooltip yt-channel-title-icon-verified yt-sprite"></li><li>3 เดือนที่ผ่านมา</li><li>�
+3800
+�ู 13,328,568 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr"><b>Maroon 5</b> - <b>Maps</b> (Lyric) Buy Now! <a href="http://smarturl.it/M5Maps" target="_blank" title="http://smarturl.it/M5Maps" rel="nofollow" dir="ltr" class="yt-uix-redirect-link">http://smarturl.it/M5Maps</a>.</div><div class="yt-lockup-badges"><ul class="yt-badge-list "><li class="yt-badge-item" ><span class="yt-badge " >HD</span></li><li class="yt-badge-item" ><span class="yt-badge " >CC</span></li></ul> </div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="MrP1o6DV5-g"><div class="yt-lockup-thumbnail"><a href="/watch?v=MrP1o6DV5-g" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBUQ3DAYAyITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><div class="video-thumb"><img src="//i.ytimg.com/vi/MrP1o6DV5-g/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">3:11</span>  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="MrP1o6DV5-g">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="MrP1o6DV5-g">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="MrP1o6DV5-g" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="MrP1o6DV5-g" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=MrP1o6DV5-g" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBUQ3DAYAyITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="Maroon 5 - Maps (Lyrics Video)" dir="ltr">Maroon 5 - Maps (Lyrics Video)</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/user/brlyricsvideos" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UC3YLsPtysSzCyVrQVgJs0hg" data-sessionlink="itct=CBUQ3DAYAyITCPCc6viY9MACFdSjjgod7QgAjCj0JA">LyricsBrMusic</a></li><li>3 เดือนที่ผ่านมา</li><li>ดู 5,193,918 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr">Maroon 5 <b>Maps Maroon 5</b> Maps Lyrics (Official Audio) Maroon 5 <b>maps</b> - <b>Maroon 5</b> maps lyrics on screen hd. All Rights Belongs to ...</div><div class="yt-lockup-badges"><ul class="yt-badge-list "><li class="yt-badge-item" ><span class="yt-badge " >HD</span></li></ul> </div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-playlist clearfix yt-uix-tile"><div class="yt-lockup-thumbnail yt-pl-thumb" style="width:185px"><a href="/watch?v=xj6fHiF8Osg&amp;list=PL0666B3GmBysuCUe7r4r4-W0BHqhp2OZ9" class="yt-pl-thumb-link yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBQQ2zAYBCITCPCc6viY9MACFdSjjgod7QgAjCj0JA"><div class="video-thumb"><img src="//i.ytimg.com/vi/xj6fHiF8Osg/mqdefault.jpg" width="185" height="104"/></div><div class="sidebar"><span class="yt-pl-sidebar-content yt-valign"><span class="yt-valign-container"><span class="formatted-video-count-label"><b>26</b> วิดีโอ</span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-pl-icon yt-pl-icon-reg yt-sprite"></span></span></div><div class="yt-pl-thumb-overlay"><span class="yt-pl-thumb-overlay-content"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="play-icon yt-sprite"><span class="yt-pl-thumb-overlay-text">เล่นทั้งหมด</span></span></div></a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=xj6fHiF8Osg&amp;list=PL0666B3GmBysuCUe7r4r4-W0BHqhp2OZ9" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBQQ2zAYBCITCPCc6viY9MACFdSjjgod7QgAjCj0JA" title="Mix - Maroon 5 - Maps (Audio) (Copy)" dir="ltr">Mix - Maroon 5 - Maps (Audio) (Copy)</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/channel/UCW7NnE9xfF5vQY6EHsS-ZyA" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCW7NnE9xfF5vQY6EHsS-ZyA" data-sessionlink="itct=CBQQ2zAYBCITCPCc6viY9MACFdSjjgod7QgAjCj0JA">Prashant Giri</a></li></ul></div><ol class="yt-lockup-meta yt-lockup-playlist-items"><li class="yt-lockup-playlist-item clearfix"><span class="yt-lockup-playlist-item-length yt-lockup-deemphasized-text">3:10</span><a href="/watch?v=xj6fHiF8Osg&amp;list=PL0666B3GmBysuCUe7r4r4-W0BHqhp2OZ9" class="yt-lockup-playlist-item-title yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBQQ2zAYBCITCPCc6viY9MACFdSjjgod7QgAjCj0JA" dir="ltr">Maroon 5 - Maps (Audio)</a></li><li class="yt-lockup-playlist-item clearfix"><span class="yt-lockup-playlist-item-length yt-lockup-deemphasized-text">5:24</span><a href="/watch?v=JznXx1Ns374&amp;list=PL0666B3GmBysuCUe7r4r4-W0BHqhp2OZ9" class="yt-lockup-playlist-item-title yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBQQ2zAYBCITCPCc6viY9MACFdSjjgod7QgAjCj0JA" dir="ltr">Ed Sheeran - Afire Love (Official Audio)</a></li></ol><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li class="yt-lockup-deemphasized-text"><a href="/playlist?list=PL0666B3GmBysuCUe7r4r4-W0BHqhp2OZ9" class=" yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBQQ2zAYBCITCPCc6viY9MACFdSjjgod7QgAjCj0JA">ดูเพลย์ลิสต์แบบเต็ม (26 วิดีโอ)</a></li></ul></div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-playlist clearfix yt-uix-tile"><div class="yt-lockup-thumbnail yt-pl-thumb" style="width:185px"><a href="/watch?v=NmugSMBh_iI&amp;list=PLF1dTUNpZPN-ErPdw6rJq77Sj_kqhU2HT" class="yt-pl-thumb-link yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBMQ2zAYBSITCPCc6viY9MACFdSjjgod7QgAjCj0JA"><div class="video-thumb"><img src="//i.ytimg.com/vi/NmugSMBh_iI/mqdefault.jpg" width="185" height="104"/></div><div class="sidebar"><span class="yt-pl-sidebar-content yt-valign"><span class="yt-valign-container"><span class="formatted-video-count-label"><b>15</b> วิดีโอ</span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-pl-icon yt-pl-icon-reg yt-sprite"></span></span></div><div class="yt-pl-thumb-overlay"><span class="yt-pl-thumb-overlay-content"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="play-icon yt-sprite"><span class="yt-pl-thumb-overlay-text">เล่นทั้งหมด</span></span></div></a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=NmugSMBh_iI&amp;list=PLF1dTUNpZPN-ErPdw6rJq77Sj_kqhU2HT" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBMQ2zAYBSITCPCc6viY9MACFdSjjgod7QgAjCj0JA" title="MAPS - Nuevo tema de Maroon 5" dir="ltr">MAPS - Nuevo tema de Maroon 5</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/user/UniversalMusicArgent" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCn6jd4PKzdA2b9j19GRDFsQ" data-sessionlink="itct=CBMQ2zAYBSITCPCc6viY9MACFdSjjgod7QgAjCj0JA">Universal Music Argentina</a></li></ul></div><ol class="yt-lockup-meta yt-lockup-playlist-items"><li class="yt-lockup-playlist-item clearfix"><span class="yt-lockup-playlist-item-length yt-lockup-deemphasized-text">3:29</span><a href="/watch?v=NmugSMBh_iI&amp;list=PLF1dTUNpZPN-ErPdw6rJq77Sj_kqhU2HT" class="yt-lockup-playlist-item-title yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBMQ2zAYBSITCPCc6viY9MACFdSjjgod7QgAjCj0JA" dir="ltr">Maroon 5 - Maps (Explicit)</a></li><li class="yt-lockup-playlist-item clearfix"><span class="yt-lockup-playlist-item-length yt-lockup-deemphasized-text">3:44</span><a href="/watch?v=fwK7ggA3-bU&amp;list=PLF1dTUNpZPN-ErPdw6rJq77Sj_kqhU2HT" class="yt-lockup-playlist-item-title yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBMQ2zAYBSITCPCc6viY9MACFdSjjgod7QgAjCj0JA" dir="ltr">Maroon 5 - One More Night</a></li></ol><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li class="yt-lockup-deemphasized-text"><a href="/playlist?list=PLF1dTUNpZPN-ErPdw6rJq77Sj_kqhU2HT" class=" yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBMQ2zAYBSITCPCc6viY9MACFdSjjgod7QgAjCj0JA">ดูเพลย์ลิสต์แบบเต็ม (15 วิดีโอ)</a></li></ul></div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="pNwEICKDAvs"><div class="yt-lockup-thumbnail"><a href="/watch?v=pNwEICKDAvs" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBIQ3DAYBiITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><div class="video-thumb"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" data-thumb="//i.ytimg.com/vi/pNwEICKDAvs/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">4:29</span>  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="pNwEICKDAvs">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="pNwEICKDAvs">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="pNwEICKDAvs" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-
+6800
+delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="pNwEICKDAvs" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=pNwEICKDAvs" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBIQ3DAYBiITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="Maroon 5 - Maps (Amex EveryDay LIVE)" dir="ltr">Maroon 5 - Maps (Amex EveryDay LIVE)</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/user/Maroon5VEVO" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCN1hnUccO4FD5WfM7ithXaw" data-sessionlink="itct=CBIQ3DAYBiITCPCc6viY9MACFdSjjgod7QgAjCj0JA">Maroon5VEVO</a>&nbsp;<img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ยืนยันแล้ว" class="yt-uix-tooltip yt-channel-title-icon-verified yt-sprite"></li><li>3 เดือนที่ผ่านมา</li><li>ดู 680,322 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr">The Amex EveryDaySM Credit Card from American Express brings you <b>Maroon 5&#39;s</b> live performance of &#39;<b>Maps</b>,&#39; from New York City ...</div><div class="yt-lockup-badges"><ul class="yt-badge-list "><li class="yt-badge-item" ><span class="yt-badge " >HD</span></li></ul> </div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="t-sr3E6UdTQ"><div class="yt-lockup-thumbnail"><a href="/watch?v=t-sr3E6UdTQ" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBEQ3DAYByITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><div class="video-thumb"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" data-thumb="//i.ytimg.com/vi/t-sr3E6UdTQ/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">3:19</span>  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="t-sr3E6UdTQ">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="t-sr3E6UdTQ">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="t-sr3E6UdTQ" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="t-sr3E6UdTQ" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=t-sr3E6UdTQ" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBEQ3DAYByITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="Maroon 5 - Maps (Lyrics)" dir="ltr">Maroon 5 - Maps (Lyrics)</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/user/TheRMz23" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCsnAeI12I0_I3mJCoNNy44g" data-sessionlink="itct=CBEQ3DAYByITCPCc6viY9MACFdSjjgod7QgAjCj0JA">The RMz</a></li><li>3 เดือนที่ผ่านมา</li><li>ดู 16,217 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr">Song : <b>Maps</b> Artist : <b>Maroon 5</b> I miss the taste of a sweeter life I miss the conversation I&#39;m searching for a song tonight I&#39;m changing ...</div><div class="yt-lockup-badges"><ul class="yt-badge-list "><li class="yt-badge-item" ><span class="yt-badge " >HD</span></li></ul> </div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="mnzQSsC9pJc"><div class="yt-lockup-thumbnail"><a href="/watch?v=mnzQSsC9pJc" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBAQ3DAYCCITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><div class="video-thumb"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" data-thumb="//i.ytimg.com/vi/mnzQSsC9pJc/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">3:17</span>  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="mnzQSsC9pJc">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="mnzQSsC9pJc">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="mnzQSsC9pJc" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="mnzQSsC9pJc" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=mnzQSsC9pJc" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CBAQ3DAYCCITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="Maps - Maroon 5 (cover) Megan Nicole" dir="ltr">Maps - Maroon 5 (cover) Megan Nicole</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/user/megannicolesite" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UChWmYNTHQpLmJdkScwNrgcA" data-sessionlink="itct=CBAQ3DAYCCITCPCc6viY9MACFdSjjgod7QgAjCj0JA">megannicolesite</a></li><li>1 เดือนที่ผ่านมา</li><li>ดู 1,302,543 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr">Pre-order ESCAPE now: <a href="https://itunes.apple.com/album/id912432637" target="_blank" title="https://itunes.apple.com/album/id912432637" rel="nofollow" dir="ltr" class="yt-uix-redirect-link">https://itunes.apple.com/album/id912432637</a> Coming 10.14.14 Hello there, hope you enjoy this little ...</div><div class="yt-lockup-badges"><ul class="yt-badge-list "><li class="yt-badge-item" ><span class="yt-badge " >HD</span></li></ul> </div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="noMtirOG9tk"><div class="yt-lockup-thumbnail"><a href="/watch?v=noMtirOG9tk" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CA8Q3DAYCSITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><div class="video-thumb"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" data-thumb="//i.ytimg.com/vi/noMtirOG9tk/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">4:22</span>  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="noMtirOG9tk">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="noMtirOG9tk">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="noMtirOG9tk" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="noMtirOG9tk" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=noMtirOG9tk" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CA8Q3DAYCSITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="Maroon 5 Performs ‘Maps’" dir="ltr">Maroon 5 Performs ‘Maps’</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/user/TheEllenShow" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCp0hYYBW6IMayGgR-WeoCvQ" data-sessionlink="itct=CA8Q3DAYCSITCPCc6viY9MACFdSjjgod7QgAjCj0JA">TheEllenShow</a>&nbsp;<img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ยืนยันแล้ว" class="yt-uix-tooltip yt-channel-title-icon-verified yt-sprite"></li><li>1 สัปดาห์ที่ผ่านมา</li><li>ดู 278,975 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr">They were here to perform their new hit... with epic results. Enter to win tickets to see <b>Maroon 5</b> live on EllenTV.com!</div><div class="yt-lockup-badges"><ul class="yt-badge-list "><li class="yt-badge-item" ><span class="yt-badge " >HD</span></li></ul> </div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="XAADenWtJ1E"><div class="yt-lockup-thumbnail"><a href="/watch?v=XAADenWtJ1E" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CA4Q3DAYCiITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><div class="video-thumb"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" data-thumb="//i.ytimg.com/vi/XAADenWtJ1E/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">55:54</span>  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="XAADenWtJ1E">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="XAADenWtJ1E">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="XAADenWtJ1E" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="XAADenWtJ1E" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=XAADenWtJ1E" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CA4Q3DAYCiITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="Maroon 5 - V album (2014) Full Album + MP3 download" dir="ltr">Maroon 5 - V album (2014) Full Album + MP3 download</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/channel/UCnHDy5unxUeBwKWhFlsl-0A" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCnHDy5unxUeBwKWhFlsl-0A" data-sessionlink="itct=CA4Q3DAYCiITCPCc6viY9MACFdSjjgod7QgAjCj0JA">Hercules</a></li><li>3 สัปดาห์ที่ผ่านมา</li><li>ดู 249,389 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr"><b>Maroon 5</b> – V (2014) Tracklist: 01 – <b>Maps</b> 02 – Animals 03 – It Was Always You 04 – Unkiss Me 05 – Sugar 06 – Leaving ...</div><div class="yt-lockup-badges"><ul class="yt-badge-list "><li class="yt-badge-item" ><span class="yt-badge " >HD</span></li></ul> </div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="TA5i-PPbEP0"><div class="yt-lockup-thumbnail"><a href="/watch?v=TA5i-PPbEP0" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CA0Q3DAYCyITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><div class="video-thumb"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" data-thumb="//i.ytimg.com/vi/TA5i-PPbEP0/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">3:41</span>  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="TA5i-PPbEP0">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="TA5i-PPbEP0">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="TA5i-PPbEP0" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="TA5i-PPbEP0" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=TA5i-PPbEP0" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CA0Q3DAYCyITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="[HD] Maroon 5 - Maps - Today Show 6-25-14" dir="ltr">[HD] Maroon 5 - Maps - Today Show 6-25-14</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/user/IdolxMuzic2" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCrmPyPO8_gIAbr7vrvgn20w" data-sessionlink="itct=CA0Q3DAYCyITCPCc6viY9MACFdSjjgod7QgAjCj0JA">IdolxMuzic2</a></li><li>2 เดือนที่ผ่านมา</li><li>ดู 239,011 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr"><b>Maroon 5</b> - <b>Maps</b> iTunes: <a href="https://itunes.apple.com/us/album/" target="_blank" title="https://itunes.apple.com/us/album/" rel="nofollow" dir="ltr" class="yt-uix-redirect-link">https://itunes.apple.com/us/album/</a><b>maps</b>-single/id886793379 Website: <a href="http://www.idolxfactor.com/" target="_blank" title="http://www.idolxfactor.com/" rel="nofollow" dir="ltr" class="yt-uix-redirect-link">http://www.idolxfactor.com/</a> Tweet ...</div><div class="yt-lockup-badges"><ul class="yt-badge-list "><li class="yt-badge-item" ><span class="yt-badge " >HD</span></li></ul> </div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="MS4Uc6NP65I"><div class="yt-lockup-thumbnail"><a href="/watch?v=MS4Uc6NP65I" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CAwQ3DAYDCITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><div class="video-thumb"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" data-thumb="//i.ytimg.com/vi/MS4Uc6NP65I/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">3:37</span>  <span class="thumb-menu dark-overflow-action-menu video-actions"
+8000
+>
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="MS4Uc6NP65I">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="MS4Uc6NP65I">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="MS4Uc6NP65I" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="MS4Uc6NP65I" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=MS4Uc6NP65I" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CAwQ3DAYDCITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="Maps - Maroon 5 ( Electronic Rock Cover By IFMENOT )" dir="ltr">Maps - Maroon 5 ( Electronic Rock Cover By IFMENOT )</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/user/IFMENOTBand" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCHtuCxvvU3Dpvx0UIHPu6RA" data-sessionlink="itct=CAwQ3DAYDCITCPCc6viY9MACFdSjjgod7QgAjCj0JA">VR IFMENOT</a></li><li>2 เดือนที่ผ่านมา</li><li>ดู 111,199 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr"><b>Maps</b> - Electronic Rock Cover By IFMENOT Original by <b>Maroon 5</b> Performed by Vocal &amp; Chorus - Pakkaphon Boonmee (Just) ...</div><div class="yt-lockup-badges"><ul class="yt-badge-list "><li class="yt-badge-item" ><span class="yt-badge " >HD</span></li></ul> </div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="j8U9LwfFYwA"><div class="yt-lockup-thumbnail"><a href="/watch?v=j8U9LwfFYwA" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CAsQ3DAYDSITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><div class="video-thumb"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" data-thumb="//i.ytimg.com/vi/j8U9LwfFYwA/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">3:12</span>  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="j8U9LwfFYwA">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="j8U9LwfFYwA">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="j8U9LwfFYwA" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="j8U9LwfFYwA" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=j8U9LwfFYwA" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CAsQ3DAYDSITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="Maroon 5 - Maps Official HD" dir="ltr">Maroon 5 - Maps Official HD</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/user/XxHBK7xX" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCXujNoAC3uC5g-AbpqxLcOQ" data-sessionlink="itct=CAsQ3DAYDSITCPCc6viY9MACFdSjjgod7QgAjCj0JA">Jordan Davies</a></li><li>3 เดือนที่ผ่านมา</li><li>ดู 1,055,710 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr"><b>Maroon 5</b> band new single <b>Maps</b>! I don&#39;t own any contents of this video! Don&#39;t forget to buy the song on iTunes! Don&#39;t Forget To ...</div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="-TGbXgfmmD0"><div class="yt-lockup-thumbnail"><a href="/watch?v=-TGbXgfmmD0" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CAoQ3DAYDiITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><div class="video-thumb"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" data-thumb="//i.ytimg.com/vi/-TGbXgfmmD0/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">4:07</span>  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="-TGbXgfmmD0">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="-TGbXgfmmD0">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="-TGbXgfmmD0" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="-TGbXgfmmD0" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=-TGbXgfmmD0" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CAoQ3DAYDiITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="Maroon 5: Adam Levine and Band Perform &quot;Maps&quot; - America&#39;s Got Talent 2014" dir="ltr">Maroon 5: Adam Levine and Band Perform &quot;Maps&quot; - America&#39;s Got Talent 2014</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/user/AmericasGotTalent" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCT2X19JJaJGUN7mrYuImANQ" data-sessionlink="itct=CAoQ3DAYDiITCPCc6viY9MACFdSjjgod7QgAjCj0JA">America&#39;s Got Talent</a>&nbsp;<img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ยืนยันแล้ว" class="yt-uix-tooltip yt-channel-title-icon-verified yt-sprite"></li><li>2 สัปดาห์ที่ผ่านมา</li><li>ดู 295,529 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr">The multi-platinum, three-time Grammy-Award winning group perform &quot;<b>Maps</b>,&quot; the most recent single from their fifth studio album, ...</div><div class="yt-lockup-badges"><ul class="yt-badge-list "><li class="yt-badge-item" ><span class="yt-badge " >HD</span></li></ul> </div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="iYuosyiFCoU"><div class="yt-lockup-thumbnail"><a href="/watch?v=iYuosyiFCoU" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CAkQ3DAYDyITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><div class="video-thumb"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" data-thumb="//i.ytimg.com/vi/iYuosyiFCoU/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">3:15</span>  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="iYuosyiFCoU">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="iYuosyiFCoU">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="iYuosyiFCoU" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="iYuosyiFCoU" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=iYuosyiFCoU" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CAkQ3DAYDyITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="Maroon 5 - Maps (J-Hype Cover / Remix) [EDM]" dir="ltr">Maroon 5 - Maps (J-Hype Cover / Remix) [EDM]</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/user/jhypemusic2" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCZCFmkzesv7tw78aq9k0Jow" data-sessionlink="itct=CAkQ3DAYDyITCPCc6viY9MACFdSjjgod7QgAjCj0JA">JHypeMusic</a></li><li>2 เดือนที่ผ่านมา</li><li>ดู 16,594 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr"><a href="http://www.facebook.com/jhypemusic" target="_blank" title="http://www.facebook.com/jhypemusic" rel="nofollow" dir="ltr" class="yt-uix-redirect-link">http://www.facebook.com/jhypemusic</a> <a href="http://www.instagram.com/jhypemusic" target="_blank" title="http://www.instagram.com/jhypemusic" rel="nofollow" dir="ltr" class="yt-uix-redirect-link">http://www.instagram.com/jhypemusic</a> <a href="http://www.twitter.com/jhypemusic" target="_blank" title="http://www.twitter.com/jhypemusic" rel="nofollow" dir="ltr" class="yt-uix-redirect-link">http://www.twitter.com/jhypemusic</a> &quot;<b>Maps</b>&quot; Originally ...</div><div class="yt-lockup-badges"><ul class="yt-badge-list "><li class="yt-badge-item" ><span class="yt-badge " >HD</span></li></ul> </div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="OnwA8ekQKtQ"><div class="yt-lockup-thumbnail"><a href="/watch?v=OnwA8ekQKtQ" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CAgQ3DAYECITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><div class="video-thumb"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" data-thumb="//i.ytimg.com/vi/OnwA8ekQKtQ/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">2:52</span>  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="OnwA8ekQKtQ">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="OnwA8ekQKtQ">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="OnwA8ekQKtQ" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="OnwA8ekQKtQ" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=OnwA8ekQKtQ" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CAgQ3DAYECITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="Maps Maroon 5 - Madilyn Bailey (Piano Version) on iTunes &amp; Spotify" dir="ltr">Maps Maroon 5 - Madilyn Bailey (Piano Version) on iTunes &amp; Spotify</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/user/MadilynBailey" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCZH4EVUqljV-zkZEd0Ot7EQ" data-sessionlink="itct=CAgQ3DAYECITCPCc6viY9MACFdSjjgod7QgAjCj0JA">Madilyn Bailey</a>&nbsp;<img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ยืนยันแล้ว" class="yt-uix-tooltip yt-channel-title-icon-verified yt-sprite"></li><li>1 เดือนที่ผ่านมา</li><li>ดู 627,623 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr">Download on iTunes: <a href="https://itunes.apple.com/us/album/the-cover-games-volume-1/id909491508" target="_blank" title="https://itunes.apple.com/us/album/the-cover-games-volume-1/id909491508" rel="nofollow" dir="ltr" class="yt-uix-redirect-link">https://itunes.apple.com/us/album/the-cover-games-volume-...</a> Subscribe HERE: ...</div><div class="yt-lockup-badges"><ul class="yt-badge-list "><li class="yt-badge-item" ><span class="yt-badge " >HD</span></li></ul> </div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="8gO_lxThc1M"><div class="yt-lockup-thumbnail"><a href="/watch?v=8gO_lxThc1M" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CAcQ3DAYESITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><div class="video-thumb"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" data-thumb="//i.ytimg.com/vi/8gO_lxThc1M/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">3:50</span>  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="8gO_lxThc1M">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="8gO_lxThc1M">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="8gO_lxThc1M" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="8gO_lxThc1M" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=8gO_lxThc1M" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CAcQ3DAYESITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="Maps - Vintage 1970s Soul Maroon 5 Cover ft. Morgan James" dir="ltr">Maps - Vintage 1970s Soul Maroon 5 Cover ft. Morgan James</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/user/ScottBradleeLovesYa" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCORIeT1hk6tYBuntEXsguLg" data-sessionlink="itct=CAcQ3DAYESITCPCc6viY9MACFdSjjgod7QgAjCj0JA">ScottBradleeLovesYa</a>&nbsp;<img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ยืนยันแล้ว" class="yt-uix-tooltip yt-channel-title-icon-verified yt-sprite"></li><li>1 เดือนที่ผ่านมา</li><li>ดู 762,930 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr">Get this song on our new album: <a href="http://msclvr.co/L24dth" target="_blank" title="http://msclvr.co/L24dth" rel="nofollow" dir="ltr" class="yt-uix-redirect-link">http://msclvr.co/L24dth</a> PMJ Tour Tix: <a href="http://tickets.turnupgroup.com/postmodernjukebox" target="_blank" title="http://tickets.turnupgroup.com/postmodernjukebox" rel="nofollow" dir="ltr" class="yt-uix-redirect-link">http://tickets.turnupgroup.com/postmodernjukebox</a> Folks, ...</div><div class="yt-lockup-badges"><ul class="yt-badge-list "><li class="yt-badge-item" ><span class="yt-badge " >HD</span></li></ul> </div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="SFHAXCvumzc"><div class="yt-lockup-thumbnail"><a href="/watch?v=SFHAXCvumzc" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CAYQ3DAYEiITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><div class="video-thumb"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" data-thumb="//i.ytimg.com/vi/SFHAXCvumzc/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">3:11</span>  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="SFHAXCvumzc">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="SFHAXCvumzc">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="SFHAXCvumzc" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="ค�
+800
+��วทีวี" data-video-ids="SFHAXCvumzc" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=SFHAXCvumzc" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CAYQ3DAYEiITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="&quot;Maps&quot; - Maroon 5 (Alex Goot Cover)" dir="ltr">&quot;Maps&quot; - Maroon 5 (Alex Goot Cover)</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/user/gootmusic" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCLRpI5yd10aJxSel3e6MlNw" data-sessionlink="itct=CAYQ3DAYEiITCPCc6viY9MACFdSjjgod7QgAjCj0JA">gootmusic</a>&nbsp;<img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ยืนยันแล้ว" class="yt-uix-tooltip yt-channel-title-icon-verified yt-sprite"></li><li>1 เดือนที่ผ่านมา</li><li>ดู 562,380 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr">This song + album on iTunes: <a href="http://bit.ly/siwiw4ag" target="_blank" title="http://bit.ly/siwiw4ag" rel="nofollow" dir="ltr" class="yt-uix-redirect-link">http://bit.ly/siwiw4ag</a> - Follow me on Instagram + Twitter: @alexgoot - Become a fan on Facebook: ...</div><div class="yt-lockup-badges"><ul class="yt-badge-list "><li class="yt-badge-item" ><span class="yt-badge " >HD</span></li></ul> </div></div></div></li>
+
+<li><div class="yt-lockup yt-lockup-tile yt-lockup-video clearfix yt-uix-tile" data-context-item-id="PSQ6P8nnjZE"><div class="yt-lockup-thumbnail"><a href="/watch?v=PSQ6P8nnjZE" class="contains-addto yt-uix-sessionlink     spf-link " data-sessionlink="itct=CAUQ3DAYEyITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ"><di
+66d5
+v class="video-thumb"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" data-thumb="//i.ytimg.com/vi/PSQ6P8nnjZE/mqdefault.jpg" width="185" height="104"/></div><span class="video-time">1:12:14</span>  <span class="thumb-menu dark-overflow-action-menu video-actions">
+    <button type="button" class="yt-uix-button-reverse flip addto-watch-queue-menu spf-nolink hide-until-delayloaded yt-uix-button yt-uix-button-dark-overflow-action-menu yt-uix-button-size-default yt-uix-button-has-icon yt-uix-button-empty" onclick=";return false;"  role="button" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-activedescendant=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-dark-overflow-action-menu yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"><ul class="watch-queue-thumb-menu yt-uix-button-menu yt-uix-button-menu-dark-overflow-action-menu" style="display: none;">    <li role="menuitem">
+      <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-next" onclick=";return false;"  data-video-ids="PSQ6P8nnjZE">
+        <span class="yt-uix-button-icon-wrapper">
+          <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-next-icon yt-valign-container yt-sprite">
+        </span>
+เล่นรายการถัดไป
+      </span>
+    </li>
+  <li role="menuitem">
+    <span class="overflow-menu-choice addto-watch-queue-menu-choice yt-uix-button-menu-item" data-action="play-now" onclick=";return false;"  data-video-ids="PSQ6P8nnjZE">
+      <span class="yt-uix-button-icon-wrapper">
+        <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="addto-watch-queue-play-now-icon yt-valign-container yt-sprite">
+      </span>
+เล่นเลย
+    </span>
+  </li>
+</ul></button>
+  </span>
+
+
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button video-actions spf-nolink hide-until-delayloaded addto-watch-later-button-sign-in yt-uix-tooltip" type="button" onclick=";return false;" title="ดูภายหลัง" role="button" data-video-ids="PSQ6P8nnjZE" data-button-menu-id="shared-addto-watch-later-login"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="ดูภายหลัง" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+  <button class="yt-uix-button yt-uix-button-size-small yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon addto-button addto-queue-button video-actions spf-nolink hide-until-delayloaded addto-tv-queue-button yt-uix-tooltip" type="button" onclick=";return false;" title="คิวทีวี" data-video-ids="PSQ6P8nnjZE" data-style="tv-queue"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="คิวทีวี" class="yt-uix-button-icon yt-uix-button-icon-addto yt-sprite"></span></button>
+</a></div><div class="yt-lockup-content"><h3 class="yt-lockup-title"><a href="/watch?v=PSQ6P8nnjZE" class="yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink     spf-link " data-sessionlink="itct=CAUQ3DAYEyITCPCc6viY9MACFdSjjgod7QgAjCj0JFINbWFwcyBtYXJvb24gNQ" title="Maroon 5 ® Best songs of Maroon 5 (full album) ★★★ Maroon 5&#39;s greatest hits 2014" dir="ltr">Maroon 5 ® Best songs of Maroon 5 (full album) ★★★ Maroon 5&#39;s greatest hits 2014</a></h3><div class="yt-lockup-meta"><ul class="yt-lockup-meta-info"><li>โดย <a href="/channel/UCo94HdYdY0ckpzVt9-ZiW0A" class=" yt-uix-sessionlink     spf-link  g-hovercard" data-ytid="UCo94HdYdY0ckpzVt9-ZiW0A" data-sessionlink="itct=CAUQ3DAYEyITCPCc6viY9MACFdSjjgod7QgAjCj0JA">MTV™</a></li><li>1 เดือนที่ผ่านมา</li><li>ดู 330,112 ครั้ง</li></ul></div><div class="yt-lockup-description yt-ui-ellipsis yt-ui-ellipsis-2" dir="ltr"><b>Maroon 5</b> ® Best songs of <b>Maroon 5</b> (full album) <b>Maroon 5&#39;s</b> greatest hits 2014 ---------------------------------------- ♪ Playlist ...</div><div class="yt-lockup-badges"><ul class="yt-badge-list "><li class="yt-badge-item" ><span class="yt-badge " >HD</span></li></ul> </div></div></div></li>
+</ol>
+</li>
+</ol>
+
+
+  </div>
+
+
+  
+
+    <div class="yt-uix-pager search-pager branded-page-box spf-link " role="navigation">
+
+          
+<a href="/results?search_query=maps+maroon+5&amp;page=1" class="yt-uix-button  yt-uix-pager-button yt-uix-button-toggled yt-uix-sessionlink yt-uix-button-default yt-uix-button-size-default" data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA" data-page="1" data-link-type="num" aria-label="ไปที่หน้า 1"><span class="yt-uix-button-content">1 </span></a>
+          
+<a href="/results?search_query=maps+maroon+5&amp;page=2" class="yt-uix-button  yt-uix-pager-button yt-uix-sessionlink yt-uix-button-default yt-uix-button-size-default" data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA" data-page="2" data-link-type="num" aria-label="ไปที่หน้า 2"><span class="yt-uix-button-content">2 </span></a>
+          
+<a href="/results?search_query=maps+maroon+5&amp;page=3" class="yt-uix-button  yt-uix-pager-button yt-uix-sessionlink yt-uix-button-default yt-uix-button-size-default" data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA" data-page="3" data-link-type="num" aria-label="ไปที่หน้า 3"><span class="yt-uix-button-content">3 </span></a>
+          
+<a href="/results?search_query=maps+maroon+5&amp;page=4" class="yt-uix-button  yt-uix-pager-button yt-uix-sessionlink yt-uix-button-default yt-uix-button-size-default" data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA" data-page="4" data-link-type="num" aria-label="ไปที่หน้า 4"><span class="yt-uix-button-content">4 </span></a>
+          
+<a href="/results?search_query=maps+maroon+5&amp;page=5" class="yt-uix-button  yt-uix-pager-button yt-uix-sessionlink yt-uix-button-default yt-uix-button-size-default" data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA" data-page="5" data-link-type="num" aria-label="ไปที่หน้า 5"><span class="yt-uix-button-content">5 </span></a>
+          
+<a href="/results?search_query=maps+maroon+5&amp;page=6" class="yt-uix-button  yt-uix-pager-button yt-uix-sessionlink yt-uix-button-default yt-uix-button-size-default" data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA" data-page="6" data-link-type="num" aria-label="ไปที่หน้า 6"><span class="yt-uix-button-content">6 </span></a>
+          
+<a href="/results?search_query=maps+maroon+5&amp;page=7" class="yt-uix-button  yt-uix-pager-button yt-uix-sessionlink yt-uix-button-default yt-uix-button-size-default" data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA" data-page="7" data-link-type="num" aria-label="ไปที่หน้า 7"><span class="yt-uix-button-content">7 </span></a>
+
+        
+<a href="/results?search_query=maps+maroon+5&amp;page=2" class="yt-uix-button  yt-uix-pager-button yt-uix-sessionlink yt-uix-button-default yt-uix-button-size-default" data-sessionlink="ei=jcEfVLCiA9THugTtkYDgCA" data-page="2" data-link-type="next"><span class="yt-uix-button-content">ถัดไป » </span></a>
+    </div>
+
+
+
+  </div>
+
+          </div>
+        </div>
+          <div class="branded-page-v2-secondary-col">
+                <div id="search-secondary-col-contents">
+      
+        
+                
+
+
+  <div id="ad_creative_1" class="ad-div " style="z-index: 1">
+    <div id="ad_creative_div_1"></div>
+    <script>(function() {function tagMpuIframe() {var containerEl = document.getElementById('ad_creative_div_1');if (!containerEl) {return;}var iframeEl = document.createElement('iframe');var iframeSrc = 'http://ad.doubleclick.net/N4061/adi/com.ytsrc.undef/default;sz=300x250;tile=1;dc_yt=1;kga=-1;kgg=-1;klg=th;kmyd=ad_creative_1;ytexp=937412,930817,900228,916638,945076,946013;ord=' +Math.floor(Math.random() * 10000000000000000) +'?';iframeEl.id = 'ad_creative_iframe_1';iframeEl.width = '300';iframeEl.height = '250';iframeEl.style.cssText = 'z-index:1;';iframeEl.scrolling = 'no';iframeEl.frameBorder = '0';containerEl.appendChild(iframeEl);iframeEl.src = iframeSrc;}tagMpuIframe();})();</script>
+      <div style="font-size: 10px; padding-top: 3px;" class="alignC grayText">
+          <a href="/t/ads_preferences">
+โฆษณา
+          </a>
+      </div>
+<script>(function() {if (1193 > document.documentElement.clientWidth) {var adIframe = document.getElementById('ad_creative_iframe_1');adIframe.parentNode.removeChild(adIframe);}})();</script>  </div>
+
+
+    </div>
+
+          </div>
+      </div>
+    </div>
+  </div>
+</div></div></div></div>  <div id="footer-container" class="yt-base-gutter"><div id="footer"><div id="footer-main"><div id="footer-logo"><a href="/" title="หน้าแรกของ YouTube"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="footer-logo-icon yt-sprite"></a></div>  <ul class="pickers yt-uix-button-group" data-button-toggle-group="optional">
+      <li>
+            <button class="yt-uix-button yt-uix-button-size-default yt-uix-button-default yt-uix-button-has-icon" type="button" onclick=";return false;" id="yt-picker-language-button" data-button-action="yt.www.picker.load" data-button-menu-id="arrow-display" data-picker-position="footer" data-picker-key="language" data-button-toggle="true"><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-footer-language yt-sprite"></span><span class="yt-uix-button-content">  <span class="yt-picker-button-label">
+ภาษา:
+  </span>
+  ไทย
+ </span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+
+
+      </li>
+      <li>
+            <button class="yt-uix-button yt-uix-button-size-default yt-uix-button-default" type="button" onclick=";return false;" id="yt-picker-country-button" data-button-action="yt.www.picker.load" data-button-menu-id="arrow-display" data-picker-position="footer" data-picker-key="country" data-button-toggle="true"><span class="yt-uix-button-content">  <span class="yt-picker-button-label">
+ประเทศ:
+  </span>
+  ประเทศไทย
+ </span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+
+
+      </li>
+      <li>
+            <button class="yt-uix-button yt-uix-button-size-default yt-uix-button-default" type="button" onclick=";return false;" id="yt-picker-safetymode-button" data-button-action="yt.www.picker.load" data-button-menu-id="arrow-display" data-picker-position="footer" data-picker-key="safetymode" data-button-toggle="true"><span class="yt-uix-button-content">  <span class="yt-picker-button-label">
+ความปลอดภัย:
+  </span>
+ปิด
+ </span><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-arrow yt-sprite"></button>
+
+
+      </li>
+  </ul>
+      <button class="yt-uix-button yt-uix-button-size-default yt-uix-button-default yt-uix-button-has-icon yt-uix-button-reverse yt-google-help-link inq-no-click " type="button" onclick=";return false;" data-ghelp-anchor="google-help" id="google-help" data-ghelp-tracking-param=""><span class="yt-uix-button-icon-wrapper"><img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" class="yt-uix-button-icon yt-uix-button-icon-questionmark yt-sprite"></span><span class="yt-uix-button-content">ความช่วยเหลือ
+ </span></button>
+      <div id="yt-picker-language-footer" class="yt-picker" style="display: none">
+      <p class="yt-spinner">
+      <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="กำลังโหลดไอคอน" class="yt-spinner-img yt-sprite">
+
+    <span class="yt-spinner-message">
+กำลังโหลด...
+    </span>
+  </p>
+
+  </div>
+
+      <div id="yt-picker-country-footer" class="yt-picker" style="display: none">
+      <p class="yt-spinner">
+      <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="กำลังโหลดไอคอน" class="yt-spinner-img yt-sprite">
+
+    <span class="yt-spinner-message">
+กำลังโหลด...
+    </span>
+  </p>
+
+  </div>
+
+      <div id="yt-picker-safetymode-footer" class="yt-picker" style="display: none">
+      <p class="yt-spinner">
+      <img src="http://s.ytimg.com/yts/img/pixel-vfl3z5WfW.gif" title="กำลังโหลดไอคอน" class="yt-spinner-img yt-sprite">
+
+    <span class="yt-spinner-message">
+กำลังโหลด...
+    </span>
+  </p>
+
+  </div>
+
+</div><div id="footer-links"><ul id="footer-links-primary">  <li><a href="//www.youtube.com/yt/about/th/">เกี่ยวกับ</a></li>
+  <li><a href="//www.youtube.com/yt/press/th/">ข่าว &amp; บล็อก</a></li>
+  <li><a href="//www.youtube.com/yt/copyright/th/">ลิขสิทธิ์</a></li>
+  <li><a href="//www.youtube.com/yt/creators/">ผู้สร้าง &amp; พาร์ทเนอร์</a></li>
+  <li><a href="//www.youtube.com/yt/advertise/">การโฆษณา</a></li>
+  <li><a href="//www.youtube.com/yt/dev/th/">นักพัฒนาซอฟต์แวร์</a></li>
+  <li><a href="https://plus.google.com/+youtube" dir="ltr">+YouTube</a></li>
+</ul><ul id="footer-links-secondary">  <li><a href="/t/terms">ข้อกำหนด</a></li>
+  <li><a href="https://www.google.com/intl/th/policies/privacy/">ความเป็นส่วนตัว</a></li>
+  <li><a href="//www.youtube.com/yt/policyandsafety/th/">
+นโยบายและความปลอดภัย
+  </a></li>
+  <li><a href="//support.google.com/youtube/?hl=th" onclick="return yt.www.feedback.start(59);" class="reportbug">ส่งความคิดเห็น</a></li>
+  <li><a href="/testtube">ลองสิ่งใหม่!</a></li>
+  <li></li>
+</ul></div></div></div>
+
+
+      <div class="yt-dialog hid " id="feed-privacy-lb">
+    <div class="yt-dialog-base">
+      <span class="yt-dialog-align"></span>
+      <div class="yt-dialog-fg">
+        <div class="yt-dialog-fg-content">
+          <div class="yt-dialog-loading">
+              <div class="yt-dialog-waiting-content">
+    <div class="yt-spinner-img"></div><div class="yt-dialog-waiting-text">กำลังโหลด...</div>
+  </div>
+
+          </div>
+          <div class="yt-dialog-content">
+              <div id="feed-privacy-dialog">
+  </div>
+
+          </div>
+          <div class="yt-dialog-working">
+              <div class="yt-dialog-working-overlay"></div>
+  <div class="yt-dialog-working-bubble">
+    <div class="yt-dialog-waiting-content">
+      <div class="yt-spinner-img"></div><div class="yt-dialog-waiting-text">กำลังทำงาน...</div>
+    </div>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="hid">    <div id="shared-addto-watch-later-login" class="hid">
+      <a href="https://accounts.google.com/ServiceLogin?service=youtube&continue=http%3A%2F%2Fwww.youtube.com%2Fsignin%3Fhl%3Dth%26feature%3Dplaylist%26action_handle_signin%3Dtrue%26next%3D%252Fresults%253Fsearch_query%253Dmaps%252Bmaroon%252B5%26app%3Ddesktop&hl=th&uilel=3&passive=true" class="sign-in-link">ลงชื่อเข้าใช้</a> เพื่อเพิ่มวิดีโอนี้ในรายการดูในภายหลัง
+
+    </div>
+  <div id="yt-uix-videoactionmenu-menu" class="yt-ui-menu-content">
+      <div class="hide-on-create-pl-panel">
+    <h3>
+เพิ่มลงใน
+    </h3>
+  </div>
+  <div class="add-to-widget">
+  </div>
+
+  </div>
+</div>    <script>var ytspf = ytspf || {};ytspf.enabled = false;</script>
+  <script src="//s.ytimg.com/yts/jsbin/spf-vflfro8ka/spf.js" type="text/javascript" name="spf"></script>
+  <script src="//s.ytimg.com/yts/jsbin/www-en_US-vflKhoxvt/base.js" name="www/base"></script>
+<script>spf.script.path({'www/': '//s.ytimg.com/yts/jsbin/www-en_US-vflKhoxvt/'});var ytdepmap = {"www/base": null, "www/common": "www/base", "www/watch": "www/common", "www/videomanager": "www/common", "www/subscriptionmanager": "www/common", "www/results_starwars": "www/common", "www/results_star_trek": "www/common", "www/results": "www/common", "www/results_harlemshake": "www/common", "www/promo_join_network": "www/common", "www/legomap": "www/common", "www/innertube": "www/common", "www/feed": "www/common", "www/experiments": "www/common", "www/downloadreports": "www/common", "www/dashboard": "www/common", "www/channels": "www/common", "www/channels_accountupload": "www/common", "www/watch_webdrivertorso": "www/watch", "www/watch_videoshelf": "www/watch", "www/watch_transcript": "www/watch", "www/watch_speedyg": "www/watch", "www/watch_promos": "www/watch", "www/watch_missilecommand": "www/watch", "www/watch_live": "www/watch", "www/watch_editor": "www/watch", "www/watch_edit": "www/watch", "www/watch_commentsrealtime": "www/watch", "www/watch_commentsmoderation": "www/watch", "www/watch_autoplayrenderer": "www/watch", "www/vm_coverrevshare": "www/videomanager", "www/my_videos": "www/videomanager", "www/innertube_watchnext": "www/innertube", "www/ct_advancedsearch": "www/videomanager", "www/channels_edit": "www/channels"};spf.script.declare(ytdepmap);</script><script>if (window.ytcsi) {window.ytcsi.tick("je", null, '');}</script>        <script src="//s.ytimg.com/yts/jsbin/www-search-ads-vflOJAYOj/www-search-ads.js" type="text/javascript" name="www-search-ads"></script>
+
+
+
+  <script>
+        yt.setConfig({
+      'JS_PAGE_MODULES': [
+        'www/results',
+        ''
+      ],
+      'TIMING_REPORT_ON_UNLOAD': true,
+      'SPF_PREFETCH': false,
+      'SPF_PREFETCH_MAX': 0,
+      'SPF_PREBUFFER': false,
+      'SPF_PREBUFFER_MAX': 0
+    });
+
+
+      yt.www.ads.pyvsearch.pageJsInit = true;
+      if (yt.www.ads.pyvsearch.searchTopAdsFromAfc) {
+        yt.www.ads.pyvsearch.pyvSearchTopAfcCallback(yt.www.ads.pyvsearch.searchTopAdsFromAfc);
+      }
+      yt.setConfig('TIMING_WAIT', ['ol', 'afc']);
+
+
+
+
+
+
+      yt.setConfig({
+    'GUIDED_HELP_LOCALE': "th_TH",
+    'GUIDED_HELP_ENVIRONMENT': "prod"
+  });
+
+  </script>
+<script>yt.setConfig({'EVENT_ID': "jcEfVLCiA9THugTtkYDgCA",'PAGE_NAME': "results",'LOGGED_IN': false,'SESSION_INDEX': null,'FORMATS_FILE_SIZE_JS': ["%s B", "%s KB", "%s MB", "%s GB", "%s TB"],'DELEGATED_SESSION_ID': null,'GAPI_HOST': "https:\/\/apis.google.com",'GAPI_HINT_PARAMS': "m;\/_\/scs\/abc-static\/_\/js\/k=gapi.gapi.en.PBPtPwBK5xE.O\/m=__features__\/rt=j\/d=1\/rs=AItRSTNql1vBLD9cAAZbbDkoKPPpu6cR-g",'GAPI_LOCALE': "th_TH",'ONE_PICK_URL': "",'UNIVERSAL_HOVERCARDS': true,'VISITOR_DATA': "CgtrUEs4WFhqRFo0NA%3D%3D",'APIARY_HOST': "",'APIARY_HOST_FIRSTPARTY': "",'INNERTUBE_CONTEXT_HL': "th",'INNERTUBE_CONTEXT_GL': "TH",'INNERTUBE_CONTEXT_CLIENT_VERSION': "20140918",'INNERTUBE_API_KEY': "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8",'INNERTUBE_API_VERSION': "v1",'GOOGLEPLUS_HOST': "https:\/\/plus.google.com",'PAGEFRAME_JS': "\/\/s.ytimg.com\/yts\/jsbin\/www-pageframe-vflVSJ6Cx\/www-pageframe.js",'JS_COMMON_MODULE': "\/\/s.ytimg.com\/yts\/jsbin\/www-en_US-vflKhoxvt\/common.js",'PAGE_FRAME_DELAYLOADED_CSS': "\/\/s.ytimg.com\/yts\/cssbin\/www-pageframedelayloaded-vfloc0rIk.css",'PREFETCH_CSS_RESOURCES' : ["\/\/s.ytimg.com\/yts\/cssbin\/www-player-vfl7MSHwQ.css",''         ],'PREFETCH_JS_RESOURCES': [''         ],'SAFETY_MODE_PENDING': false,'I18N_PLURAL_RULES': function(n) { return 'other'; },'LOCAL_DATE_TIME_CONFIG': {"amPms": null, "formatLongDate": "d MMMM yyyy H:mm", "shortWeekdays": ["\u0e2d\u0e32.", "\u0e08.", "\u0e2d.", "\u0e1e.", "\u0e1e\u0e24.", "\u0e28.", "\u0e2a."], "weekdays": ["\u0e27\u0e31\u0e19\u0e2d\u0e32\u0e17\u0e34\u0e15\u0e22\u0e4c", "\u0e27\u0e31\u0e19\u0e08\u0e31\u0e19\u0e17\u0e23\u0e4c", "\u0e27\u0e31\u0e19\u0e2d\u0e31\u0e07\u0e04\u0e32\u0e23", "\u0e27\u0e31\u0e19\u0e1e\u0e38\u0e18", "\u0e27\u0e31\u0e19\u0e1e\u0e24\u0e2b\u0e31\u0e2a\u0e1a\u0e14\u0e35", "\u0e27\u0e31\u0e19\u0e28\u0e38\u0e01\u0e23\u0e4c", "\u0e27\u0e31\u0e19\u0e40\u0e2a\u0e32\u0e23\u0e4c"], "formatLongDateOnly": "d MMMM yyyy", "shortMonths": ["\u0e21.\u0e04.", "\u0e01.\u0e1e.", "\u0e21\u0e35.\u0e04.", "\u0e40\u0e21.\u0e22.", "\u0e1e.\u0e04.", "\u0e21\u0e34.\u0e22.", "\u0e01.\u0e04.", "\u0e2a.\u0e04.", "\u0e01.\u0e22.", "\u0e15.\u0e04.", "\u0e1e.\u0e22.", "\u0e18.\u0e04."], "formatWeekdayShortTime": "EE H:mm", "months": ["\u0e21\u0e01\u0e23\u0e32\u0e04\u0e21", "\u0e01\u0e38\u0e21\u0e20\u0e32\u0e1e\u0e31\u0e19\u0e18\u0e4c", "\u0e21\u0e35\u0e19\u0e32\u0e04\u0e21", "\u0e40\u0e21\u0e29\u0e32\u0e22\u0e19", "\u0e1e\u0e24\u0e29\u0e20\u0e32\u0e04\u0e21", "\u0e21\u0e34\u0e16\u0e38\u0e19\u0e32\u0e22\u0e19", "\u0e01\u0e23\u0e01\u0e0e\u0e32\u0e04\u0e21", "\u0e2a\u0e34\u0e07\u0e2b\u0e32\u0e04\u0e21", "\u0e01\u0e31\u0e19\u0e22\u0e32\u0e22\u0e19", "\u0e15\u0e38\u0e25\u0e32\u0e04\u0e21", "\u0e1e\u0e24\u0e28\u0e08\u0e34\u0e01\u0e32\u0e22\u0e19", "\u0e18\u0e31\u0e19\u0e27\u0e32\u0e04\u0e21"], "formatShortDate": "d MMM yyyy"},'PAGE_CL': 75831451,'PAGE_BUILD_TIMESTAMP': "Thu Sep 18 12:20:45 2014 (1411068045)",'PLAYER_PERSISTENCE_REFACTOR': true,'MDX_ENABLE_CASTV2': true,'MDX_ENABLE_QUEUE': true,'FEEDBACK_BUCKET_ID': "Search",'FEEDBACK_LOCALE_LANGUAGE': "th",'FEEDBACK_LOCALE_EXTRAS': {"experiments": "900228,901608,902408,906001,911435,911436,911507,912714,912719,912725,912811,912813,913308,913309,916638,916928,916929,918119,918121,919388,919389,920609,921603,922319,922804,922927,923024,923363,925011,927006,927622,927626,927881,927891,929507,929509,929940,929943,929947,930008,930666,930812,930817,930819,930822,931025,931339,931341,931943,931983,932404,934030,934032,935707,937217,937412,937422,937424,937507,937512,937817,937912,938006,938302,938639,938646,938703,938705,939201,939957,940641,940915,940918,941412,941414,941423,942302,943301,943407,943410,944702,945076,945117,945401,946013,947204,947209,947503,949001,949004,950004,950303,951101,951601,952302,953801,955201", "accept_language": null, "is_branded": "", "guide_subs": "NA", "is_partner": "", "logged_in": false}});  yt.setConfig({
+    'GUIDED_HELP_LOCALE': "th_TH",
+    'GUIDED_HELP_ENVIRONMENT': "prod"
+  });
+yt.setConfig('SPF_SEARCH_BOX', true);yt.setMsg({'ADDTO_WATCH_LATER': "\u0e14\u0e39\u0e20\u0e32\u0e22\u0e2b\u0e25\u0e31\u0e07",'ADDTO_WATCH_LATER_ADDED': "\u0e40\u0e1e\u0e34\u0e48\u0e21\u0e41\u0e25\u0e49\u0e27",'ADDTO_WATCH_LATER_ERROR': "\u0e02\u0e49\u0e2d\u0e1c\u0e34\u0e14\u0e1e\u0e25\u0e32\u0e14",'ADDTO_WATCH_QUEUE': "\u0e04\u0e34\u0e27\u0e01\u0e32\u0e23\u0e14\u0e39",'ADDTO_WATCH_QUEUE_ADDED': "\u0e40\u0e1e\u0e34\u0e48\u0e21\u0e41\u0e25\u0e49\u0e27",'ADDTO_WATCH_QUEUE_ERROR': "\u0e02\u0e49\u0e2d\u0e1c\u0e34\u0e14\u0e1e\u0e25\u0e32\u0e14",'ADDTO_TV_QUEUE': "\u0e04\u0e34\u0e27\u0e17\u0e35\u0e27\u0e35",'MASTHEAD_NOTIFICATIONS_LABEL': {"other": "\u0e01\u0e32\u0e23\u0e41\u0e08\u0e49\u0e07\u0e40\u0e15\u0e37\u0e2d\u0e19\u0e17\u0e35\u0e48\u0e22\u0e31\u0e07\u0e44\u0e21\u0e48\u0e44\u0e14\u0e49\u0e2d\u0e48\u0e32\u0e19 # \u0e23\u0e32\u0e22\u0e01\u0e32\u0e23", "case0": "\u0e01\u0e32\u0e23\u0e41\u0e08\u0e49\u0e07\u0e40\u0e15\u0e37\u0e2d\u0e19\u0e17\u0e35\u0e48\u0e22\u0e31\u0e07\u0e44\u0e21\u0e48\u0e44\u0e14\u0e49\u0e2d\u0e48\u0e32\u0e19 0 \u0e23\u0e32\u0e22\u0e01\u0e32\u0e23", "case1": "\u0e01\u0e32\u0e23\u0e41\u0e08\u0e49\u0e07\u0e40\u0e15\u0e37\u0e2d\u0e19\u0e17\u0e35\u0e48\u0e22\u0e31\u0e07\u0e44\u0e21\u0e48\u0e44\u0e14\u0e49\u0e2d\u0e48\u0e32\u0e19 1 \u0e23\u0e32\u0e22\u0e01\u0e32\u0e23"}});    yt.setConfig({
+    'XSRF_TOKEN': "QUFFLUhqbkpLelFrc1gycXh0Rk1GNF9CU21WUkxLcC1uUXxBQ3Jtc0tuUUZlMmo1MDBPNmZCaDlGMm9UWGpDd3F3VVJwOG9qTDE2aVUzRUNZYjBjanhGMzdJSXd2NS1UWWhmeXpicFQ0Y1EzM2p4QmN6cHNCZEJIZWNrU2t1aTlrVUhzWXhMWVBSN2NHOWJELTFDd29BbHhUMGZYUE4wMXlVX01SeUR2dGNVN0J0SEtxRGhNX0NrZHpwcVp6YUhCRi1lTWc=",
+    'XSRF_REDIRECT_TOKEN': "XB4x3_AEM77I-LLKI_5Faz4rh9B8MTQxMTQ1MzcwOUAxNDExMzY3MzA5",
+    'XSRF_FIELD_NAME': "session_token"
+  });
+
+  yt.setConfig('FEED_PRIVACY_CSS_URL', "\/\/s.ytimg.com\/yts\/cssbin\/www-feedprivacydialog-vflbKN4Rk.css");
+
+  yt.setConfig('FEED_PRIVACY_LIGHTBOX_ENABLED', true);
+yt.setConfig({'SBOX_JS_URL': "\/\/s.ytimg.com\/yts\/jsbin\/www-searchbox-vfluem2dE\/www-searchbox.js",'SBOX_SETTINGS': {"REQUEST_LANGUAGE": "th", "HAS_ON_SCREEN_KEYBOARD": false, "EXPERIMENT_ID": -1, "PSUGGEST_TOKEN": null, "REQUEST_DOMAIN": "th", "PQ": "maps maroon 5", "SESSION_INDEX": null},'SBOX_LABELS': {"SUGGESTION_DISMISS_LABEL": "\u0e1b\u0e34\u0e14", "SUGGESTION_DISMISSED_LABEL": "\u0e1b\u0e34\u0e14\u0e04\u0e33\u0e41\u0e19\u0e30\u0e19\u0e33\u0e41\u0e25\u0e49\u0e27"}});  yt.setConfig({
+    'YPC_LOADER_ENABLED': true,
+    'YPC_LOADER_CONFIGS': "\/ypc_config_ajax",
+    'YPC_LOADER_JS': "\/\/s.ytimg.com\/yts\/jsbin\/www-ypc-vflJJ8_Nr\/www-ypc.js",
+    'YPC_LOADER_CSS': "\/\/s.ytimg.com\/yts\/cssbin\/www-ypc-vfllwwmVS.css",
+    'YPC_LOADER_CALLBACKS': ['yt.www.ypc.checkout.init', 'yt.www.ypc.subscription.init'],
+    'YPC_SIGNIN_URL': "https:\/\/accounts.google.com\/ServiceLogin?service=youtube\u0026continue=http%3A%2F%2Fwww.youtube.com%2Fsignin%3Fhl%3Dth%26action_handle_signin%3Dtrue%26next%3D%252F%26app%3Ddesktop\u0026hl=th\u0026uilel=3\u0026passive=true"
+  });
+  yt.setConfig('GOOGLE_HELP_CONTEXT', "search_results");
+ytcsi.span('st', 380);yt.setConfig({'TIMING_ACTION': "results",'TIMING_INFO': {"yt_lt": "cold", "e": "900228,916638,927622,930666,930817,931983,932404,934030,937412,945076,946013,947209,952302,953801", "yt_spf": 0, "ei": "jcEfVLCiA9THugTtkYDgCA", "yt_li": 0}});  yt.setConfig({
+    'XSRF_TOKEN': "QUFFLUhqbkpLelFrc1gycXh0Rk1GNF9CU21WUkxLcC1uUXxBQ3Jtc0tuUUZlMmo1MDBPNmZCaDlGMm9UWGpDd3F3VVJwOG9qTDE2aVUzRUNZYjBjanhGMzdJSXd2NS1UWWhmeXpicFQ0Y1EzM2p4QmN6cHNCZEJIZWNrU2t1aTlrVUhzWXhMWVBSN2NHOWJELTFDd29BbHhUMGZYUE4wMXlVX01SeUR2dGNVN0J0SEtxRGhNX0NrZHpwcVp6YUhCRi1lTWc=",
+    'XSRF_REDIRECT_TOKEN': "XB4x3_AEM77I-LLKI_5Faz4rh9B8MTQxMTQ1MzcwOUAxNDExMzY3MzA5",
+    'XSRF_FIELD_NAME': "session_token"
+  });
+  yt.setConfig('THUMB_DELAY_LOAD_BUFFER', 0);
+if (window.ytcsi) {window.ytcsi.tick("jl", null, '');}</script>
+</body></html>
+
+
+0
+

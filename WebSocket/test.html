@@ -1,15 +1,14 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 	<head>
 		<title>My Web</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+		<!--<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>-->
 		<style>
 		    #browseArea {
 		        vertical-align:top;
 		        text-align:center;
 		        display:inline-block;
-		        padding-bottom:200px;
 		    }
 		    .card {
 		        display:inline-block;
@@ -38,6 +37,7 @@
                 width:100%;
                 overflow:hidden;
                 max-height:200px;
+                z-index:20;
 		    }
 		    #nav_music {
 		        //repeat scroll 0% 0% transparent;
@@ -67,10 +67,11 @@
 		    body {
 		        padding:0px;
 		        margin:0px;
-		        font-family:"Roboto";
+		        /font-family:"Roboto";
 		        background:linear-gradient(to top,#CCEEEE,#EEFFFF);
 		        background-attachment:fixed;
 		        min-height:100%;
+		        padding-bottom:200px;
 		    }
 		    #audioID {
 		        width:100%;
@@ -81,6 +82,7 @@
 		        height:44px;
 		        font-size:24px;
 		        padding-top:10px;
+		        overflow:hidden;
 		    }
 		    #addressBar {
 		        margin-left:10px;
@@ -95,8 +97,60 @@
 		        height:16px;
                 vertical-align:middle;
 		    }
+		    .driveCard {
+		        border-radius:20px;
+		        width:50px;
+		        display:inline-block !important;
+		        border:1px solid black;
+		        background-color:#81d4fa;
+		        padding:5px;
+		        margin:5px;
+		        margin-right:0px;
+		        text-align:center;
+		        cursor:pointer;
+		        transition:background-color 0.25s;
+		    }
+		    .driveCard:hover {
+		        background-color:#def;
+		    }
+		    #dockArea {
+		        position:fixed;
+		        right:10px;
+		        top:10px;
+		        width:320px;
+		        z-index:10;
+		    }
+		    .dockCard {
+		        width:315px;
+		        border:1px solid black;
+		        background-color:rgba(255,255,255,0.25);
+		        transition:background-color 0.25s;
+		        display:inline-block;
+		        text-align:right;
+		        vertical-align:top;
+		        word-break:break-all;
+		        overflow:hidden;
+		        margin:5px;
+		        margin-bottom:0px;
+		        margin-top:0px;
+		        height:45px;
+		        cursor:pointer;
+		    }
+		    .dockCard:hover {
+		        background-color:rgba(255,255,255,1);
+		    }
+		    .dockCard img {
+		        float:right;
+		        height:40px;
+		        width:40px;
+		    }
+		    .dockCard p {
+		        width:270px;
+		        margin:0px;
+		    }
 		</style>
 		<script src="jquery.js"></script>
+		<script type="text/javascript" src="swfobject.js"></script>
 	</head>
 	<body>
 	    <div id="navBar">
@@ -112,7 +166,24 @@
 		<div id="titleArea">
 		    <div id="addressBar">...</div>
 		</div>
+		<div id="debugArea">
+		    <input type="text" id="debugTxt">
+		    <input type="button" value="sendDebug" onclick="wSend(document.getElementById('debugTxt').value)">
+		</div>
+		<!--<object type="application/x-shockwave-flash" id="youtubeArea" data="http://www.youtube.com/apiplayer?&amp;enablejsapi=1&amp;playerapiid=player1&amp;version=3">
+			<param name="allowScriptAccess" value="always">
+			<param name="allowfullscreen" value="true">
+			<param name="wmode" value="Opaque">
+		</object>-->
+		<!--<iframe id="youtubeArea"width="560" height="315" src="//www.youtube.com/embed/xj6fHiF8Osg?rel=0" frameborder="0"> </iframe>-->
+		<div id="driveArea">
+		    
+		</div>
 		<div id="browseArea">
+
+		</div>
+		<iframe id="youtubeArea" width="420" height="315" src="" frameborder="0" allowfullscreen></iframe>
+		<div id="dockArea">
 
 		</div>
 	</body>
@@ -130,6 +201,8 @@
 	    var tm;
 	    var nowDir = "";
 	    var nowPlaying = "";
+	    
+	    var driveAvList = [];
 	    connection.onopen = function () {
             connection.send(wEncode('RETD'));
         };
@@ -150,6 +223,10 @@
                 toAlert += ' ';
             }
             return encoded;
+        }
+        function wSend(str)
+        {
+            connection.send(wEncode(str));
         }
         function wDecode(str)
         {
@@ -198,22 +275,69 @@
                     inHTML+=("' onclick='clicked(this)'>"+dataArr[i]+"</div>");
                 }
                 elem("browseArea").innerHTML = inHTML;
+                $("#browseArea").fadeOut(0);
+                $("#browseArea").fadeIn();
             }
             else if(dataArr[0] == "DRIVE") {
-                var inHTML = "";
-                for(var i = 1;i < dataArr.length;i++) {
-                    if(dataArr[i].length==0) continue;
-                    inHTML += "<div class='card cardFolder";
-                    inHTML+=("' onclick='clicked(this)'>"+dataArr[i]+":\\"+"</div>");
+                if(driveAvList.length == 0) // no drive ever detected
+                {
+                    var inHTML = "";
+                    for(var i = 1;i < dataArr.length;i++) {
+                        if(dataArr[i].length==0) continue;
+                        inHTML += "<div class='driveCard";
+                        inHTML+=("' onclick='clickedDrive(this)'>"+dataArr[i]+":"+"</div>");
+                        driveAvList.push(dataArr[i]);
+                    }
+                    elem("driveArea").innerHTML = inHTML;
                 }
-                elem("browseArea").innerHTML = inHTML;
+                else {
+                    var elemList = Array.prototype.slice.call(elem("driveArea").children);
+                    for(var i = 0;i < driveAvList.length;i++) {
+                        if(dataArr.indexOf(driveAvList[i]) == -1) { // drive remove
+                            navAlert("Drive removed ( "+driveAvList[i]+": )","INF");
+                            removeDrive(elemList[i]);
+                            elemList.splice(i,1);
+                            driveAvList.splice(i,1);
+                            i--;
+                        }
+                    }
+                    for(var i = 1;i < dataArr.length;i++) {
+                        if(dataArr[i].length==0) continue;
+                        if(driveAvList.indexOf(dataArr[i]) == -1) { // new drive
+                            navAlert("New drive detected ( "+dataArr[i]+": )","INF");
+                            driveAvList.push(dataArr[i]);
+                            var cardElem = document.createElement("div");
+                            cardElem.className = "driveCard";
+                            cardElem.setAttribute("onclick","clickedDrive(this)");
+                            //cardElem.innerHTML = dataArr[i]+":\\";
+                            cardElem.innerHTML = dataArr[i]+":";
+                            $(cardElem).fadeOut(0);
+                            $(cardElem).fadeIn();
+                            elem("driveArea").appendChild(cardElem);
+                        }
+                    }
+                }
+            }
+            else if(dataArr[0] == "YOUT") {
+                // Youtube search query result
+                elem("youtubeArea").setAttribute("src","http://www.youtube.com/embed/"+dataArr[1]+"?rel=0");
+            }
+            else {
+                
             }
         }
-        
+        function removeDrive(targ)
+        {
+            $(targ).fadeOut(function(){$(targ).remove()});
+        }
+        function rem(par,chi)
+        {
+            par.removeChild(chi);
+        }
         var audioElem = elem("audioID");
         function playMusic(fileName)
         {
-            var path = "file:\\"+nowDir+fileName;
+            var path = "file:\\"+fileName;
             nowPlaying = fileName;
             audioElem.setAttribute("src",path);
             audioElem.play();
@@ -277,7 +401,6 @@
             jQuery(alertDiv).animate(
                     {height:nav_mini}
                     ,nav_anim);
-            //alert("TEST1");
             window.setTimeout(function(){navAlertOff(alertDiv)},nav_delay);
         }
         function navAlertOff(targ)
@@ -288,27 +411,95 @@
                     ,nav_anim,function() {targ.remove();});
         }
         // connection.send(wEncode("RETR D:\\DAD\\Musics 2\\รวมฮิต\\ดา\\"));
-        var musicExt = ["mp3","wav","ogg","m4a"];
+        var musicExt = ["mp3","MP3","WAV","wav","OGG","ogg","M4A","m4a"];
+        function fileCagetorize(fileName)
+        {
+            for(var i = 0;i < musicExt.length;i++) {
+                if(fileName.indexOf("."+musicExt[i]) != -1) {
+                    return "music";
+                }
+            }
+            return "unknown";
+        }
+        function fileExec(fileName)
+        {
+            var cag = fileCagetorize(fileName);
+            if(cag == "music") {
+                playMusic(fileName);
+                return;
+            }
+            navAlert("File "+fileName+" will be executed from your system","INF");
+            //connection.send(wEncode("EXEC "+nowDir+inHTML+""));
+            connection.send(wEncode("EXEC "+fileName));
+        }
         function clicked(e)
         {
+            var inHTML = e.textContent;
             if(e.className.indexOf("cardFolder") != -1) {
                 // is a folder , requesting new directory
-                connection.send(wEncode("RETR "+nowDir+e.innerHTML));
+                connection.send(wEncode("RETR "+nowDir+inHTML));
+                var dirParsed = parseDir(nowDir+inHTML);
+                addDock(dirParsed,"folder");
             }
             else {
-                var fileName = e.innerHTML;
-                for(var i = 0;i < musicExt.length;i++) {
-                    if(fileName.indexOf("."+musicExt[i]) != -1) {
-                        playMusic(fileName);
-                        return;
-                    }
-                }
-                navAlert("File "+e.innerHTML+" will be executed from your system","INF");
-                connection.send(wEncode("EXEC "+nowDir+e.innerHTML+""));
+                fileExec(nowDir+inHTML);
+                addDock(inHTML,fileCagetorize(inHTML),nowDir+inHTML);
             }
+        }
+        function clickedDockCard(e)
+        {
+            if(e.getAttribute("dockCardType") == "folder") {
+                // is a folder , requesting new directory
+                // trim last \
+                var toRet = e.getAttribute("dockTarg");
+                if(toRet[toRet.length-1] == '\\')
+                    toRet = toRet.substring(0,toRet.length-1);
+                connection.send(wEncode("RETR "+toRet));
+            }
+            else {
+                fileExec(e.getAttribute("dockTarg"));
+            }
+        }
+        function clickedDrive(e)
+        {
+            connection.send(wEncode("RETR "+e.textContent));
+            addDock(e.textContent,"folder");
+        }
+        function addDock(str,type,targ)
+        {
+            /* <div class="dockCard">
+                <img src="info.png">
+                <p>Test</p> 
+            </div> */
+            targ = typeof targ !== 'undefined' ? targ : str;
+            var card = document.createElement("div");
+            card.setAttribute("dockTarg",targ);
+            card.setAttribute("onclick","clickedDockCard(this)");
+            card.className = "dockCard";
+            card.setAttribute("dockCardType",type);
+            if(type=="folder") {
+                card.innerHTML = "<img src='folderIcon.png'>";
+            }
+            else if(type=="music") {
+                card.innerHTML = "<img src='musicIcon.png'>";
+            }
+            else {
+                card.innerHTML = "<img src='info.png'>";
+            }
+            card.innerHTML += "<p>"+str+"</p>";
+            elem("dockArea").insertBefore(card,elem("dockArea").firstChild);
+            $(card).fadeOut(0);
+            $(card).fadeIn();
+            
         }
         audioElem.addEventListener('play',musicPlay);
         audioElem.addEventListener('pause',musicPause);
         audioElem.addEventListener("timeupdate", musicProgress);
+        
+        document.addEventListener('contextmenu',rightClick);
+        function rightClick(e) {
+            //alert("You've tried to open context menu"); //here you draw your own menu
+            //e.preventDefault();
+        }
 	</script>
 </html>

@@ -31,6 +31,39 @@ bool net_client_clientClass::connect(string ip,int port,int timeout)
         return true;
     }
 }
+bool net_client_clientClass::run()
+{
+    if(status != NET_CLIENT_ONLINE && status != NET_CLIENT_SHUTTINGDOWN) return false;
+    --delay;
+    if(delay < 0) {
+        delay = NET_CLIENT_DELAY;
+        byteArray data;
+        int stat = net_recv(sock,data);
+        if(stat == NET_RECV_CLOSE || stat == NET_RECV_ERROR)
+        {
+            // close
+            if(debugFunc != NULL) (*debugFunc)("Disconnected (CSIGN)");
+            if(status == NET_CLIENT_SHUTTINGDOWN) {
+                (*debugFunc)("Graceful shutdown completed (CSIGN)");
+                net_closeSocket(sock);
+                sock = INVALID_SOCKET;
+            }
+            status = NET_CLIENT_OFFLINE;
+            return false;
+        }
+        else if(stat == NET_RECV_OK) {
+            if(recvFunc != NULL) (*recvFunc)(data);
+        }
+    }
+    if(net_error()) /* If have error */
+    {
+        if(errFunc != NULL) (*errFunc)(net_lastError);
+        status = NET_CLIENT_OFFLINE;
+        return false; /* Force exit */
+    }
+    if(runFunc != NULL) (*runFunc)();
+    return true;
+}
 void net_client_clientClass::runLoop()
 {
     if(status == NET_CLIENT_OFFLINE) {
@@ -38,28 +71,7 @@ void net_client_clientClass::runLoop()
     }
     if(debugFunc != NULL) (*debugFunc)("Run Loop started");
     while(status == NET_CLIENT_ONLINE) {
-        --delay;
-        if(delay < 0) {
-            delay = NET_CLIENT_DELAY;
-            byteArray data;
-            int stat = net_recv(sock,data);
-            if(stat == NET_RECV_CLOSE || stat == NET_RECV_ERROR)
-            {
-                // close
-                if(debugFunc != NULL) (*debugFunc)("Disconnected (CSIGN)");
-                status = NET_CLIENT_OFFLINE;
-                break;
-            }
-            else if(stat == NET_RECV_OK) {
-                if(recvFunc != NULL) (*recvFunc)(data);
-            }
-        }
-        if(net_error()) /* If have error */
-        {
-            if(errFunc != NULL) (*errFunc)(net_lastError);
-            break; /* Force exit */
-        }
-        if(runFunc != NULL) (*runFunc)();
+        if(run() == false) break;
         Sleep(NET_CLIENT_SLEEP);
     }
 }
@@ -70,7 +82,13 @@ void net_client_clientClass::send(byteArray data)
 void net_client_clientClass::disconnect()
 {
     shutdown(sock,SD_SEND);
+    status = NET_CLIENT_SHUTTINGDOWN;
+}
+void net_client_clientClass::forceShutdown()
+{
+    shutdown(sock,SD_SEND);
     status = NET_CLIENT_OFFLINE;
+    closesocket(sock);
 }
 void net_client_clientClass::setDebugFunc(void(*f)(string))
 {

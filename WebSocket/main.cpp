@@ -212,7 +212,6 @@ string wsHandshake(string str)
     toRet.append("\r\n");
     return toRet;
 }
-bool sp = false;
 byteArray wsPing()
 {
     byteArray toRet;
@@ -267,6 +266,40 @@ string translate_ws_to_s1(wstring str) // ABCD(Unicode char) -> ABCD*
         if(int(str[i]) > 255) toRetStr.push_back('*');
         else toRetStr.push_back(str[i]);
     }
+    return toRetStr;
+}
+string translate_ws_to_s2(wstring str)
+{
+    string toRetStr = "";
+    for(int i = 0;i < str.size();i+=2) {
+        toRetStr.push_back(int(str[i])>>8);
+        toRetStr.push_back(int(str[i])%256);
+    }
+    return toRetStr;
+}
+wstring translate_s2_to_ws(string str) // _A_B_C_DXX -> ABCDX
+{
+
+}
+string translate_ws_to_url(wstring str) // ABCD -> %..%..%..%..
+{ /// !!! Thai language hack only , other language will not work at all
+    string toRetStr = "";
+    for(int i = 0;i < str.size();i++) {
+        if(int(str[i]) <= 255) {
+            if(int(str[i]) == 32) toRetStr.push_back('+');
+            else {
+                toRetStr.push_back(str[i]);
+            }
+        }
+        else {
+            toRetStr.append("%E0");
+        }
+        //toRetStr.push_back()
+        /*if(int(str[i]) > 255) toRetStr.push_back('*');
+        else toRetStr.push_back(str[i]);
+        cout << int(str[i]) << ",";*/
+    }
+    //cout << "TOURL : " << toRetStr << endl;
     return toRetStr;
 }
 byteArray wsEncodeMsg(string str)
@@ -346,14 +379,97 @@ string retr(wstring dir)
     //cout << endl;
     return toRetStr;
 }
+
+int cntDown = 0;
+string driveList_old;
+string getDriveList()
+{
+    string toRet = "";
+    char dLetter = 'A';
+    DWORD dMask = GetLogicalDrives();
+    while(dMask) {
+        if(dMask & 1) {
+            string getType = "";
+            getType.push_back(dLetter);
+            getType.append(":\\");
+            int res = GetDriveType(getType.c_str());
+            if(res != DRIVE_UNKNOWN && res != DRIVE_NO_ROOT_DIR) {
+                char str[1000];
+                if(GetVolumeInformation(getType.c_str(),str,1000,NULL,NULL,NULL,NULL,0) != 0) {
+                    toRet.push_back(dLetter);
+                    toRet.push_back('|');
+                }
+            }
+        }
+        dLetter++;
+        dMask >>= 1;
+    }
+    return toRet;
+}
+bool sp = false;
+bool rs = false;
+net_client_clientClass youtubeClient;
+bool youtubeDataFound = false;
+string youtubeRecvData = "";
+void err(string str) {
+    cout << "Error : " << str << endl;
+}
+void debug(string str) {
+    cout << "DBG : " << str << endl;
+}
+
+void youtubeRecv(byteArray bt)
+{
+    youtubeRecvData.append(toString(bt));
+    int res = youtubeRecvData.find("section-list");
+    if(!youtubeDataFound && res != string::npos) {
+        res = youtubeRecvData.find("yt-lockup-title",res);
+        if(res != string::npos) {
+            res = youtubeRecvData.find("href=",res);
+            if(res != string::npos) {
+                string last = youtubeRecvData.substr(res+15,11);
+                if(last.size() == 11) {
+                    string toSend = "YOUT|";
+                    toSend.append(last);
+                    cout << "Youtube search found [" << last << "]" << endl;
+                    server.sendToAllClient(wsEncodeMsg(translate_s1_to_s2(toSend)));
+                    youtubeDataFound = true;
+                    youtubeClient.disconnect();
+                }
+            }
+        }
+    }
+    //deb.close();
+}
 void run() {
     if(GetAsyncKeyState(VK_SPACE) && !sp) {
         sp = true;
-        if(server.clientList.size() > 0) {
-            //server.sendTo(wsEncodeMsg("abc"),0);
-        }
+        /*cout << "SEND DEBUG DATA 1" << endl;
+        server.sendToAllClient(wsEncodeMsg(translate_s1_to_s2("DRIVE|C|D|E|B|U|G|")));*/
     }
-    if(!GetAsyncKeyState(VK_SPACE) && sp) sp = false;
+    else if(!GetAsyncKeyState(VK_SPACE) && sp) sp = false;
+    if(GetAsyncKeyState(VK_RSHIFT) && !rs) {
+        rs = true;
+        /*cout << "SEND DEBUG DATA 2" << endl;
+        server.sendToAllClient(wsEncodeMsg(translate_s1_to_s2("DRIVE|C|D|")));*/
+    }
+    else if(!GetAsyncKeyState(VK_RSHIFT) && rs) rs = false;
+
+    cntDown++;
+    youtubeClient.run();
+    if(cntDown >= 120) {
+        // check new drive
+        string driveList_new = getDriveList();
+        if(driveList_new.compare(driveList_old) != 0) {
+            /// change drive
+            driveList_old = driveList_new;
+            string toSend = "DRIVE|";
+            toSend.append(driveList_new);
+            server.sendToAllClient(wsEncodeMsg(translate_s1_to_s2(toSend)));
+            cout << "Drive list changed : " << driveList_new << endl;
+        }
+        cntDown = 0;
+    }
 }
 void recv(byteArray data,int i) {
     string str = toString(data);
@@ -391,36 +507,46 @@ void recv(byteArray data,int i) {
             }
             else if(decodeMsg.find(L"RETD") == 0) { /// RETD : retrieve drive letter
                 cout << " [RETD]" << endl;
-                DWORD dMask = GetLogicalDrives();
+                //DWORD dMask = GetLogicalDrives();
                 string toRet = "DRIVE|";
-                char dLetter = 'A';
-                while(dMask) {
-                    if(dMask & 1) {
-                        string getType = "";
-                        getType.push_back(dLetter);
-                        getType.append(":\\");
-                        int res = GetDriveType(getType.c_str());
-                        if(res != DRIVE_UNKNOWN && res != DRIVE_NO_ROOT_DIR) {
-                            char str[1000];
-                            if(GetVolumeInformation(getType.c_str(),str,1000,NULL,NULL,NULL,NULL,0) != 0) {
-                                toRet.push_back(dLetter);
-                                toRet.push_back('|');
-                            }
-                        }
-                    }
-                    dLetter++;
-                    dMask >>= 1;
-                }
+                toRet.append(driveList_old);
                 server.sendTo(wsEncodeMsg(translate_s1_to_s2(toRet)),i);
+            }
+            else if(decodeMsg.find(L"READ") == 0) { /// READ : read file
+                /*wstring fullpath = decodeMsg.substr(5);
+                //ifstream f(fullpath.c_str(),std::ios::in);
+                FILE* f = _wfopen(fullpath.c_str(),L"rb");
+                wstring toSend = L"READ|";
+                toSend.append(fullpath);
+                toSend.append(L"|");
+                char line[1000];
+                while(fgets(line, sizeof(line), f)) {
+                    toSend.append(translate_s2_to_ws(line));
+                    cout << line << endl;
+                }
+                f.close();
+                server.sendTo(wsEncodeMsg(toSend));*/
+            }
+            else if(decodeMsg.find(L"YOUT") == 0) { /// YOUT : Youtube Music search
+                //return; // Close this broken feature
+                cout << " [YOUT]" << endl;
+                //http://www.youtube.com/results?search_query=wolf+bite
+                //cout << "Experimental youtube search start !" << endl;
+                wstring query = decodeMsg.substr(5);
+                if(youtubeClient.connect("www.youtube.com",80,200)) {
+                    string httpReq = "GET /results?search_query=";
+                    httpReq.append(translate_ws_to_url(query));
+                    httpReq.append(" HTTP/1.1\n");
+                    httpReq.append("Host: www.youtube.com\n");
+                    httpReq.append("User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0\n\n");
+                    youtubeClient.send(toByteArray(httpReq));
+                    youtubeRecvData = "";
+                    youtubeDataFound = false;
+                }
+                wcout << L"Youtube query request [" << query << L"] sent" << endl;
             }
         }
     }
-}
-void err(string str) {
-    cout << "Error : " << str << endl;
-}
-void debug(string str) {
-    cout << "DBG : " << str << endl;
 }
 void startServer()
 {
@@ -434,6 +560,9 @@ int main()
 {
     net_init();
     SetErrorMode(SEM_NOOPENFILEERRORBOX); // for drives detection
+    youtubeClient.setDebugFunc(debug);
+    youtubeClient.setup(NULL,youtubeRecv,err);
+    //detectAllDrive();
     startServer();
     net_close();
     return 0;
