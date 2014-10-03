@@ -150,7 +150,7 @@
 		    }
 		</style>
 		<script src="jquery.js"></script>
-		<script type="text/javascript" src="swfobject.js"></script>
+		<script type="text/javascript" src="html5player.js"></script>
 	</head>
 	<body>
 	    <div id="navBar">
@@ -170,19 +170,14 @@
 		    <input type="text" id="debugTxt">
 		    <input type="button" value="sendDebug" onclick="wSend(document.getElementById('debugTxt').value)">
 		</div>
-		<!--<object type="application/x-shockwave-flash" id="youtubeArea" data="http://www.youtube.com/apiplayer?&amp;enablejsapi=1&amp;playerapiid=player1&amp;version=3">
-			<param name="allowScriptAccess" value="always">
-			<param name="allowfullscreen" value="true">
-			<param name="wmode" value="Opaque">
-		</object>-->
-		<!--<iframe id="youtubeArea"width="560" height="315" src="//www.youtube.com/embed/xj6fHiF8Osg?rel=0" frameborder="0"> </iframe>-->
 		<div id="driveArea">
 		    
 		</div>
 		<div id="browseArea">
 
 		</div>
-		<iframe id="youtubeArea" width="420" height="315" src="" frameborder="0" allowfullscreen></iframe>
+		<!--<div class="html5-video-player el-detailpage ps-null hide-info-bar ad-created endscreen-created ad-showing playing-mode autohide-controls-aspect autohide-controls-fullscreen autominimize-progress-bar-non-aspect" tabindex="-1" id="movie_player" data-version="//s.ytimg.com/yts/jsbin/html5player-th_TH-vflMKR7FD/html5player.js" style=""><div class="html5-video-container"><video class="video-stream html5-main-video" x-webkit-airplay="allow" data-youtube-id="0Vk-LMrdNHY" style="width: 854px; height: 480px; left: 0px; top: 0px; transform: none;" src="https://r3---sn-5np5po4v-c33ey.googlevideo.com/videoplayback?ratebypass=yes&amp;mt=1411911288&amp;itag=18&amp;gcr=th&amp;sver=3&amp;upn=Kukp5mP3vhU&amp;requiressl=yes&amp;sparams=gcr%2Cid%2Cinitcwndbps%2Cip%2Cipbits%2Citag%2Cmime%2Cmm%2Cms%2Cmv%2Cratebypass%2Crequiressl%2Csource%2Cupn%2Cexpire&amp;initcwndbps=1437500&amp;id=o-AK87DtaC0ymcBw7MIHdYGGy97nllmsNSsuxiARL3ocB3&amp;key=yt5&amp;ipbits=0&amp;mm=31&amp;fexp=927622%2C930666%2C931983%2C932404%2C934030%2C935025%2C946012%2C947209%2C952302%2C953305%2C953732%2C953801&amp;ms=au&amp;source=youtube&amp;expire=1411932932&amp;mv=m&amp;mime=video%2Fmp4&amp;ip=171.96.245.45&amp;cpn=7AUE0AR8t7Q9kmwX&amp;signature=05387FA1D91F932ECD206508300E72A064DB7723.70FC3223CC7CC1A81D03B648AD992EB1BEAB1E03&amp;ptk=UMG&amp;oid=ghgcd_xPPR_URSW5U_cwtQ&amp;pltype=contentugc&amp;c=WEB&amp;cver=html5"></video></div></div>-->
+		<!--<iframe id="youtubeArea" width="420" height="315" src="" frameborder="0" allowfullscreen></iframe>-->
 		<div id="dockArea">
 
 		</div>
@@ -232,6 +227,7 @@
         {
             var parsed = "";
             for(var i = 0;i < str.length;i+=2) {
+                if(i == str.length-1) {parsed += String.fromCharCode(i); break;}
                 var code = (str[i].charCodeAt()*256)+(str[i+1].charCodeAt());
                 parsed += String.fromCharCode(code);
             }
@@ -320,7 +316,9 @@
             }
             else if(dataArr[0] == "YOUT") {
                 // Youtube search query result
-                elem("youtubeArea").setAttribute("src","http://www.youtube.com/embed/"+dataArr[1]+"?rel=0");
+                //elem("youtubeArea").setAttribute("src","http://www.youtube.com/embed/"+dataArr[1]+"?rel=0");
+                //elem("youtubeArea").playVideo(dataArr[1]);
+                window.open("http://www.youtube.com/watch?v="+dataArr[1],'_blank');
             }
             else {
                 

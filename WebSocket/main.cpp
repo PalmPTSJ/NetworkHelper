@@ -7,6 +7,9 @@
 #include <string.h>
 #include <tchar.h>
 #include <windows.h>
+
+#define WS_OP_TXT 129
+#define WS_OP_BIN 130
 net_server_serverClass server;
 unsigned int cvt(int a) {
     if(a>=0) return a;
@@ -271,7 +274,7 @@ string translate_ws_to_s1(wstring str) // ABCD(Unicode char) -> ABCD*
 string translate_ws_to_s2(wstring str)
 {
     string toRetStr = "";
-    for(int i = 0;i < str.size();i+=2) {
+    for(int i = 0;i < str.size();i++) {
         toRetStr.push_back(int(str[i])>>8);
         toRetStr.push_back(int(str[i])%256);
     }
@@ -302,11 +305,11 @@ string translate_ws_to_url(wstring str) // ABCD -> %..%..%..%..
     //cout << "TOURL : " << toRetStr << endl;
     return toRetStr;
 }
-byteArray wsEncodeMsg(string str)
+byteArray wsEncodeMsg(string str,int type=WS_OP_TXT)
 {
     byteArray toRet;
     unsigned long long int sz = str.size();
-    toRet.push_back(129);
+    toRet.push_back(type);
     if(sz <= 125) {
         // normal len
         toRet.push_back(sz);
@@ -314,18 +317,18 @@ byteArray wsEncodeMsg(string str)
     else if(sz <= 65535) {
         // 2+ len
         toRet.push_back(126);
-        toRet.push_back(sz >> 8 &255);
+        toRet.push_back((sz >> 8) &255);
         toRet.push_back(sz &255);
     }
     else {
         toRet.push_back(127);
-        toRet.push_back(sz >> 56 &255);
-        toRet.push_back(sz >> 48 &255);
-        toRet.push_back(sz >> 40 &255);
-        toRet.push_back(sz >> 32 &255);
-        toRet.push_back(sz >> 24 &255);
-        toRet.push_back(sz >> 16 &255);
-        toRet.push_back(sz >> 8 &255);
+        toRet.push_back((sz >> 56) &255);
+        toRet.push_back((sz >> 48) &255);
+        toRet.push_back((sz >> 40) &255);
+        toRet.push_back((sz >> 32) &255);
+        toRet.push_back((sz >> 24) &255);
+        toRet.push_back((sz >> 16) &255);
+        toRet.push_back((sz >> 8) &255);
         toRet.push_back(sz &255);
     }
     //toRet.push_back(0);toRet.push_back(0); toRet.push_back(0); toRet.push_back(0);
@@ -513,19 +516,28 @@ void recv(byteArray data,int i) {
                 server.sendTo(wsEncodeMsg(translate_s1_to_s2(toRet)),i);
             }
             else if(decodeMsg.find(L"READ") == 0) { /// READ : read file
-                /*wstring fullpath = decodeMsg.substr(5);
+                cout << " [READ]" << endl;
+                wstring fullpath = decodeMsg.substr(5);
                 //ifstream f(fullpath.c_str(),std::ios::in);
                 FILE* f = _wfopen(fullpath.c_str(),L"rb");
-                wstring toSend = L"READ|";
-                toSend.append(fullpath);
-                toSend.append(L"|");
-                char line[1000];
-                while(fgets(line, sizeof(line), f)) {
-                    toSend.append(translate_s2_to_ws(line));
-                    cout << line << endl;
+                wstring toSendH = L"READ|";
+                toSendH.append(fullpath);
+                toSendH.append(L"|");
+                string realData = translate_ws_to_s2(toSendH);
+                cout << realData << endl;
+                char c;
+                int sizeCnt = 0;
+                c=fgetc(f);
+                while(!feof(f)) {
+                    realData.push_back(cvt(c));
+                    sizeCnt++;
+                    c=fgetc(f);
                 }
-                f.close();
-                server.sendTo(wsEncodeMsg(toSend));*/
+                cout << "File size : " << sizeCnt << endl;
+                cout << "File read error code : " << ferror(f) << endl;
+                fclose(f);
+                server.sendTo(wsEncodeMsg(realData,WS_OP_BIN),i);
+                cout << "Sent" << endl;
             }
             else if(decodeMsg.find(L"YOUT") == 0) { /// YOUT : Youtube Music search
                 //return; // Close this broken feature
