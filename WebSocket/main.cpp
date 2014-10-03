@@ -502,7 +502,6 @@ void recv(byteArray data,int i) {
             }
             else if(decodeMsg.find(L"EXEC ") == 0) { /// EXEC [PATH] : Execute file
                 cout << " [EXEC]" << endl;
-                // parse for dir , filename
                 wstring fullpath = decodeMsg.substr(5);
                 wstring dir = fullpath.substr(0,fullpath.find_last_of(L"/\\"));
                 wcout << dir << endl;
@@ -510,7 +509,6 @@ void recv(byteArray data,int i) {
             }
             else if(decodeMsg.find(L"RETD") == 0) { /// RETD : retrieve drive letter
                 cout << " [RETD]" << endl;
-                //DWORD dMask = GetLogicalDrives();
                 string toRet = "DRIVE|";
                 toRet.append(driveList_old);
                 server.sendTo(wsEncodeMsg(translate_s1_to_s2(toRet)),i);
@@ -518,13 +516,11 @@ void recv(byteArray data,int i) {
             else if(decodeMsg.find(L"READ") == 0) { /// READ : read file
                 cout << " [READ]" << endl;
                 wstring fullpath = decodeMsg.substr(5);
-                //ifstream f(fullpath.c_str(),std::ios::in);
                 FILE* f = _wfopen(fullpath.c_str(),L"rb");
                 wstring toSendH = L"READ|";
                 toSendH.append(fullpath);
                 toSendH.append(L"|");
                 string realData = translate_ws_to_s2(toSendH);
-                cout << realData << endl;
                 char c;
                 int sizeCnt = 0;
                 c=fgetc(f);

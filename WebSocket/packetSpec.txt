@@ -1,0 +1,12 @@
+ENC[1] CMD[4] DATA
+ENC :
+1 (0x31) = 1-byte encoding ( normal packet )
+2 (0x32) = 2-bytes encoding ( wstring )
+--- Notes ---
+multiple type encoding not supported, send multiple packet or special implementation
+
+CMD :
+1-byte encoding 4-length string (ex. READ RETR YOUT)
+
+DATA :
+applied ENC to data
