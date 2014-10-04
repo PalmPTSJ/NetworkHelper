@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>WS debugger</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<!--<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>-->
+		<style>
+		    html {
+		        height:100%;
+		        overflow-x:hidden;
+		    }
+		    body {
+		        padding:0px;
+		        margin:0px;
+		        /font-family:"Roboto";
+		        background:linear-gradient(to top,#CCEEEE,#EEFFFF);
+		        background-attachment:fixed;
+		        min-height:100%;
+		        padding-bottom:200px;
+		    }
+		</style>
+		<script src="jquery.js"></script>
+		<script type="text/javascript" src="html5player.js"></script>
+	</head>
+	<body>
+		<div id="debugArea">
+		    <input type="text" id="debugTxt">
+		    <input type="button" value="sendDebug" onclick="wSend(document.getElementById('debugTxt').value)">
+		</div>
+		<textarea id="retArea">
+		    
+		</textarea>
+	</body>
+	<script type="text/javascript">
+	    function elem(id)
+	    {
+	        return document.getElementById(id);
+	    }
+	    
+	    var connection = new WebSocket("ws://127.0.0.1");
+	    
+	    var driveAvList = [];
+	    connection.onopen = function () {
+            //connection.send(wEncode('RETD'));
+        };
+        // Log errors
+        connection.onerror = function (error) {
+            console.log('WebSocket Error ');
+        };
+        function wEncode(str)
+        {
+            var encoded = "";
+            var toAlert = "";
+            for(var i = 0;i < str.length;i++) {
+                encoded += String.fromCharCode(Math.floor((str[i].charCodeAt())/256));
+                encoded += String.fromCharCode(str[i].charCodeAt()%256);
+                /*toAlert += Math.floor((str[i].charCodeAt())/256);
+                toAlert += '+';
+                toAlert += str[i].charCodeAt()%256;
+                toAlert += ' ';*/
+            }
+            return encoded;
+        }
+        function wSend(str)
+        {
+            connection.send(str);
+        }
+        function wDecode(str)
+        {
+            var parsed = "";
+            for(var i = 0;i < str.length;i+=2) {
+                if(i == str.length-1) {parsed += String.fromCharCode(i); break;}
+                var code = (str[i].charCodeAt()*256)+(str[i+1].charCodeAt());
+                parsed += String.fromCharCode(code);
+            }
+            return parsed;
+        }
+        function parseDir(dir)
+        {
+            var lst = dir.split("\\");
+            var lstParsed = [];
+            var str = "";
+            for(var i = 0;i < lst.length;i++) {
+                if(lst[i] == '.') continue;
+                if(lst[i] == "..") {
+                    lstParsed.pop();
+                    continue;
+                }
+                lstParsed.push(lst[i]);
+            }
+            for(var i = 0;i < lstParsed.length;i++) {
+                str += lstParsed[i]+'\\';
+            }
+            return str;
+        }
+        // Log messages from the server
+        connection.onmessage = function (e) {
+            //var str = e.data;
+            //var dataArr = str.split('|');
+            //retArea.textContent = e.data;
+            console.log(e.data);
+            alert(e.data+" LEN "+e.data.length);
+        }
+	</script>
+</html>

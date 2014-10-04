@@ -24,3 +24,17 @@ string toString(byteArray bA)
     }
     return toRet;
 }
+void debugByteArray_int(byteArray bA)
+{
+    for(int i= 0;i < bA.size();i++) {
+        cout << int(bA[i]) << " ";
+    }
+    cout << endl;
+}
+void debugByteArray_str(byteArray bA)
+{
+    for(int i= 0;i < bA.size();i++) {
+        cout << char(bA[i]) << " ";
+    }
+    cout << endl;
+}

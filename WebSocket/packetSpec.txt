@@ -1,12 +1,19 @@
-ENC[1] CMD[4] DATA
+ENC[1] CMD | DATA
 ENC :
-1 (0x31) = 1-byte encoding ( normal packet )
-2 (0x32) = 2-bytes encoding ( wstring )
---- Notes ---
-multiple type encoding not supported, send multiple packet or special implementation
+'1' (0x31) = 1-byte encoding ( normal packet )
+'2' (0x32) = 2-bytes encoding ( wstring )
+
+** multiple type encoding not supported, send multiple packet or special implementation
 
 CMD :
-1-byte encoding 4-length string (ex. READ RETR YOUT)
+1-byte encoding string (ex. READ RETR YOUT)
+end with '|' char
 
 DATA :
-applied ENC to data
+byteArray with encoding defined by ENC
+
+
+--- Reading ---
+1. Read 1 byte for ENC
+2. Read until reach first '|' , treat them as 1-byte encoding string , for CMD
+3. Read after first '|' , decode them with ENC , for DATA

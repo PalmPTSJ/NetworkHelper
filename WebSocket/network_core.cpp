@@ -133,7 +133,6 @@ bool net_connect(SOCKET &sock,sockaddr_in addr,int timeout)
 void net_send(SOCKET &sock, byteArray data)
 {
     unsigned char *toSend_buf = &data[0];
-    //strcpy(toSend_buff,data.c_str());
     send(sock,(char*)toSend_buf,data.size(),0);
 }
 

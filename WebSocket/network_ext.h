@@ -18,5 +18,7 @@ struct net_ext_sock
 net_ext_sock net_ext_createSock();
 
 byteArray toByteArray(string str);
+void debugByteArray_int(byteArray bA);
+void debugByteArray_str(byteArray bA);
 string toString(byteArray bA);
 #endif // NETWORK_EXT_H_INCLUDED

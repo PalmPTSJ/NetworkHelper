@@ -21,7 +21,7 @@ unsigned int rotl(unsigned int value, int shift) {
 string bin(string str)
 {
     string toRet = "";
-    for(int i = 0;i < str.size();i++) {
+    for(unsigned int i = 0;i < str.size();i++) {
         for(int j = 7;j >= 0;j--) {
             toRet.push_back(((str[i]>>j)&1) + '0');
         }
@@ -223,36 +223,6 @@ byteArray wsPing()
     toRet.push_back(0);
     return toRet;
 }
-wstring wsDecodeMsg(byteArray wsMessage)
-{
-    wstring toRet = L"";
-    int meta[6];
-    meta[0] = wsMessage[0]; // type
-    meta[1] = wsMessage[1] & 127;
-    int nowPtr = 2;
-    int metaLen = 6;
-    if(meta[1] == 126) {
-        // additional 2 bytes will be used for length
-        nowPtr = 4;
-        metaLen = 8;
-    }
-    else if(meta[1] == 127) {
-        // additional 8 bytes will be used for length
-        nowPtr = 10;
-        metaLen = 14;
-    }
-    for(int i = 0;i < 4;i++) {
-        meta[i+2] = wsMessage[nowPtr++];
-    }
-    // parsing wString
-    for(int i = nowPtr;i < wsMessage.size();i+=2) {
-        if(i == wsMessage.size()-1) break; // shouldn't happen
-        int charcode = 0;
-        charcode = ((cvt(wsMessage[i]) ^ meta[((i-metaLen)%4) + 2])<<8) + ((cvt(wsMessage[i+1]) ^ meta[((i-metaLen+1)%4) + 2]));
-        toRet.push_back(wchar_t(charcode));
-    }
-    return toRet;
-}
 string translate_s1_to_s2(string str) // ABCDE -> _A_B_C_D_E
 {
     string toRetStr = "";
@@ -285,7 +255,7 @@ wstring translate_s2_to_ws(string str) // _A_B_C_DXX -> ABCDX
 
 }
 string translate_ws_to_url(wstring str) // ABCD -> %..%..%..%..
-{ /// !!! Thai language hack only , other language will not work at all
+{   /// !!! Thai language hack only , other language will not work at all ( not even work for thai now )
     string toRetStr = "";
     for(int i = 0;i < str.size();i++) {
         if(int(str[i]) <= 255) {
@@ -305,10 +275,68 @@ string translate_ws_to_url(wstring str) // ABCD -> %..%..%..%..
     //cout << "TOURL : " << toRetStr << endl;
     return toRetStr;
 }
-byteArray wsEncodeMsg(string str,int type=WS_OP_TXT)
+string wsDecodeMsg(byteArray wsMessage,wstring& dataStream)
+{
+    dataStream = L"";
+    int meta[6];
+    meta[0] = wsMessage[0]; // type & everything
+    meta[1] = wsMessage[1] & 127;
+    int nowPtr = 2;
+    int metaLen = 6;
+    if(meta[1] == 126) { // additional 2 bytes will be used for length
+        nowPtr = 4;
+        metaLen = 8;
+    }
+    else if(meta[1] == 127) { // additional 8 bytes will be used for length
+        nowPtr = 10;
+        metaLen = 14;
+    }
+    for(int i = 0;i < 4;i++) {
+        meta[i+2] = wsMessage[nowPtr++];
+    }
+    int packetFIN = meta[0]>>7;
+    int packetOP = meta[0]&15;
+    if(packetOP == 8) { /// opcode for closing connection
+        // reading closing code
+        int closingCode = ((cvt(wsMessage[nowPtr])^meta[(nowPtr-metaLen)%4+2])<<8) + (cvt(wsMessage[nowPtr+1])^meta[(nowPtr-metaLen+1)%4+2]);
+        dataStream.push_back(wchar_t(closingCode));
+        return "CLOS";
+    }
+    // parsing wString
+    int encodingType = cvt(wsMessage[nowPtr++])^meta[2];
+    // extract opcode
+    string opcode = "";
+    int c;
+    while((c = cvt(wsMessage[nowPtr])^meta[(nowPtr-metaLen)%4 + 2]) != int('|')) {
+        opcode.push_back(char(c));
+        nowPtr++;
+        if(nowPtr >= wsMessage.size()) {
+            return "ERROR";
+        }
+    }
+    nowPtr++; // skip |
+    int charcode = 0;
+    if(encodingType == int('1')) { // 1-byte encoding ( normal string )
+        while(nowPtr < wsMessage.size()) {
+            charcode = cvt(wsMessage[nowPtr])^meta[(nowPtr-metaLen)%4 + 2];
+            dataStream.push_back(wchar_t(charcode));
+            nowPtr++;
+        }
+    }
+    else if(encodingType == int('2')) { // 2-bytes encoding ( wstring )
+        while(nowPtr < wsMessage.size()) {
+            if(nowPtr == wsMessage.size()-1) break; // shouldn't happen
+            charcode = ((cvt(wsMessage[nowPtr]) ^ meta[((nowPtr-metaLen)%4) + 2])<<8) + ((cvt(wsMessage[nowPtr+1]) ^ meta[((nowPtr-metaLen+1)%4) + 2]));
+            dataStream.push_back(wchar_t(charcode));
+            nowPtr += 2;
+        }
+    }
+    return opcode;
+}
+byteArray wsEncodeMsg(string opcode,string data,int type=WS_OP_TXT,char encodingType='2')
 {
     byteArray toRet;
-    unsigned long long int sz = str.size();
+    unsigned long long int sz = data.size()+opcode.size()+1+1; // DATA , OPCODE , | , ENC
     toRet.push_back(type);
     if(sz <= 125) {
         // normal len
@@ -331,56 +359,41 @@ byteArray wsEncodeMsg(string str,int type=WS_OP_TXT)
         toRet.push_back((sz >> 8) &255);
         toRet.push_back(sz &255);
     }
-    //toRet.push_back(0);toRet.push_back(0); toRet.push_back(0); toRet.push_back(0);
-    toRet.insert(toRet.end(),str.begin(),str.end());
-    //toRet.push_back(0);
+    /// DATA area
+    toRet.push_back(cvt(encodingType));
+    toRet.insert(toRet.end(),opcode.begin(),opcode.end());
+    toRet.push_back('|');
+    toRet.insert(toRet.end(),data.begin(),data.end());
     return toRet;
 }
-string retr(wstring dir)
+wstring retr(wstring dir)
 {
-    byteArray toRetBA;
-    //cout << "RETR ING" << endl;
     wstring path(dir.begin(),dir.end());
     path.append(L"\\*");
     WIN32_FIND_DATAW FindData;
     HANDLE hFind;
     hFind = FindFirstFileW( path.c_str(), &FindData );
-    wstring toRet = L"DIRLST|";
-    wstring cvt;
-    cvt.assign(dir.begin(),dir.end());
-    toRet.append(cvt);
-    toRet.push_back(L'|');
+    wstring toRet = dir;
+    toRet.push_back(wchar_t('|'));
     if( hFind == INVALID_HANDLE_VALUE ) {
-        return "";
+        return L"";
     }
     do
     {
         if (FindData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
             toRet.append(L">");
             toRet.append(FindData.cFileName);
-            //cout << "DIRECT : " << FindData.cFileName << endl;
         }
         else {
             toRet.append(FindData.cFileName);
-            //wcout << "FILE : " << FindData.cFileName << endl;
         }
         toRet.push_back('|');
     }
     while( FindNextFileW(hFind, &FindData) > 0 );
-
-    if( GetLastError() != ERROR_NO_MORE_FILES )
-    {
+    if( GetLastError() != ERROR_NO_MORE_FILES ) {
         cout << "Something went wrong during searching\n";
     }
-    // convert wstring to 2 bytes array
-    string toRetStr = "";
-    for(int i = 0;i < toRet.size();i++) {
-        //cout << int(toRet[i]) << ",";
-        toRetStr.push_back(toRet[i]>>8);
-        toRetStr.push_back(toRet[i]&255);
-    }
-    //cout << endl;
-    return toRetStr;
+    return toRet;
 }
 
 int cntDown = 0;
@@ -432,29 +445,22 @@ void youtubeRecv(byteArray bt)
             if(res != string::npos) {
                 string last = youtubeRecvData.substr(res+15,11);
                 if(last.size() == 11) {
-                    string toSend = "YOUT|";
-                    toSend.append(last);
                     cout << "Youtube search found [" << last << "]" << endl;
-                    server.sendToAllClient(wsEncodeMsg(translate_s1_to_s2(toSend)));
+                    server.sendToAllClient(wsEncodeMsg("YOUT",last,WS_OP_TXT,'1'));
                     youtubeDataFound = true;
                     youtubeClient.disconnect();
                 }
             }
         }
     }
-    //deb.close();
 }
 void run() {
     if(GetAsyncKeyState(VK_SPACE) && !sp) {
         sp = true;
-        /*cout << "SEND DEBUG DATA 1" << endl;
-        server.sendToAllClient(wsEncodeMsg(translate_s1_to_s2("DRIVE|C|D|E|B|U|G|")));*/
     }
     else if(!GetAsyncKeyState(VK_SPACE) && sp) sp = false;
     if(GetAsyncKeyState(VK_RSHIFT) && !rs) {
         rs = true;
-        /*cout << "SEND DEBUG DATA 2" << endl;
-        server.sendToAllClient(wsEncodeMsg(translate_s1_to_s2("DRIVE|C|D|")));*/
     }
     else if(!GetAsyncKeyState(VK_RSHIFT) && rs) rs = false;
 
@@ -464,12 +470,9 @@ void run() {
         // check new drive
         string driveList_new = getDriveList();
         if(driveList_new.compare(driveList_old) != 0) {
-            /// change drive
-            driveList_old = driveList_new;
-            string toSend = "DRIVE|";
-            toSend.append(driveList_new);
-            server.sendToAllClient(wsEncodeMsg(translate_s1_to_s2(toSend)));
+            server.sendToAllClient(wsEncodeMsg("DRIVE",driveList_new,WS_OP_TXT,'1'));
             cout << "Drive list changed : " << driveList_new << endl;
+            driveList_old = driveList_new;
         }
         cntDown = 0;
     }
@@ -481,44 +484,45 @@ void recv(byteArray data,int i) {
             server.sendTo(wsHandshake(str),i);
             cout << "ws : Handshaked with " << i << " (" << server.getIpFrom(i) << ")" << endl;
         }
+        else {
+            // HTML request
+        }
     }
     else {
-        wstring decodeMsg = wsDecodeMsg(data);
-        if(decodeMsg.size() == 1) {
-            if(int(decodeMsg[0]) == 1001) {
-                cout << "Get 1001 (GOAWY) code from " << i << " (" <<server.getIpFrom(i)<<")" << endl;
-                server.disconnect(i);
-            }
-            else {
-                cout << "Recieved code number : " << int(decodeMsg[0]) << endl;
-            }
+        wstring decodeMsg;
+        string opcode = wsDecodeMsg(data,decodeMsg);
+        if(opcode.find("CLOS")==0) {
+            int closingCode = int(decodeMsg[0]);
+            if(closingCode == 1001)
+                cout << "CLOSING 1001 (GOAWAY) code from " << i << " (" <<server.getIpFrom(i)<< ")" << endl;
+            else
+                cout << "CLOSING " << closingCode << " code from " << i << " (" <<server.getIpFrom(i)<< ")" << endl;
+            server.disconnect(i);
         }
         else {
-            cout << "(" << i << ")" << " : " << translate_ws_to_s1(decodeMsg);
-            if(decodeMsg.find(L"RETR ") == 0) { /// RETR [DIR] : retrieve file list at DIR
-                cout << " [RETR]" << endl;
-                string toRet = retr(decodeMsg.substr(5));
-                server.sendTo(wsEncodeMsg(toRet),i);
+            cout << "RECV [" << i << "] OP [" << opcode;
+            cout << "] DATA [" << translate_ws_to_s1(decodeMsg) << "]";
+            if(opcode.find("RETR") == 0) { /// RETR [DIR] : retrieve file list at DIR
+                cout << " <RETR>" << endl;
+                wstring toRet = retr(decodeMsg);
+                server.sendTo(wsEncodeMsg("DIRLST",translate_ws_to_s2(toRet),WS_OP_TXT,'2'),i);
             }
-            else if(decodeMsg.find(L"EXEC ") == 0) { /// EXEC [PATH] : Execute file
-                cout << " [EXEC]" << endl;
-                wstring fullpath = decodeMsg.substr(5);
+            else if(opcode.find("EXEC") == 0) { /// EXEC [PATH] : Execute file
+                cout << " <EXEC>" << endl;
+                wstring fullpath = decodeMsg;
                 wstring dir = fullpath.substr(0,fullpath.find_last_of(L"/\\"));
                 wcout << dir << endl;
                 ShellExecuteW(NULL, NULL, fullpath.c_str(), NULL, dir.c_str(), SW_SHOWNORMAL);
             }
-            else if(decodeMsg.find(L"RETD") == 0) { /// RETD : retrieve drive letter
-                cout << " [RETD]" << endl;
-                string toRet = "DRIVE|";
-                toRet.append(driveList_old);
-                server.sendTo(wsEncodeMsg(translate_s1_to_s2(toRet)),i);
+            else if(opcode.find("RETD") == 0) { /// RETD : retrieve drive letter
+                cout << " <RETD>" << endl;
+                server.sendTo(wsEncodeMsg("DRIVE",driveList_old,WS_OP_TXT,'1'),i);
             }
-            else if(decodeMsg.find(L"READ") == 0) { /// READ : read file
-                cout << " [READ]" << endl;
-                wstring fullpath = decodeMsg.substr(5);
+            else if(opcode.find("READ") == 0) { /// READ : read file
+                cout << " <READ>" << endl;
+                wstring fullpath = decodeMsg;
                 FILE* f = _wfopen(fullpath.c_str(),L"rb");
-                wstring toSendH = L"READ|";
-                toSendH.append(fullpath);
+                wstring toSendH = fullpath;
                 toSendH.append(L"|");
                 string realData = translate_ws_to_s2(toSendH);
                 char c;
@@ -530,17 +534,13 @@ void recv(byteArray data,int i) {
                     c=fgetc(f);
                 }
                 cout << "File size : " << sizeCnt << endl;
-                cout << "File read error code : " << ferror(f) << endl;
+                if(ferror(f) != 0) cout << "File read error code : " << ferror(f) << endl;
                 fclose(f);
-                server.sendTo(wsEncodeMsg(realData,WS_OP_BIN),i);
-                cout << "Sent" << endl;
+                server.sendTo(wsEncodeMsg("FILE",realData,WS_OP_BIN,'1'),i);
             }
-            else if(decodeMsg.find(L"YOUT") == 0) { /// YOUT : Youtube Music search
-                //return; // Close this broken feature
-                cout << " [YOUT]" << endl;
-                //http://www.youtube.com/results?search_query=wolf+bite
-                //cout << "Experimental youtube search start !" << endl;
-                wstring query = decodeMsg.substr(5);
+            else if(opcode.find("YOUT") == 0) { /// YOUT : Youtube Music search
+                cout << " <YOUT>" << endl;
+                wstring query = decodeMsg;
                 if(youtubeClient.connect("www.youtube.com",80,200)) {
                     string httpReq = "GET /results?search_query=";
                     httpReq.append(translate_ws_to_url(query));
@@ -552,6 +552,9 @@ void recv(byteArray data,int i) {
                     youtubeDataFound = false;
                 }
                 wcout << L"Youtube query request [" << query << L"] sent" << endl;
+            }
+            else if(opcode.compare("ERROR") == 0) {
+                cout << "OPCODE ERROR !" << endl;
             }
         }
     }

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>bmp indexer</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!--<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>-->
+        <style>
+            #deb {
+                font-size:30px;
+            }
+            #imPrev {
+                text-align:center;
+                position:absolute;
+                right:10px;
+                top:10px;
+                border:1px solid red;
+                padding:5px;
+            }
+            #oriCanvas , #renCanvas {
+                width:512px; 
+                height:512px; 
+                image-rendering: -moz-crisp-edges;
+                border:1px solid black;
+            }
+        </style>
+        <script src="jquery.js"></script>
+        <script src="PalmOS.js"></script>
+    </head>
+    <body>
+        <div id="deb">Debug area</div>
+        <div id="info"> </div>
+        <div id="imPrev">
+            <p>Image preview</p>
+            <canvas id="oriCanvas"> </canvas>
+            <canvas id="renCanvas"> </canvas>
+        </div>
+        <div id="colorList">
+            <input type="button" value="Add color" onclick="addColor()">
+            <input type="button" value="Render" onclick="render()">
+        </div>
+    </body>
+    <script type="text/javascript">
+        function elem(id)
+        {
+            return document.getElementById(id);
+        }
+        function infoAdd(str)
+        {
+            elem("info").innerHTML += (str + "<br>");
+        }
+        
+        var connection = new WebSocket("ws://127.0.0.1");
+        
+        connection.onopen = function () {
+            connection.send(wsEncodeMsg("READ",'D:\\testBMP2.bmp','1'));
+        };
+        // Log errors
+        connection.onerror = function (error) {
+            console.log('WebSocket Error ' + error);
+        };
+        // Log messages from the server
+        connection.onmessage = function (e) {
+            //alert("data recv");
+            var packet = wsDecodeMsg(e.data);
+            if(packet.error == "BLOB") {
+                infoAdd("Decoding blob");
+                elem("deb").innerHTML = "Decoding blob";
+                wsDecodeBlobMsg(e.data,onBlobMessage);
+            }
+        }
+        function onBlobMessage(packet)
+        {
+            var dataArr = packet.data.split('|');
+            elem("deb").innerHTML = "Done decoding msg !";
+            if(packet.op == "FILE") {
+                infoAdd("File path : "+dataArr[0]);
+                infoAdd("File size : "+packet.dataArr.length);
+                parseBMP(packet.dataArr.subarray(dataArr[0].length+1));
+            }
+        }
+        function toString(arr)
+        {
+            var toRet = "";
+            for(var i = 0;i < arr.length;i++) toRet += String.fromCharCode(arr[i]);
+            return toRet;
+        }
+        function createArrayStream(arr)
+        {
+            var stream = {streamData:arr,streamOffset:0};
+            return stream;
+        }
+        function parseLittleEndian(arr)
+        {
+            var toRet = 0;
+            for(var i = 0;i < arr.length;i++) {
+                toRet += arr[i]*(1<<(8*i));
+            }
+            return toRet;
+        }
+        function getDataFromArrayStream(stream,bytes)
+        {
+            var toRet = stream.streamData.subarray(stream.streamOffset,stream.streamOffset+bytes);
+            stream.streamOffset+=bytes;
+            return toRet;
+        }
+        function peekDataFromArrayStream(stream,index)
+        {
+            return stream.streamData[stream.streamOffset+index];
+        }
+        var imagePixel = new Array(3); // R G B
+        var renderedPixel = new Array(3);
+        var imageHeight;
+        var imageWidth;
+        function parseBMP(data)
+        {
+            elem("deb").innerHTML = "Parsing BMP !";
+            var fileStream = createArrayStream(data);
+            var bmpHeader = getDataFromArrayStream(fileStream,14);
+            infoAdd("FileCode : " + toString(bmpHeader[0]+bmpHeader[1]));
+            var dibHeaderSize = parseLittleEndian(getDataFromArrayStream(fileStream,4));
+            infoAdd("DIB Header Size : "+dibHeaderSize);
+            var dibStream = createArrayStream(getDataFromArrayStream(fileStream,dibHeaderSize-4));
+            // read dib header
+            var width = parseLittleEndian(getDataFromArrayStream(dibStream,4));
+            var height = parseLittleEndian(getDataFromArrayStream(dibStream,4));
+            getDataFromArrayStream(dibStream,2);
+            var bitPerPixel = parseLittleEndian(getDataFromArrayStream(dibStream,2));
+            var bytesPerPixel = bitPerPixel/8;
+            infoAdd("DIB->[width,height] : "+width+"x"+height);
+            infoAdd("DIB->bitPerPixel : "+bitPerPixel);
+            // read real data (assume 24 bit color)
+            var rowSize = Math.ceil(width*(bytesPerPixel)/4)*4;
+            if(bitPerPixel != 24) {
+                infoAdd("NOT SUPPORTED BIT PER PIXEL");
+                return;
+            }
+            infoAdd("1 row size : "+rowSize);
+            imagePixel['R'] = new Array();
+            imagePixel['G'] = new Array();
+            imagePixel['B'] = new Array();
+            renderedPixel['R'] = new Array(); 
+            renderedPixel['G'] = new Array(); 
+            renderedPixel['B'] = new Array(); 
+            for(var row = 0;row < height;row++) {
+                // read this full row
+                imagePixel['R'][row] = new Array();
+                imagePixel['G'][row] = new Array();
+                imagePixel['B'][row] = new Array();
+                renderedPixel['R'][row] = new Array(); 
+                renderedPixel['G'][row] = new Array(); 
+                renderedPixel['B'][row] = new Array(); 
+                for(var col = 0;col < width;col++) {
+                    imagePixel['B'][row][col] = peekDataFromArrayStream(fileStream,row*rowSize+(3*col)+0);
+                    imagePixel['G'][row][col] = peekDataFromArrayStream(fileStream,row*rowSize+(3*col)+1);
+                    imagePixel['R'][row][col] = peekDataFromArrayStream(fileStream,row*rowSize+(3*col)+2);
+                }
+            }
+            infoAdd("Calculate size : "+(height*rowSize))
+            infoAdd("Finish Parsing");
+            elem("deb").innerHTML = "Finish";
+            imageWidth = width;
+            imageHeight = height;
+            drawImageOnCanvas("oriCanvas",imagePixel);
+        }
+        function drawImageOnCanvas(canvasName,pixelData)
+        {
+            var canvas = elem(canvasName);
+            canvas.width = imageWidth;
+            canvas.height = imageHeight;
+            var ctx = canvas.getContext("2d");
+            var canvasData = ctx.createImageData(imageWidth, imageHeight);
+            for(var row = 0;row < imageHeight;row++) {
+                for(var col = 0;col < imageWidth;col++) {
+                    canvasData.data[(row*imageWidth+col)*4] = pixelData['R'][imageHeight-row-1][col];
+                    canvasData.data[(row*imageWidth+col)*4 + 1] = pixelData['G'][imageHeight-row-1][col];
+                    canvasData.data[(row*imageWidth+col)*4 + 2] = pixelData['B'][imageHeight-row-1][col];
+                    canvasData.data[(row*imageWidth+col)*4 + 3] = 255; // Alpha
+                    
+                }
+            }
+            ctx.putImageData(canvasData, 0, 0);
+            //infoAdd("Finish Drawing on "+canvasName);
+        }
+        function addColor()
+        {
+            var thisElem = document.createElement("div");
+            thisElem.className = "colorSel";
+            thisElem.innerHTML = '<input type="color"><input type="range" value="100" min="10" max="1000"><input type="button" value="Delete" onclick="delCol(this)">';
+            elem("colorList").appendChild(thisElem);
+        }
+        addColor()
+        function hexToRGB(hex) {
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+        function render()
+        {
+            // get color list into array
+            var colorList = new Array();
+            var allInput = elem("colorList").getElementsByTagName("input");
+            // skip 0&1
+            for(var i = 2;i < allInput.length;i+=3)
+            {
+                // i , i+1
+                var col = hexToRGB(allInput[i].value);
+                var fav = Math.log10(allInput[i+1].value);
+                colorList[Math.floor(i/3)] = [col,fav];
+            }
+            if(colorList.length == 0) return;
+            var prefColorIndex = 0;
+            var prefColorScore = -1;
+            var thisColorScore = 0;
+            for(var row = 0;row < imageHeight;row++) {
+                for(var col = 0;col < imageWidth;col++) {
+                    // process this pixel
+                    prefColorIndex = 0;
+                    prefColorScore = -1;
+                    for(var i = 0;i < colorList.length;i++) {
+                        thisColorScore = Math.pow(imagePixel['R'][row][col]-colorList[i][0].r,2)/colorList[i][1];
+                        thisColorScore += Math.pow(imagePixel['G'][row][col]-colorList[i][0].g,2)/colorList[i][1];
+                        thisColorScore += Math.pow(imagePixel['B'][row][col]-colorList[i][0].b,2)/colorList[i][1];
+                        if(thisColorScore < prefColorScore || prefColorScore == -1) {
+                            prefColorIndex = i;
+                            prefColorScore = thisColorScore;
+                        }
+                    }
+                    renderedPixel['R'][row][col] = colorList[prefColorIndex][0].r;
+                    renderedPixel['G'][row][col] = colorList[prefColorIndex][0].g;
+                    renderedPixel['B'][row][col] = colorList[prefColorIndex][0].b;
+                }
+            }
+            drawImageOnCanvas("renCanvas",renderedPixel);
+        }
+        function delCol(e)
+        {
+            e.parentNode.parentNode.removeChild(e.parentNode);
+        }
+    </script>
+</html>

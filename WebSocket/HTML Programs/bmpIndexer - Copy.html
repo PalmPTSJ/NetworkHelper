@@ -24,11 +24,11 @@
             }
         </style>
         <script src="jquery.js"></script>
-        <script type="text/javascript" src="html5player.js"></script>
+        <script src="PalmOS.js"></script>
     </head>
     <body>
         <div id="deb">Debug area</div>
-        <div id="info"></div>
+        <div id="info"> </div>
         <div id="imPrev">
             <p>Image preview</p>
             <canvas id="oriCanvas"> </canvas>
@@ -54,55 +54,13 @@
         connection.onerror = function (error) {
             console.log('WebSocket Error ' + error);
         };
-        function wEncode(str)
-        {
-            var encoded = "";
-            var toAlert = "";
-            for(var i = 0;i < str.length;i++) {
-                encoded += String.fromCharCode(Math.floor((str[i].charCodeAt())/256));
-                encoded += String.fromCharCode(str[i].charCodeAt()%256);
-                toAlert += Math.floor((str[i].charCodeAt())/256);
-                toAlert += '+';
-                toAlert += str[i].charCodeAt()%256;
-                toAlert += ' ';
-            }
-            return encoded;
-        }
-        function wSend(str)
-        {
-            connection.send(wEncode(str));
-        }
-        function wDecode(str)
-        {
-            var parsed = "";
-            for(var i = 0;i < str.length;i+=2) {
-                if(i == str.length-1) {parsed += String.fromCharCode(i); break;}
-                var code = (str[i].charCodeAt()*256)+(str[i+1].charCodeAt());
-                parsed += String.fromCharCode(code);
-            }
-            return parsed;
-        }
-        function parseDir(dir)
-        {
-            var lst = dir.split("\\");
-            var lstParsed = [];
-            var str = "";
-            for(var i = 0;i < lst.length;i++) {
-                if(lst[i] == '.') continue;
-                if(lst[i] == "..") {
-                    lstParsed.pop();
-                    continue;
-                }
-                lstParsed.push(lst[i]);
-            }
-            for(var i = 0;i < lstParsed.length;i++) {
-                str += lstParsed[i]+'\\';
-            }
-            return str;
-        }
         // Log messages from the server
         connection.onmessage = function (e) {
             //alert("data recv");
+            var packet = wsDecodeMsg(e.data);
+            if(packet.error == "BLOB") {
+                wsDecodeBlobMsg(e.data,onBlobMessage);
+            }
             if(e.data instanceof Blob) {
                 var str = wDecode(e.data);
                 var reader = new FileReader();
