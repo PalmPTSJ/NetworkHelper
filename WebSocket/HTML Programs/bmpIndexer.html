@@ -52,7 +52,7 @@
         var connection = new WebSocket("ws://127.0.0.1");
         
         connection.onopen = function () {
-            connection.send(wsEncodeMsg("READ",'D:\\testBMP2.bmp','1'));
+            connection.send(wsEncodeMsg("READ",translate_ws_to_s2('D:\\บีเอ็มพี.bmp'),'2'));
         };
         // Log errors
         connection.onerror = function (error) {
@@ -75,7 +75,7 @@
             if(packet.op == "FILE") {
                 infoAdd("File path : "+dataArr[0]);
                 infoAdd("File size : "+packet.dataArr.length);
-                parseBMP(packet.dataArr.subarray(dataArr[0].length+1));
+                parseBMP(packet.dataArr.subarray((dataArr[0].length+1) * 2));
             }
         }
         function toString(arr)

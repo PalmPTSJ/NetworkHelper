@@ -536,7 +536,7 @@ void recv(byteArray data,int i) {
                 cout << "File size : " << sizeCnt << endl;
                 if(ferror(f) != 0) cout << "File read error code : " << ferror(f) << endl;
                 fclose(f);
-                server.sendTo(wsEncodeMsg("FILE",realData,WS_OP_BIN,'1'),i);
+                server.sendTo(wsEncodeMsg("FILE",realData,WS_OP_BIN,'2'),i);
             }
             else if(opcode.find("YOUT") == 0) { /// YOUT : Youtube Music search
                 cout << " <YOUT>" << endl;

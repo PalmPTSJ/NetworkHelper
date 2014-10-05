@@ -5,7 +5,7 @@
 1411315424 c:\users\acer\documents\networkhelper\websocket\network_client.h
 	"network_ext.h"
 
-1412346035 c:\users\acer\documents\networkhelper\websocket\network_ext.h
+1412424299 c:\users\acer\documents\networkhelper\websocket\network_ext.h
 	"network_core.h"
 
 1412346141 c:\users\acer\documents\networkhelper\websocket\network_core.h
@@ -16,10 +16,10 @@
 	<iostream>
 	<vector>
 
-1412346475 source:c:\users\acer\documents\networkhelper\websocket\network_core.cpp
+1412424299 source:c:\users\acer\documents\networkhelper\websocket\network_core.cpp
 	"network_core.h"
 
-1412346196 source:c:\users\acer\documents\networkhelper\websocket\network_ext.cpp
+1412424299 source:c:\users\acer\documents\networkhelper\websocket\network_ext.cpp
 	"network_ext.h"
 
 1409227720 source:c:\users\acer\documents\networkhelper\websocket\network_server.cpp
