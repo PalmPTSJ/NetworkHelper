@@ -2,7 +2,7 @@
 
 WSADATA net_wsaData;
 string net_lastError = "";
-char net_tempBuffer[2048] = "\0";
+char net_tempBuffer[100000] = "\0";
 
 void net_init() {
     WSAStartup(MAKEWORD(2,0), &net_wsaData);
@@ -81,21 +81,31 @@ string net_getIpFromHandle(net_sockHandle& hnd)
 {
     return inet_ntoa(hnd.addr.sin_addr);
 }
-
+unsigned int cvtt(int a) {
+    if(a>=0) return a;
+    return 256+a;
+}
 int net_recv(SOCKET &sock,byteArray& data)
 {
-    memset(net_tempBuffer,0,2048);
-    int recvStat = recv(sock,net_tempBuffer,2048,0);
-    if(recvStat != 0 && recvStat != SOCKET_ERROR)
+    data.clear();
+    bool recvAnyData = false;
+    memset(net_tempBuffer,0,100000);
+    int recvStat = recv(sock,net_tempBuffer,100000,0);
+    while(recvStat != 0 && recvStat != SOCKET_ERROR)
     {
-        data.assign(net_tempBuffer,net_tempBuffer+recvStat);
-        return NET_RECV_OK;
+        data.insert(data.end(),net_tempBuffer,net_tempBuffer+recvStat);
+        /*cout << "Recieved " << recvStat << " bytes ";
+        for(int i = 0;i < 20;i++) cout << cvtt(net_tempBuffer[i]) << " ";
+        cout << endl;*/
+        recvAnyData = true;
+        memset(net_tempBuffer,0,100000);
+        recvStat = recv(sock,net_tempBuffer,100000,0);
     }
     if(recvStat == 0)
         return NET_RECV_CLOSE;
     if(recvStat == SOCKET_ERROR && WSAGetLastError() != 10035)
         return NET_RECV_ERROR;
-    return NET_RECV_NONE;
+    return recvAnyData?NET_RECV_OK:NET_RECV_NONE;
 }
 
 bool net_error()

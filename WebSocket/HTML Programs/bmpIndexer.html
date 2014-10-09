@@ -27,6 +27,7 @@
         <script src="PalmOS.js"></script>
     </head>
     <body>
+        <input type="text" id="pathArea"> <input type="button" value="Load" onclick="loadFile()"> <input type="button" value="Save" onclick="saveFile()">
         <div id="deb">Debug area</div>
         <div id="info"> </div>
         <div id="imPrev">
@@ -63,6 +64,7 @@
             //alert("data recv");
             var packet = wsDecodeMsg(e.data);
             if(packet.error == "BLOB") {
+                elem("info").innerHTML = "";
                 infoAdd("Decoding blob");
                 elem("deb").innerHTML = "Decoding blob";
                 wsDecodeBlobMsg(e.data,onBlobMessage);
@@ -111,6 +113,8 @@
         var renderedPixel = new Array(3);
         var imageHeight;
         var imageWidth;
+        var bmpHeaderCache;
+        var rowSize;
         function parseBMP(data)
         {
             elem("deb").innerHTML = "Parsing BMP !";
@@ -129,11 +133,12 @@
             infoAdd("DIB->[width,height] : "+width+"x"+height);
             infoAdd("DIB->bitPerPixel : "+bitPerPixel);
             // read real data (assume 24 bit color)
-            var rowSize = Math.ceil(width*(bytesPerPixel)/4)*4;
+            rowSize = Math.ceil(width*(bytesPerPixel)/4)*4;
             if(bitPerPixel != 24) {
                 infoAdd("NOT SUPPORTED BIT PER PIXEL");
                 return;
             }
+            bmpHeaderCache = fileStream.streamData.subarray(0,fileStream.streamOffset); // hack of stream
             infoAdd("1 row size : "+rowSize);
             imagePixel['R'] = new Array();
             imagePixel['G'] = new Array();
@@ -238,6 +243,33 @@
         function delCol(e)
         {
             e.parentNode.parentNode.removeChild(e.parentNode);
+        }
+        function loadFile()
+        {
+            var path = elem("pathArea").value;
+            connection.send(wsEncodeMsg("READ",translate_ws_to_s2(path),'2'));
+        }
+        function saveFile()
+        {
+            var path = elem("pathArea").value;
+            var header = "2SAVE|"+translate_ws_to_s2(path+"|"); // hard coded
+            // form bmp data structure with bmpHeaderCache
+            var len = header.length + bmpHeaderCache.length + rowSize*imageHeight;
+            var data = new Uint8Array(len);
+            translate_s_to_bytes(header,data,0);
+            console.log(data);
+            for(var i = 0;i < bmpHeaderCache.length;i++) data[i+header.length] = bmpHeaderCache[i];
+            // push rendered pixel
+            for(var i = 0;i < imageHeight;i++) {
+                for(var j = 0;j < imageWidth;j++) {
+                    data[(i*rowSize+j*3)+header.length + bmpHeaderCache.length] = renderedPixel['B'][i][j];
+                    data[(i*rowSize+j*3+1)+header.length + bmpHeaderCache.length] = renderedPixel['G'][i][j];
+                    data[(i*rowSize+j*3+2)+header.length + bmpHeaderCache.length] = renderedPixel['R'][i][j];
+                }
+            }
+            // done , send data
+            connection.send(data);
+            //connection.send(wsEncodeMsg("SAVE",translate_ws_to_s2(path+"|")+data,'2'));
         }
     </script>
 </html>

@@ -16,7 +16,7 @@ public:
     void init();
 
     void setup(int _port); // Using manual flow
-    void setup(int _port,void(*run)(),void(*recv)(byteArray,int),void(*err)(string),bool(*acc)(net_ext_sock)); // Using automatic flow
+    void setup(int _port,void(*run)(),void(*recv)(byteArray,int),void(*err)(string),bool(*acc)(net_ext_sock),void(*dis)(int)); // Using automatic flow
 
     bool start();
 
@@ -27,7 +27,7 @@ public:
 
     void disconnect(int index);
 
-    void stop();
+    void stop(); // graceful shutdown
     void forceStop();
 
     byteArray getRecvDataFrom(int index);
@@ -56,6 +56,7 @@ public:
     void (*recvFunc)(byteArray,int);
     void (*errFunc)(string);
     bool (*accFunc)(net_ext_sock);
+    void (*disFunc)(int);
     int delay;
 };
 

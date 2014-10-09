@@ -53,5 +53,5 @@ string net_getWsaError();
 
 extern WSADATA net_wsaData;
 extern string net_lastError;
-extern char net_tempBuffer[2048];
+extern char net_tempBuffer[100000];
 #endif // NETWORK_CORE_H_INCLUDED

@@ -10,8 +10,8 @@
 struct net_ext_sock
 {
     net_sockHandle sockHandle;
-    byteArray recvBuff;
-    byteArray sendBuff;
+    vector<byteArray> recvBuff;
+    vector<byteArray> sendBuff;
     int status;
 };
 

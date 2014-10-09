@@ -4,6 +4,10 @@ function wsEncodeMsg(opcode,data,encodingType='2') // encoding to packet msg
 	var toRet = (encodingType+opcode+'|'+data);
 	return toRet;
 }
+function wsEncodeBlobMsg(opcode,data,encodingType='2')
+{
+	
+}
 function translate_ws_to_s2(ws) // for encoding '2' data to be send ([UNI]abcd -> [2 UNICODE BYTE]_a_b_c_d)
 {
 	var encoded = new String();
@@ -22,6 +26,12 @@ function translate_s2_to_ws(str) // for decoding '2' back to ws (_a_b_c[2 UNICOD
         parsed += String.fromCharCode(code);
     }
     return parsed;
+}
+function translate_s_to_bytes(str,bArr,startInd)
+{
+	for(var i = 0;i < str.length;i++) {
+		bArr[startInd+i] = str[i].charCodeAt();
+	}
 }
 function wsDecodeMsg(msg) // decode packet msg to data & auto decoding data with ENC
 {

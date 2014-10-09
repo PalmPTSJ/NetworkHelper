@@ -1,10 +1,9 @@
 #include "network_server.h"
-net_server_serverClass::net_server_serverClass()
+net_server_serverClass::net_server_serverClass() /** Constructor */
 {
-    /** Constructor */
     sock = INVALID_SOCKET;
 }
-void net_server_serverClass::init()
+void net_server_serverClass::init() /** init default data */
 {
     sock = net_createSocket();
     port = NET_DEFAULT_PORT;
@@ -12,34 +11,30 @@ void net_server_serverClass::init()
     isShuttingDown = false;
     if(debugFunc != NULL) (*debugFunc)("Server init");
 }
-net_server_serverClass::~net_server_serverClass()
+net_server_serverClass::~net_server_serverClass() /** Destructor */
 {
-    /** Destructor */
-    if(isStart) {
-        // force shutdown
-        for(int i = 0;i < clientList.size();i++) /** force close everything */
-            net_closeHandle(clientList[i].sockHandle);
-        net_closeSocket(sock);
+    if(isStart) { // Force shutdown
+        forceStop();
     }
 }
-void net_server_serverClass::setup(int _port,void(*run)(),void(*recv)(byteArray,int),void(*err)(string),bool(*acc)(net_ext_sock))
-{
-    /** Set up data before start */
+void net_server_serverClass::setup(int _port,void(*run)(),void(*recv)(byteArray,int),void(*err)(string),bool(*acc)(net_ext_sock),void(*dis)(int))
+{ /** Set up data (auto flow) before start */
     if(sock == INVALID_SOCKET) init();
     port = _port;
     runFunc = run;
     recvFunc = recv;
     errFunc = err;
     accFunc = acc;
+    disFunc = dis;
 }
 void net_server_serverClass::setup(int _port)
-{
-    setup(_port,NULL,NULL,NULL,NULL);
+{ /** Set up data (manual flow) */
+    setup(_port,NULL,NULL,NULL,NULL,NULL);
 }
 
 bool net_server_serverClass::start()
 {
-    net_bindAndListen(sock,net_createAddr("",port)); /** Bind to port , listen to any ip */
+    net_bindAndListen(sock,net_createAddr("",port)); // Bind to port , listen to any ip
     if(net_error()) return false;
     isStart = true;
     return true;
@@ -48,8 +43,9 @@ bool net_server_serverClass::start()
 void net_server_serverClass::disconnect(int index)
 {
     if(index < 0 || index >= clientList.size()) return;
-    if(clientList[index].sendBuff.size() > 0)  /// send any pending data
-        net_send(clientList[index].sockHandle.sock,clientList[index].sendBuff);
+    if(clientList[index].sendBuff.size() > 0)  // send any pending data
+        for(int j = 0;j < clientList[index].sendBuff.size();j++)
+            net_send(clientList[index].sockHandle.sock,clientList[index].sendBuff[j]);
     clientList[index].status = NET_EXT_SOCK_CLOSING;
     net_shutdownHandle(clientList[index].sockHandle);
 }
@@ -74,29 +70,30 @@ void net_server_serverClass::forceStop()
 int net_server_serverClass::run()
 {
     for(int i = 0;i < clientList.size();i++) {
-        // send pending data
         if(clientList[i].sendBuff.size() > 0) { /// send waiting data
-            net_send(clientList[i].sockHandle.sock,clientList[i].sendBuff);
+            for(int j = 0;j < clientList[i].sendBuff.size();j++) {
+                net_send(clientList[i].sockHandle.sock,clientList[i].sendBuff[j]);
+            }
             clientList[i].sendBuff.clear();
         }
-        // recv
         byteArray recvData;
         int ret = net_recv(clientList[i].sockHandle.sock,recvData);
         if(ret == NET_RECV_CLOSE && clientList[i].status == NET_EXT_SOCK_CLOSING) { /// shutdown handling
             char cc[100]; sprintf(cc,"%s [%d] disconnected (SHUTD)",net_getIpFromHandle(clientList[i].sockHandle).c_str(),i);
             if(debugFunc != NULL) (*debugFunc)(string(cc));
             net_closeHandle(clientList[i].sockHandle);
+            if(disFunc != NULL) (*disFunc)(i);
             clientList.erase(clientList.begin() + i);
             --i;
         }
         else if(ret == NET_RECV_OK) { /// recieve data
-            clientList[i].recvBuff.insert(clientList[i].recvBuff.end(),recvData.begin(),recvData.end());
+            clientList[i].recvBuff.push_back(recvData);
         }
         else if(ret == NET_RECV_CLOSE) { /// other side disconnect
             char cc[100]; sprintf(cc,"%s [%d] disconnected (CSIGN)",net_getIpFromHandle(clientList[i].sockHandle).c_str(),i);
             if(debugFunc != NULL) (*debugFunc)(string(cc));
-            //net_shutdownHandle(clientList[i].sockHandle);
             net_closeHandle(clientList[i].sockHandle);
+            if(disFunc != NULL) (*disFunc)(i);
             clientList.erase(clientList.begin() + i);
             --i;
         }
@@ -104,6 +101,7 @@ int net_server_serverClass::run()
             char cc[100]; sprintf(cc,"%s [%d] disconnected (ERROR)",net_getIpFromHandle(clientList[i].sockHandle).c_str(),i);
             if(debugFunc != NULL) (*debugFunc)(string(cc));
             net_closeHandle(clientList[i].sockHandle);
+            if(disFunc != NULL) (*disFunc)(i);
             clientList.erase(clientList.begin() + i);
             --i;
         }
@@ -120,9 +118,9 @@ int net_server_serverClass::run()
 int net_server_serverClass::acceptNewRequest()
 {
     if(!isStart) return -1;
+    if(isShuttingDown) return -1; // don't accept new request when shutting down
     net_sockHandle hnd = net_accept(sock);
-    if(hnd.sock != INVALID_SOCKET) {
-        /** Connection recieved */
+    if(hnd.sock != INVALID_SOCKET) { /** Connection recieved */
         net_ext_sock client = net_ext_createSock();
         client.sockHandle = hnd;
         client.status = NET_EXT_SOCK_ONLINE;
@@ -132,11 +130,11 @@ int net_server_serverClass::acceptNewRequest()
         if(accFunc != NULL) if((*accFunc)(client) == false) {
             // reject this acception
             disconnect(clientList.size()-1);
-            return 2;
+            return 2; // connection rejected
         }
-        return 1;
+        return 1; // new connection recieved
     }
-    return 0;
+    return 0; // nothing new
 }
 
 bool net_server_serverClass::isClientHaveData(int index)
@@ -148,8 +146,9 @@ byteArray net_server_serverClass::getRecvDataFrom(int index)
 {
     byteArray toRet;
     if(index < 0 || index >= clientList.size()) return toRet;
-    toRet = clientList[index].recvBuff;
-    clientList[index].recvBuff.clear();
+    if(clientList[index].recvBuff.size() == 0) return toRet; // no data
+    toRet = clientList[index].recvBuff[0];
+    clientList[index].recvBuff.erase(clientList[index].recvBuff.begin());
     return toRet;
 }
 
@@ -161,7 +160,7 @@ string net_server_serverClass::getIpFrom(int index)
 void net_server_serverClass::sendTo(byteArray data,int index)
 {
     if(index < 0 || index >= clientList.size()) return;
-    clientList[index].sendBuff.insert(clientList[index].sendBuff.end(),data.begin(),data.end());
+    clientList[index].sendBuff.push_back(data);
 }
 void net_server_serverClass::sendTo(string data,int index)
 {
@@ -170,7 +169,7 @@ void net_server_serverClass::sendTo(string data,int index)
 void net_server_serverClass::sendToAllClient(byteArray data)
 {
     for(int i = 0;i < clientList.size();i++)
-        clientList[i].sendBuff.insert(clientList[i].sendBuff.end(),data.begin(),data.end());
+        clientList[i].sendBuff.push_back(data);
 }
 void net_server_serverClass::sendToAllClient(string data)
 {
@@ -180,7 +179,7 @@ void net_server_serverClass::sendToAllClientExcept(byteArray data,int exceptInde
 {
     for(int i = 0;i < clientList.size();i++)
         if(i != exceptIndex)
-            clientList[i].sendBuff.insert(clientList[i].sendBuff.end(),data.begin(),data.end());
+            clientList[i].sendBuff.push_back(data);
 }
 void net_server_serverClass::sendToAllClientExcept(string data,int exceptIndex)
 {
@@ -212,7 +211,7 @@ void net_server_serverClass::runLoop()
             int runStat = run();
             if(isShuttingDown && (runStat == NET_SERVER_STOPSUCCESS)) break;
             for(int i = 0;i < clientList.size();i++) {
-                if(isClientHaveData(i)) { /* if this client have data */
+                while(isClientHaveData(i)) { /* if this client have data */
                     byteArray recvData = getRecvDataFrom(i);
                     if(recvFunc != NULL) (*recvFunc)(recvData,i);
                 }
