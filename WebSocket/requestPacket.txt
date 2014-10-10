@@ -1,0 +1,78 @@
+1. RETR (RETRieve) : RETR|[PATH]
+Usage : Retrieve files/folders in given path
+
+Return value : List of files and folders, split with '|'
+Return markup : DIRLST|[PATH]|[Name of files and folders list, folders name will begin with '>']
+
+Example Call : RETR D:\Palm
+Example Return : DIRLST|D:\Palm|file1.txt|file2.bmp|>fold1|>.|>..|
+
+2. RETD (RETrieve Drive) : RETD
+Usage : Retrieve available drive list
+
+Return value : List of available drives, split with '|'
+Return markup : DRIVE|[List of drives]
+
+Example Call : RETD
+Example Return : DRIVE|C:|D:|N:|
+
+3. EXEC (EXECute) : EXEC|[PATH TO FILE]
+Usage : Execute file by system
+
+Return value : -None-
+Return markup : -None-
+
+Example Call : EXEC|D:\myfile.exe
+Example Return : -None-
+
+4. READ (READ file) : READ|[PATH TO FILE]
+Usage : Read file's data
+
+Return value : File's data
+Return markup : FILE|[PATH TO FILE]|[DATA]
+
+Example Call : READ|D:\mytext.txt
+Example Return : FILE|D:\mytext.txt|Hello world ! This is inside mytext file
+
+Note : 	- Data will be send as binary (blob)
+
+5. YOUT (YOUTube) : YOUT|[SEARCH TEXT] *** Experimental, not properly support ***
+Usage : Get first youtube search result of the text
+
+Return value : Youtube ID of the first video that is the search result of text
+Return markup : YOUT|[Video ID]
+
+Example Call : YOUT|Cute cat
+Example Return : YOUT|1a2b3c4d5e6
+
+Note : Youtube ID has a length of 11 characters
+
+6. SAVE (SAVE file) : SAVE|[PATH TO FILE]|[DATA]
+Usage : save data into file
+
+Return value : -None-
+Return markup : -None-
+
+Example Call : SAVE|D:\mytxt.txt|Hello World!
+Example Return : -None-
+
+Note : 	- The file will be overwritten if exists (if not, a new file will be created)
+	- Data should be send with binary type (Uint8Array)
+
+7. RELAY (RELAY message) : RELAY|[APPNAME]|[DATA] *** TODO ***
+Usage : Relay message to other application
+
+Return value : Status of relay
+Return markup : RELAYSTAT|[STAT : SUCCESS/FAIL]
+
+Example Call : RELAY|bmpIndexer|D:\Jobb.bmp
+Example Return : RELAYSTAT|SUCCESS
+
+8. REGIS (REGISter app) : REGIS|[APPNAME] *** TODO ***
+Usage : Register appname to server for relaying
+
+Return value : Status of registration
+Return markup : REGISSTAT|[STAT : SUCCESS/FAIL]
+
+Example Call : REGIS|fileBrowser
+Example Return REGISSTAT|SUCCESS

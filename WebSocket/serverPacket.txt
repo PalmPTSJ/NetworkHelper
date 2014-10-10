@@ -1,0 +1,17 @@
+1. DRIVE
+Occur : When available drive list changes
+
+Value : List of available drives
+Markup : DRIVE|[List of available drives]
+
+Example : DRIVE|C:|D:|N:|L:|
+
+Note : The same as the return value of RETD
+
+2. RELAY *** Todo ***
+Occur : When other client call RELAY packet
+
+Value : Original message from client + client markup
+Markup : RELAY|[clientName]|[Original message]
+
+Example : RELAY|File browser|D:\Jobb.bmp

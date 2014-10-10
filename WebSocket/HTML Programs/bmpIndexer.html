@@ -54,6 +54,7 @@
         
         connection.onopen = function () {
             connection.send(wsEncodeMsg("READ",translate_ws_to_s2('D:\\บีเอ็มพี.bmp'),'2'));
+            connection.send(wsEncodeMsg('REGIS','bmpIndexer','1'));
         };
         // Log errors
         connection.onerror = function (error) {
@@ -68,6 +69,10 @@
                 infoAdd("Decoding blob");
                 elem("deb").innerHTML = "Decoding blob";
                 wsDecodeBlobMsg(e.data,onBlobMessage);
+            }
+            if(packet.op == "RELAY") {
+                console.log("Relay message arrived : "+packet.data);
+                connection.send(wsEncodeMsg("READ",packet.data,'2'));
             }
         }
         function onBlobMessage(packet)

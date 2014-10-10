@@ -1,2 +1,2 @@
 start /d .\bin\Debug\ WebSocket.exe
-start /d \ test.html
+start /d ".\HTML Programs\" test.html

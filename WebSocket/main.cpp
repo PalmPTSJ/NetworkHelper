@@ -13,8 +13,9 @@
 net_server_serverClass server;
 struct clientS {
     byteArray recvBuffer;
+    byteArray waitingBuffer;
     string ip;
-    string appname;
+    wstring appname;
 };
 vector<clientS> clientList;
 unsigned int cvt(int a) {
@@ -287,44 +288,60 @@ struct packetData {
     wstring data;
     string trimData;
 };
-bool wsDecodeMsg(byteArray wsMessage,packetData& pData,int id)
+bool wsDecodeMsg(clientS& clientData,packetData& pData)
 {
     //cout << "START DECODE MSG FOR " << id << endl;
     pData.data = L"";
     pData.opcode = pData.trimData = "";
     int meta[6];
-    meta[0] = wsMessage[0]; // type & everything
-    meta[1] = wsMessage[1] & 127;
+    meta[0] = clientData.recvBuffer[0]; // type & everything
+    meta[1] = clientData.recvBuffer[1] & 127;
     int nowPtr = 2;
     int metaLen = 6;
+    unsigned long long sz = 0;
     if(meta[1] == 126) { // additional 2 bytes will be used for length
+        for(int i = 2;i < 4;i++) {sz<<=8; sz+=clientData.recvBuffer[i];}
         nowPtr = 4;
         metaLen = 8;
     }
     else if(meta[1] == 127) { // additional 8 bytes will be used for length
+        for(int i = 2;i < 10;i++) {sz<<=8; sz+=clientData.recvBuffer[i];}
         nowPtr = 10;
         metaLen = 14;
     }
+    else {
+        sz = meta[1];
+    }
     for(int i = 0;i < 4;i++) {
-        meta[i+2] = wsMessage[nowPtr++];
+        meta[i+2] = clientData.recvBuffer[nowPtr++];
+    }
+    // split message with sz
+    if((clientData.recvBuffer.size()-metaLen)<sz) {
+        cout << "SIZE IS WRONG !!!" << endl;
+        clientData.recvBuffer.clear();
+        return false;
     }
     int charcode = 0;
-
     int packetFIN = meta[0]>>7;
     int packetOP = meta[0]&15;
+
+    byteArray thisChunk; // finalData = 1 piece of message
+    thisChunk.assign(clientData.recvBuffer.begin(),clientData.recvBuffer.begin()+sz+metaLen);
+    clientData.recvBuffer.erase(clientData.recvBuffer.begin(),clientData.recvBuffer.begin()+sz+metaLen);
+
     if(packetOP&8) {
         cout << "[Control Frame]" << endl;
         if(packetOP == 8) { /// opcode for closing connection
             // reading closing code
-            int closingCode = ((cvt(wsMessage[nowPtr])^meta[(nowPtr-metaLen)%4+2])<<8) + (cvt(wsMessage[nowPtr+1])^meta[(nowPtr-metaLen+1)%4+2]);
+            int closingCode = ((cvt(thisChunk[nowPtr])^meta[(nowPtr-metaLen)%4+2])<<8) + (cvt(thisChunk[nowPtr+1])^meta[(nowPtr-metaLen+1)%4+2]);
             pData.data.push_back(wchar_t(closingCode));
             pData.opcode = "CLOS";
             return true;
         }
     }
-    while(nowPtr < wsMessage.size()) { // demasked data and append to recvBuffer
-        charcode = cvt(wsMessage[nowPtr])^meta[(nowPtr-metaLen)%4 + 2];
-        clientList[id].recvBuffer.push_back(charcode);
+    while(nowPtr < thisChunk.size()) { // demasked data and append to recvBuffer
+        charcode = cvt(thisChunk[nowPtr])^meta[(nowPtr-metaLen)%4 + 2];
+        clientData.waitingBuffer.push_back(charcode);
         nowPtr++;
     }
     if(packetFIN == 0) {
@@ -337,10 +354,10 @@ bool wsDecodeMsg(byteArray wsMessage,packetData& pData,int id)
         }
         return false;
     }
-    // decode this frame with mask
-    byteArray finalData;
-    finalData.assign(clientList[id].recvBuffer.begin(),clientList[id].recvBuffer.end());
-    clientList[id].recvBuffer.clear();
+    byteArray finalData; // finalData = 1 piece of message
+    finalData.assign(clientData.waitingBuffer.begin(),clientData.waitingBuffer.end());
+    clientData.waitingBuffer.clear();
+
     // use final data as demasked data , parsing with packet spec
     nowPtr = 0;
     int encodingType = finalData[nowPtr++];
@@ -372,7 +389,7 @@ bool wsDecodeMsg(byteArray wsMessage,packetData& pData,int id)
             nowPtr += 2;
         }
     }
-    //cout << "Decode successful , size of trimData : " << pData.trimData.size() << endl;
+    //cout << "Decode successful , waitingBuffer : " << clientData.waitingBuffer.size() << " , recvBuffer : " << clientData.recvBuffer.size() << endl;
     return true;
 }
 byteArray wsEncodeMsg(string opcode,string data,int type=WS_OP_TXT,char encodingType='2')
@@ -535,93 +552,129 @@ void recv(byteArray data,int i) {
     }
     else {
         packetData pData;
-        if(wsDecodeMsg(data,pData,i) == false) return; // do nothing
-        string opcode = pData.opcode;
-        wstring decodeMsg = pData.data;
-        cout << "  " << "OP [" << opcode.substr(0,15) << "] DATA [" << translate_ws_to_s1(decodeMsg.substr(0,20)) << "] SIZE [" << decodeMsg.size() << "]" << endl;
-        if(opcode.find("CLOS")==0) {
-            int closingCode = int(decodeMsg[0]);
-            cout << "    " << "<CLOS> " << closingCode << endl;
-            server.disconnect(i);
-        }
-        else {
-            if(opcode.find("RETR") == 0) { /// RETR [DIR] : retrieve file list at DIR
-                cout << "    " << "<RETR>" << endl;
-                wstring toRet = retr(decodeMsg);
-                server.sendTo(wsEncodeMsg("DIRLST",translate_ws_to_s2(toRet),WS_OP_TXT,'2'),i);
-            }
-            else if(opcode.find("EXEC") == 0) { /// EXEC [PATH] : Execute file
-                cout << "    " << "<EXEC>" << endl;
-                wstring fullpath = decodeMsg;
-                wstring dir = fullpath.substr(0,fullpath.find_last_of(L"/\\"));
-                wcout << L"    " << L"Executing " << dir << endl;
-                ShellExecuteW(NULL, NULL, fullpath.c_str(), NULL, dir.c_str(), SW_SHOWNORMAL);
-            }
-            else if(opcode.find("RETD") == 0) { /// RETD [] : retrieve drive letter
-                cout << "    " << "<RETD>" << endl;
-                server.sendTo(wsEncodeMsg("DRIVE",driveList_old,WS_OP_TXT,'1'),i);
-            }
-            else if(opcode.find("READ") == 0) { /// READ [PATH] : read file
-                cout << "    " << "<READ>" << endl;
-                wstring fullpath = decodeMsg;
-                FILE* f = _wfopen(fullpath.c_str(),L"rb");
-                if(f == NULL) return; // file not exist
-                wstring toSendH = fullpath;
-                toSendH.append(L"|");
-                string realData = translate_ws_to_s2(toSendH);
-                char c;
-                int sizeCnt = 0;
-                c=fgetc(f);
-                while(!feof(f)) {
-                    realData.push_back(cvt(c));
-                    sizeCnt++;
-                    c=fgetc(f);
-                }
-                cout << "    " << "File size : " << sizeCnt << endl;
-                if(ferror(f) != 0) cout << "    " << "File read error code : " << ferror(f) << endl;
-                fclose(f);
-                server.sendTo(wsEncodeMsg("FILE",realData,WS_OP_BIN,'2'),i);
-            }
-            else if(opcode.find("YOUT") == 0) { /// YOUT [QUERY] : Youtube Music search
-                cout << "    " << "<YOUT>" << endl;
-                wstring query = decodeMsg;
-                if(youtubeClient.connect("www.youtube.com",80,200)) {
-                    string httpReq = "GET /results?search_query=";
-                    httpReq.append(translate_ws_to_url(query));
-                    httpReq.append(" HTTP/1.1\n");
-                    httpReq.append("Host: www.youtube.com\n");
-                    httpReq.append("User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0\n\n");
-                    youtubeClient.send(toByteArray(httpReq));
-                    youtubeRecvData = "";
-                    youtubeDataFound = false;
-                    wcout << L"    " << L"Youtube query request [" << query << L"] sent" << endl;
-                }
-            }
-            else if(opcode.compare("ERROR") == 0) {
-                cout << "    " << "<ERROR>" << endl;
-            }
-            else if(opcode.compare("SERVERCLOSE") == 0) {
-                // server close
-                cout << "    " << "<SERVERCLOSE>" << endl;
-                server.stop();
-            }
-            else if(opcode.compare("SAVE") == 0) { /// SAVE [PATH | BINARYDATA] : save binary data to file
-                cout << "    " << "<SAVE>" << endl;
-                wstring param = decodeMsg;
-                int splitPos = param.find(L"|");
-                if(splitPos == string::npos) return; // not correct packet
-                wstring filepath = param.substr(0,splitPos);
-                string binaryData = pData.trimData.substr((filepath.size()+1) * (pData.enc=='2'?2:1));
-                cout << "    " << "File will be save to " << translate_ws_to_s1(filepath) << endl;
-                cout << "    " << "File size : " << binaryData.size() << endl;
-                cout << "    " << "File begin : " << hex(binaryData.substr(0,20)) << endl;
-                FILE* f = _wfopen(filepath.c_str(),L"wb");
-                // add data to file
-                for(int i = 0;i < binaryData.size();i++) fputc(binaryData[i],f);
-                fclose(f);
+        // append data to recvBuffer
+        clientList[i].recvBuffer.insert(clientList[i].recvBuffer.end(),data.begin(),data.end());
+        while(clientList[i].recvBuffer.size() > 0) {
+            if(wsDecodeMsg(clientList[i],pData) == false) continue; // do nothing
+            string opcode = pData.opcode;
+            wstring decodeMsg = pData.data;
+            cout << "  " << "OP [" << opcode.substr(0,15) << "] DATA [" << translate_ws_to_s1(decodeMsg.substr(0,20)) << "] SIZE [" << decodeMsg.size() << "]" << endl;
+            if(opcode.compare("CLOS")==0) {
+                int closingCode = int(decodeMsg[0]);
+                cout << "    " << "<CLOS> " << closingCode << endl;
+                server.disconnect(i);
             }
             else {
-                cout << "    " << "?? Unknown opcode ??" << endl;
+                if(opcode.compare("RETR") == 0) { /// RETR [DIR] : retrieve file list at DIR
+                    cout << "    " << "<RETR>" << endl;
+                    wstring toRet = retr(decodeMsg);
+                    server.sendTo(wsEncodeMsg("DIRLST",translate_ws_to_s2(toRet),WS_OP_TXT,'2'),i);
+                }
+                else if(opcode.compare("EXEC") == 0) { /// EXEC [PATH] : Execute file
+                    cout << "    " << "<EXEC>" << endl;
+                    wstring fullpath = decodeMsg;
+                    wstring dir = fullpath.substr(0,fullpath.find_last_of(L"/\\"));
+                    wcout << L"    " << L"Executing " << dir << endl;
+                    ShellExecuteW(NULL, NULL, fullpath.c_str(), NULL, dir.c_str(), SW_SHOWNORMAL);
+                }
+                else if(opcode.compare("RETD") == 0) { /// RETD [] : retrieve drive letter
+                    cout << "    " << "<RETD>" << endl;
+                    server.sendTo(wsEncodeMsg("DRIVE",driveList_old,WS_OP_TXT,'1'),i);
+                }
+                else if(opcode.compare("READ") == 0) { /// READ [PATH] : read file
+                    cout << "    " << "<READ>" << endl;
+                    wstring fullpath = decodeMsg;
+                    FILE* f = _wfopen(fullpath.c_str(),L"rb");
+                    if(f == NULL) return; // file not exist
+                    wstring toSendH = fullpath;
+                    toSendH.append(L"|");
+                    string realData = translate_ws_to_s2(toSendH);
+                    char c;
+                    int sizeCnt = 0;
+                    c=fgetc(f);
+                    while(!feof(f)) {
+                        realData.push_back(cvt(c));
+                        sizeCnt++;
+                        c=fgetc(f);
+                    }
+                    cout << "    " << "File size : " << sizeCnt << endl;
+                    if(ferror(f) != 0) cout << "    " << "File read error code : " << ferror(f) << endl;
+                    fclose(f);
+                    server.sendTo(wsEncodeMsg("FILE",realData,WS_OP_BIN,'2'),i);
+                }
+                else if(opcode.compare("YOUT") == 0) { /// YOUT [QUERY] : Youtube Music search
+                    cout << "    " << "<YOUT>" << endl;
+                    wstring query = decodeMsg;
+                    if(youtubeClient.connect("www.youtube.com",80,200)) {
+                        string httpReq = "GET /results?search_query=";
+                        httpReq.append(translate_ws_to_url(query));
+                        httpReq.append(" HTTP/1.1\n");
+                        httpReq.append("Host: www.youtube.com\n");
+                        httpReq.append("User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0\n\n");
+                        youtubeClient.send(toByteArray(httpReq));
+                        youtubeRecvData = "";
+                        youtubeDataFound = false;
+                        wcout << L"    " << L"Youtube query request [" << query << L"] sent" << endl;
+                    }
+                }
+                else if(opcode.compare("SAVE") == 0) { /// SAVE [PATH | BINARYDATA] : save binary data to file
+                    cout << "    " << "<SAVE>" << endl;
+                    wstring param = decodeMsg;
+                    int splitPos = param.find(L"|");
+                    if(splitPos == string::npos) continue; // not correct packet
+                    wstring filepath = param.substr(0,splitPos);
+                    string binaryData = pData.trimData.substr((filepath.size()+1) * (pData.enc=='2'?2:1));
+                    cout << "    " << "File will be save to " << translate_ws_to_s1(filepath) << endl;
+                    cout << "    " << "File size : " << binaryData.size() << endl;
+                    cout << "    " << "File begin : " << hex(binaryData.substr(0,20)) << endl;
+                    FILE* f = _wfopen(filepath.c_str(),L"wb");
+                    // add data to file
+                    for(int i = 0;i < binaryData.size();i++) fputc(binaryData[i],f);
+                    fclose(f);
+                }
+                else if(opcode.compare("ERROR") == 0) {
+                    cout << "    " << "<ERROR>" << endl;
+                }
+                else if(opcode.compare("SERVERCLOSE") == 0) {
+                    // server close
+                    cout << "    " << "<SERVERCLOSE>" << endl;
+                    server.stop();
+                }
+                else if(opcode.compare("REGIS") == 0) { /// REGIS [APPNAME] : Register app's name to server
+                    cout << "    " << "<REGIS>" << endl;
+                    wstring appname = decodeMsg;
+                    cout << "    " << "Registering appname : " << translate_ws_to_s1(appname) << endl;
+                    // check exists appname
+                    for(int j = 0;j < clientList.size();j++) {
+                        if(i != j && appname.compare(clientList[j].appname) == 0) {
+                            cout << "    " << "Name already exists by " << j << endl;
+                            server.sendTo(wsEncodeMsg("REGISSTAT","FAIL",WS_OP_TXT,'1'),i);
+                            continue;
+                        }
+                    }
+                    server.sendTo(wsEncodeMsg("REGISSTAT","SUCCESS",WS_OP_TXT,'1'),i);
+                    clientList[i].appname = decodeMsg;
+                }
+                else if(opcode.compare("RELAY") == 0) { /// RELAY [APPNAME|DATA] : Relay message to other app
+                    cout << "    " << "<RELAY>" << endl;
+                    int splitPos = decodeMsg.find(L"|");
+                    if(splitPos == string::npos) continue; // not correct packet
+                    wstring appname = decodeMsg.substr(0,splitPos);
+                    string data = translate_ws_to_s2(decodeMsg.substr(splitPos+1));
+                    for(int j = 0;j < clientList.size();j++) {
+                        if(appname.compare(clientList[j].appname) == 0) {
+                            cout << "    " << "Will relay to client " << j << endl;
+                            server.sendTo(wsEncodeMsg("RELAY",data,WS_OP_TXT,'2'),j);
+                            server.sendTo(wsEncodeMsg("RELAYSTAT","SUCCESS",WS_OP_TXT,'1'),i);
+                            continue;
+                        }
+                    }
+                    cout << "    " << "Target not found" << endl;
+                    server.sendTo(wsEncodeMsg("REGISSTAT","FAIL",WS_OP_TXT,'1'),i);
+                }
+                else {
+                    cout << "    " << "?? Unknown opcode ??" << endl;
+                }
             }
         }
     }

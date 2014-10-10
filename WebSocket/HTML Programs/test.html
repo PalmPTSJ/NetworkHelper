@@ -202,6 +202,7 @@
 	    var driveAvList = [];
 	    connection.onopen = function () {
             connection.send(wsEncodeMsg('RETD','','1'));
+            connection.send(wsEncodeMsg('REGIS','fileBrowser','1'));
         };
         // Log errors
         connection.onerror = function (error) {
@@ -289,13 +290,14 @@
                     }
                 }
             }
-            else if(packet.op == "YOUT") {
-                // Youtube search query result
-                //elem("youtubeArea").setAttribute("src","http://www.youtube.com/embed/"+dataArr[1]+"?rel=0");
-                //elem("youtubeArea").playVideo(dataArr[1]);
+            else if(packet.op == "YOUT") { // Youtube search query result
                 window.open("http://www.youtube.com/watch?v="+dataArr[0],'_blank');
             }
-            else {
+            else if(packet.op == "REGISSTAT") {
+                var stat = dataArr[0];
+                if(stat == "FAIL") {
+                    
+                }
                 
             }
         }
@@ -399,6 +401,12 @@
             var cag = fileCagetorize(fileName);
             if(cag == "music") {
                 playMusic(fileName);
+                return;
+            }
+            if(fileName.indexOf(".bmp") != -1) {
+                // try relaying to bmpIndexer
+                console.log("Relaying to bmpIndexer");
+                connection.send(wsEncodeMsg('RELAY','bmpIndexer|'+translate_ws_to_s2(fileName),'1'));
                 return;
             }
             navAlert("File "+fileName+" will be executed from your system","INF");
