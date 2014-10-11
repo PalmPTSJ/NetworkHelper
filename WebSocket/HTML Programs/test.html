@@ -291,7 +291,8 @@
                 }
             }
             else if(packet.op == "YOUT") { // Youtube search query result
-                window.open("http://www.youtube.com/watch?v="+dataArr[0],'_blank');
+                //window.open("http://www.youtube.com/watch?v="+dataArr[0],'_blank');
+                connection.send(wsEncodeMsg('RELAY','youtubeModule|YOUT_LOAD|'+dataArr[0],'1'));
             }
             else if(packet.op == "REGISSTAT") {
                 var stat = dataArr[0];

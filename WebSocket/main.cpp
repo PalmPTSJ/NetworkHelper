@@ -486,6 +486,7 @@ bool sp = false;
 bool rs = false;
 net_client_clientClass youtubeClient;
 bool youtubeDataFound = false;
+int youtubeStat = -1;
 string youtubeRecvData = "";
 void err(string str) {
     cout << "Error : " << str << endl;
@@ -506,8 +507,9 @@ void youtubeRecv(byteArray bt)
                 string last = youtubeRecvData.substr(res+15,11);
                 if(last.size() == 11) {
                     cout << "Youtube search found [" << last << "]" << endl;
-                    server.sendToAllClient(wsEncodeMsg("YOUT",last,WS_OP_TXT,'1'));
+                    server.sendTo(wsEncodeMsg("YOUT",last,WS_OP_TXT,'1'),youtubeStat);
                     youtubeDataFound = true;
+                    youtubeStat = -1;
                     youtubeClient.disconnect();
                 }
             }
@@ -542,6 +544,7 @@ void recv(byteArray data,int i) {
     cout << "Recieved data from " << i << " (" << clientList[i].ip << ")" << endl;
     if(str.find("GET / HTTP/1.1") != string::npos) { // is HTML request
         if(str.find("Upgrade: websocket") != string::npos) { // is WebSocket handshake
+            //cout << "Handshake data : " << endl << str << endl;
             cout << "  " << "Websocket handshake" << endl;
             server.sendTo(wsHandshake(str),i);
             cout << "    " << "Handshaked with " << i << " (" << server.getIpFrom(i) << ")" << endl;
@@ -614,6 +617,7 @@ void recv(byteArray data,int i) {
                         youtubeClient.send(toByteArray(httpReq));
                         youtubeRecvData = "";
                         youtubeDataFound = false;
+                        youtubeStat = i;
                         wcout << L"    " << L"Youtube query request [" << query << L"] sent" << endl;
                     }
                 }
@@ -661,14 +665,17 @@ void recv(byteArray data,int i) {
                     if(splitPos == string::npos) continue; // not correct packet
                     wstring appname = decodeMsg.substr(0,splitPos);
                     string data = translate_ws_to_s2(decodeMsg.substr(splitPos+1));
+                    bool targFound = false;
                     for(int j = 0;j < clientList.size();j++) {
                         if(appname.compare(clientList[j].appname) == 0) {
                             cout << "    " << "Will relay to client " << j << endl;
                             server.sendTo(wsEncodeMsg("RELAY",data,WS_OP_TXT,'2'),j);
                             server.sendTo(wsEncodeMsg("RELAYSTAT","SUCCESS",WS_OP_TXT,'1'),i);
-                            continue;
+                            targFound = true;
+                            break;
                         }
                     }
+                    if(targFound) continue;
                     cout << "    " << "Target not found" << endl;
                     server.sendTo(wsEncodeMsg("REGISSTAT","FAIL",WS_OP_TXT,'1'),i);
                 }
