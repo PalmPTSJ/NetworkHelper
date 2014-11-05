@@ -68,7 +68,7 @@ Return markup : RELAYSTAT|[STAT : SUCCESS/FAIL]
 Example Call : RELAY|bmpIndexer|D:\Jobb.bmp
 Example Return : RELAYSTAT|SUCCESS
 
-8. REGIS (REGISter app) : REGIS|[APPNAME] *** TODO ***
+8. REGIS (REGISter app) : REGIS|[APPNAME]
 Usage : Register appname to server for relaying
 
 Return value : Status of registration
@@ -76,3 +76,45 @@ Return markup : REGISSTAT|[STAT : SUCCESS/FAIL]
 
 Example Call : REGIS|fileBrowser
 Example Return REGISSTAT|SUCCESS
+
+9. INPUT (TYPE|Additional args ...) : simulate INPUT
+Usage : Simulate input events
+
+9.1 MOUSEMOVE : INPUT|MOUSEMOVE|AXIS|PIXELS
+9.2 MOUSECLICK : INPUT|MOUSECLICK|TYPE
+9.3 KEYBOARD : INPUT|KEYBOARD|KEYCODE *** working in progress ***
+
+/// Drafting phase
+T1. SOCKET (SOCKET handler) : SOCKET|[CMD]|...
+Usage : Handle client socket associate with this app
+
+T1.1 CONNECT : SOCKET|CONNECT|[TARGET]|[PORT]
+Usage : Connect socket to TARGET with port PORT
+
+Return value : Connection status
+Return markup : SOCKETSTAT|CONNECT|[STAT : SUCCESS/FAIL]
+
+Example Call : SOCKET|CONNECT|www.youtube.com|80
+Example Return : SOCKETSTAT|CONNECT|SUCCESS
+
+T1.2 CONNECTSEND : SOCKET|CONNECTSEND|[TARGET]|[PORT]|[DATA]
+Usage : Connect socket to TARGET and send DATA immediately
+
+Return value : Connection / Send status
+Return markup : SOCKETSTAT|CONNECTSEND|[STAT : SUCCESS/CONNECTED/FAIL]
+
+Example Call : SOCKET|CONNECTSEND|www.minecraftserver.com|25565|IWANTTOCONNECT
+Example Return : SOCKETSTAT|CONNECTSEND|SUCCESS
+
+Note : This function is usually used to connect to HTTP server , sending HTTP request as data
+
+T1.3 SEND : SOCKET|SEND|[DATA]
+Usage : Send DATA
+
+Return value : Send status
+Return markup : SOCKETSTAT|SEND|[STAT : SUCCESS/NOTCONN/FAIL]
+
+Example Call : SOCKET|SEND|HELLOWORLD
+Example Return : SOCKETSTAT|SEND|OK
+
+T1.4

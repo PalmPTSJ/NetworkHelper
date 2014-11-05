@@ -7,15 +7,22 @@
 #include <string.h>
 #include <tchar.h>
 #include <windows.h>
+#include <string>
+#include <cstdlib>
+#include <wchar.h>
 
 #define WS_OP_TXT 129
 #define WS_OP_BIN 130
+
+#define PACKET_LOG false
+#define INPUT_LOG false
 net_server_serverClass server;
 struct clientS {
     byteArray recvBuffer;
     byteArray waitingBuffer;
     string ip;
     wstring appname;
+    net_client_clientClass clientSock;
 };
 vector<clientS> clientList;
 unsigned int cvt(int a) {
@@ -152,7 +159,6 @@ string SHA1(string str)
 }
 char b64mp(int i)
 {
-    //cout << "[" << i << "]" << endl;
     if(i <= 25) return 'A'+i;
     else if(i <= 51) return 'a'+i-26;
     else if(i <= 61) return '0'+i-52;
@@ -222,7 +228,7 @@ string wsHandshake(string str)
     toRet.append("\r\n");
     return toRet;
 }
-byteArray wsPing()
+byteArray wsPingMsg()
 {
     byteArray toRet;
     toRet.push_back(137);
@@ -259,7 +265,13 @@ string translate_ws_to_s2(wstring str)
 }
 wstring translate_s2_to_ws(string str) // _A_B_C_DXX -> ABCDX
 {
-    return L"";
+    /// NOT TEST
+    wstring toRet;
+    for(int i = 0;i < str.size();i+=2) {
+        if(i == str.size()-1) toRet.push_back(wchar_t(str[i]));
+        else toRet.push_back(wchar_t(str[i]<<8+str[i+1]));
+    }
+    return toRet;
 }
 string translate_ws_to_url(wstring str) // ABCD -> %..%..%..%..
 {   /// !!! Thai language hack only , other language will not work at all ( not even work for thai now )
@@ -397,17 +409,15 @@ byteArray wsEncodeMsg(string opcode,string data,int type=WS_OP_TXT,char encoding
     byteArray toRet;
     unsigned long long int sz = data.size()+opcode.size()+1+1; // DATA , OPCODE , | , ENC
     toRet.push_back(type);
-    if(sz <= 125) {
-        // normal len
+    if(sz <= 125) { // normal len
         toRet.push_back(sz);
     }
-    else if(sz <= 65535) {
-        // 2+ len
+    else if(sz <= 65535) { // 2 bytes len
         toRet.push_back(126);
         toRet.push_back((sz >> 8) &255);
         toRet.push_back(sz &255);
     }
-    else {
+    else { // 8 bytes len
         toRet.push_back(127);
         toRet.push_back((sz >> 56) &255);
         toRet.push_back((sz >> 48) &255);
@@ -494,7 +504,6 @@ void err(string str) {
 void debug(string str) {
     cout << "DBG : " << str << endl;
 }
-
 void youtubeRecv(byteArray bt)
 {
     youtubeRecvData.append(toString(bt));
@@ -541,7 +550,7 @@ void run() {
 }
 void recv(byteArray data,int i) {
     string str = toString(data);
-    cout << "Recieved data from " << i << " (" << clientList[i].ip << ")" << endl;
+    if(PACKET_LOG) cout << "Recieved data from " << i << " (" << clientList[i].ip << ")" << endl;
     if(str.find("GET / HTTP/1.1") != string::npos) { // is HTML request
         if(str.find("Upgrade: websocket") != string::npos) { // is WebSocket handshake
             //cout << "Handshake data : " << endl << str << endl;
@@ -561,7 +570,7 @@ void recv(byteArray data,int i) {
             if(wsDecodeMsg(clientList[i],pData) == false) continue; // do nothing
             string opcode = pData.opcode;
             wstring decodeMsg = pData.data;
-            cout << "  " << "OP [" << opcode.substr(0,15) << "] DATA [" << translate_ws_to_s1(decodeMsg.substr(0,20)) << "] SIZE [" << decodeMsg.size() << "]" << endl;
+            if(PACKET_LOG) cout << "  " << "OP [" << opcode.substr(0,15) << "] DATA [" << translate_ws_to_s1(decodeMsg.substr(0,20)) << "] SIZE [" << decodeMsg.size() << "]" << endl;
             if(opcode.compare("CLOS")==0) {
                 int closingCode = int(decodeMsg[0]);
                 cout << "    " << "<CLOS> " << closingCode << endl;
@@ -601,7 +610,9 @@ void recv(byteArray data,int i) {
                         c=fgetc(f);
                     }
                     cout << "    " << "File size : " << sizeCnt << endl;
-                    if(ferror(f) != 0) cout << "    " << "File read error code : " << ferror(f) << endl;
+                    if(ferror(f) != 0) {
+                        cout << "    " << "File read error code : " << ferror(f) << endl;
+                    }
                     fclose(f);
                     server.sendTo(wsEncodeMsg("FILE",realData,WS_OP_BIN,'2'),i);
                 }
@@ -678,6 +689,55 @@ void recv(byteArray data,int i) {
                     if(targFound) continue;
                     cout << "    " << "Target not found" << endl;
                     server.sendTo(wsEncodeMsg("REGISSTAT","FAIL",WS_OP_TXT,'1'),i);
+                }
+                else if(opcode.compare("INPUT") == 0) { /// INPUT [TYPE|Additional args ...] : Simulate input events
+                    if(INPUT_LOG) cout << "    " << "<INPUT>" << endl;
+                    vector<wstring> args;
+                    args.push_back(L"");
+                    for(int i = 0;i < decodeMsg.size();i++) {
+                        if(decodeMsg[i] == wchar_t('|')) args.push_back(L"");
+                        else args[args.size()-1].push_back(decodeMsg[i]);
+                    }
+                    if(args[0].compare(L"MOUSEMOVE") == 0) { /// INPUT -> MOUSEMOVE|AXIS(X/Y)|PIXEL : Mouse move event
+                        if(INPUT_LOG) cout << "    " << "Mouse move" << endl;
+                        if(args.size() < 3) {cout << "    " << "!!! ARG SIZE NOT CORRECT" << endl; continue; }
+                        POINT cursorCoord;
+                        GetCursorPos(&cursorCoord);
+                        if(args[1].compare(L"X") == 0) {
+                            if(INPUT_LOG) cout << "    " << "Axis X : " << _wtoi(args[2].c_str()) << endl;
+                            cursorCoord.x += _wtoi(args[2].c_str());
+                        }
+                        else if(args[1].compare(L"Y") == 0) {
+                            if(INPUT_LOG) cout << "    " << "Axis Y : " << _wtoi(args[2].c_str()) << endl;
+                            cursorCoord.y += _wtoi(args[2].c_str());
+                        }
+                        SetCursorPos(cursorCoord.x,cursorCoord.y);
+                    }
+                    else if(args[0].compare(L"MOUSECLICK") == 0) { /// INPUT -> MOUSECLICK|CLICKTYPE(L/R) : Mouse click event
+                        if(INPUT_LOG) cout << "    " << "Mouse click" << endl;
+                        if(args.size() < 2) {cout << "    " << "!!! ARG SIZE NOT CORRECT" << endl; continue; }
+                        INPUT    Input={0};
+                        // left down
+                        Input.type      = INPUT_MOUSE;
+                        if(args[1].compare(L"L") == 0) Input.mi.dwFlags  = MOUSEEVENTF_LEFTDOWN;
+                        else Input.mi.dwFlags  = MOUSEEVENTF_RIGHTDOWN;
+                        ::SendInput(1,&Input,sizeof(INPUT));
+
+                        // left up
+                        ::ZeroMemory(&Input,sizeof(INPUT));
+                        Input.type      = INPUT_MOUSE;
+                        if(args[1].compare(L"L") == 0)Input.mi.dwFlags  = MOUSEEVENTF_LEFTUP;
+                        else Input.mi.dwFlags  = MOUSEEVENTF_RIGHTUP;
+                        ::SendInput(1,&Input,sizeof(INPUT));
+                        if(INPUT_LOG) cout << "    " << "Mouse clicked" << endl;
+                    }
+                    else if(args[0].compare(L"KEYBOARD") == 0) { /// INPUT -> KEYBOARD|KEYCODE : Keyboard event
+                        cout << "    " << "Keyboard pressed" << endl;
+                        if(args.size() < 2) {cout << "    " << "!!! ARG SIZE NOT CORRECT" << endl; continue; }
+                    }
+                    else {
+                        cout << "    " << "!!! Input type doesn't exist" << endl;
+                    }
                 }
                 else {
                     cout << "    " << "?? Unknown opcode ??" << endl;

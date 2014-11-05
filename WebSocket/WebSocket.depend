@@ -25,10 +25,10 @@
 1412695314 source:c:\users\acer\documents\networkhelper\websocket\network_server.cpp
 	"network_server.h"
 
-1412664806 c:\users\acer\documents\networkhelper\websocket\network_server.h
+1415203934 c:\users\acer\documents\networkhelper\websocket\network_server.h
 	"network_ext.h"
 
-1412958659 source:c:\users\acer\documents\networkhelper\websocket\main.cpp
+1415203754 source:c:\users\acer\documents\networkhelper\websocket\main.cpp
 	"network_core.h"
 	"network_server.h"
 	"network_client.h"
@@ -37,4 +37,7 @@
 	<string.h>
 	<tchar.h>
 	<windows.h>
+	<string>
+	<cstdlib>
+	<wchar.h>
 

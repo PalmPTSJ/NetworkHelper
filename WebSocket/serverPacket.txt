@@ -8,7 +8,7 @@ Example : DRIVE|C:|D:|N:|L:|
 
 Note : The same as the return value of RETD
 
-2. RELAY *** Todo ***
+2. RELAY
 Occur : When other client call RELAY packet
 
 Value : Original message from client + client markup
