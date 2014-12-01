@@ -698,10 +698,10 @@ void recv(byteArray data,int i) {
                         if(decodeMsg[i] == wchar_t('|')) args.push_back(L"");
                         else args[args.size()-1].push_back(decodeMsg[i]);
                     }
-                    if(args[0].compare(L"MOUSEMOVE") == 0) { /// INPUT -> MOUSEMOVE|AXIS(X/Y)|PIXEL : Mouse move event
+                    if(args[0].compare(L"MOUSEMOVE") == 0) { /// INPUT -> MOUSEMOVE|PIXEL X|PIXEL Y : Mouse move event
                         if(INPUT_LOG) cout << "    " << "Mouse move" << endl;
                         if(args.size() < 3) {cout << "    " << "!!! ARG SIZE NOT CORRECT" << endl; continue; }
-                        POINT cursorCoord;
+                        /*POINT cursorCoord;
                         GetCursorPos(&cursorCoord);
                         if(args[1].compare(L"X") == 0) {
                             if(INPUT_LOG) cout << "    " << "Axis X : " << _wtoi(args[2].c_str()) << endl;
@@ -712,23 +712,41 @@ void recv(byteArray data,int i) {
                             cursorCoord.y += _wtoi(args[2].c_str());
                         }
                         SetCursorPos(cursorCoord.x,cursorCoord.y);
+                        */
+                        INPUT Input = {0};
+                        Input.type = INPUT_MOUSE;
+                        Input.mi.dx = (LONG)_wtoi(args[1].c_str());
+                        Input.mi.dy = (LONG)_wtoi(args[2].c_str());
+                        // set move cursor directly
+                        //Input.mi.dwFlags = MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE;
+                        Input.mi.dwFlags = MOUSEEVENTF_MOVE;
+                        SendInput(1, &Input, sizeof(INPUT));
+
                     }
-                    else if(args[0].compare(L"MOUSECLICK") == 0) { /// INPUT -> MOUSECLICK|CLICKTYPE(L/R) : Mouse click event
+                    else if(args[0].compare(L"MOUSECLICK") == 0) { /// INPUT -> MOUSECLICK|(L,R)+(_,U,D) : Mouse click event
                         if(INPUT_LOG) cout << "    " << "Mouse click" << endl;
                         if(args.size() < 2) {cout << "    " << "!!! ARG SIZE NOT CORRECT" << endl; continue; }
                         INPUT    Input={0};
                         // left down
                         Input.type      = INPUT_MOUSE;
-                        if(args[1].compare(L"L") == 0) Input.mi.dwFlags  = MOUSEEVENTF_LEFTDOWN;
-                        else Input.mi.dwFlags  = MOUSEEVENTF_RIGHTDOWN;
+                        if(args[1].compare(L"LD") == 0) Input.mi.dwFlags  = MOUSEEVENTF_LEFTDOWN;
+                        else if(args[1].compare(L"LU") == 0) Input.mi.dwFlags  = MOUSEEVENTF_LEFTUP;
+                        else if(args[1].compare(L"L") == 0) Input.mi.dwFlags  = MOUSEEVENTF_LEFTDOWN;
+                        else if(args[1].compare(L"RD") == 0) Input.mi.dwFlags  = MOUSEEVENTF_RIGHTDOWN;
+                        else if(args[1].compare(L"RU") == 0) Input.mi.dwFlags  = MOUSEEVENTF_RIGHTUP;
+                        else if(args[1].compare(L"R") == 0) Input.mi.dwFlags  = MOUSEEVENTF_RIGHTDOWN;
+                        else Input.mi.dwFlags  = MOUSEEVENTF_LEFTDOWN; // default
                         ::SendInput(1,&Input,sizeof(INPUT));
 
-                        // left up
-                        ::ZeroMemory(&Input,sizeof(INPUT));
-                        Input.type      = INPUT_MOUSE;
-                        if(args[1].compare(L"L") == 0)Input.mi.dwFlags  = MOUSEEVENTF_LEFTUP;
-                        else Input.mi.dwFlags  = MOUSEEVENTF_RIGHTUP;
-                        ::SendInput(1,&Input,sizeof(INPUT));
+                        // immediate up (for click)
+                        if(args[1].size() == 1) {
+                            ::ZeroMemory(&Input,sizeof(INPUT));
+                            Input.type      = INPUT_MOUSE;
+                            if(args[1].compare(L"L") == 0)Input.mi.dwFlags  = MOUSEEVENTF_LEFTUP;
+                            else if(args[1].compare(L"R") == 0)Input.mi.dwFlags  = MOUSEEVENTF_RIGHTUP;
+                            else Input.mi.dwFlags  = MOUSEEVENTF_LEFTUP; // default
+                            ::SendInput(1,&Input,sizeof(INPUT));
+                        }
                         if(INPUT_LOG) cout << "    " << "Mouse clicked" << endl;
                     }
                     else if(args[0].compare(L"KEYBOARD") == 0) { /// INPUT -> KEYBOARD|KEYCODE : Keyboard event

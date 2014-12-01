@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PalmOS - Center</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="jquery.js"></script>
+        <script src="PalmOS.js"></script>
+        <style>
+            .hidden {
+                display:none;
+            }
+            body {
+                overflow:hidden;
+                margin:0px;
+                background-color:#c62828;
+                transition:background-color 2s;
+            }
+            #playerArea {
+                position:relative;
+                left:-47vmin;
+                /margin:0px;
+                margin-top:3vmin;
+                height:94vmin;
+                width:94vmin;
+            }
+            #borderCol {
+                position:absolute;
+                z-index:500;
+                margin-left:0.1vmin;
+                margin-top:0.1vmin;
+                height:93.8vmin;
+                width:93.8vmin;
+                border-radius:50%;
+                background-color:#ef5350;
+                transition:background-color 0s;
+            }
+            #borderMask {
+                position:absolute;
+                z-index:1000;
+                height:93vmin;
+                width:93vmin;
+                border-radius:50%;
+                border : 0.5vmin solid #c62828;
+                
+            }
+            #innerContent {
+                background-color:#e53935;
+                position:relative;
+                z-index:2000;
+                border-radius:50%;
+                left:2vmin;
+                top:2vmin;
+                height:90vmin;
+                width:90vmin;
+                color:white;
+                line-height:90vmin;
+                font-size:3em;
+                text-align:center;
+                transition:background-color 2s;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="showDock" style="position:absolute; top:0px; left:0px; width:20px; height:100%;"> </div>
+        <iframe id="sideBW" src="fileBrowser.html" style="width:300px; height:100%; position:absolute; top:0px; left:-320px;">
+            
+        </iframe>
+        <div id="outerArea" style="margin:auto; width:1px; overflow:visible;">
+            <div id="playerArea">
+                <div id="borderCol">
+                    
+                </div>
+                <div id="borderMask">
+                    
+                </div>
+                <div id="innerContent">
+                    Waiting ...
+                </div>
+            </div>
+        </div>
+        <audio id="audioID"> </audio>
+    </body>
+    <script>
+        function elem(id)
+        {
+            return document.getElementById(id);
+        }
+        function createBorderRotationObject(borderMask,borderCol,maskColor)
+        {
+            var obj = new Object();
+            obj.borderMask = borderMask;
+            obj.borderCol = borderCol;
+            obj.color = $(borderCol).css("background-color");
+            obj.maskColor = maskColor;
+            obj.perc = 0;
+            obj.offsetPerc = 0;
+            return obj;
+        }
+        function borderRotate(obj,perc)
+        {
+            /* linear-gradient(126deg, transparent 50%, #2196f3 50%),
+                linear-gradient(90deg, #2196f3 50%, transparent 50%);
+                
+             linear-gradient(180deg, transparent 50%, green 50%),
+        linear-gradient(90deg, white 50%, transparent 50%); */
+            while(perc >= 100) perc-=100;
+            while(obj.offsetPerc >= 100) obj.offsetPerc -= 100;
+            obj.perc = perc;
+            if(perc <= 50) {
+                var str = "linear-gradient("+(90+(obj.offsetPerc*3.6)+(perc*3.6))+"deg, transparent 50%, "+obj.maskColor+" 50%), ";
+                str += "linear-gradient("+(90+(obj.offsetPerc*3.6))+"deg, "+obj.maskColor+" 50%, transparent 50%)";
+                obj.borderMask.style.backgroundImage = str;
+            }
+            else {
+                var str = "linear-gradient("+(90+(obj.offsetPerc*3.6)+((perc-50)/100*360))+"deg, transparent 50%, "+obj.color+" 50%), ";
+                str += "linear-gradient("+(90+(obj.offsetPerc*3.6))+"deg, "+obj.maskColor+" 50%, transparent 50%)";
+                obj.borderMask.style.backgroundImage = str;
+            }
+        }
+        var cnt = 0;
+        var rotSpeed = 12;
+        var animationStatus = 0;
+        var musicPlayerBorder = createBorderRotationObject(elem("borderMask"),elem("borderCol"),$(document.body).css("background-color"));
+        window.requestAnimationFrame(animFrame);
+        function animFrame()
+        {
+            if(animationStatus == 0) {
+                cnt += 1+(rotSpeed/(Math.abs(50-cnt)+1));
+                if(cnt >= 100) {
+                    // swap color (for fun)
+                    var tmp = musicPlayerBorder.maskColor;
+                    console.log(tmp);
+                    musicPlayerBorder.maskColor = musicPlayerBorder.color;
+                    musicPlayerBorder.color = tmp;
+                    $(musicPlayerBorder.borderCol).css({"background-color":tmp});
+                    cnt = 0;
+                }
+                musicPlayerBorder.offsetPerc += rotSpeed/10;
+                borderRotate(musicPlayerBorder,cnt);
+            }
+            else if(animationStatus == 1) {
+                /*musicPlayerBorder.offsetPerc = audioElem.currentTime / audioElem.duration * 100;
+                cnt += 1+(rotSpeed/(Math.abs(50-Math.abs(cnt))+1));
+                if(cnt >= 90) cnt = -cnt;
+                borderRotate(musicPlayerBorder,Math.abs(cnt));*/
+                borderRotate(musicPlayerBorder,audioElem.currentTime / audioElem.duration * 100);
+            }
+            
+            window.requestAnimationFrame(animFrame);
+        }
+        var connection = new WebSocket("ws://127.0.0.1");
+        connection.onopen = function () {
+            connection.send(wsEncodeMsg('REGIS','musicPlayer','1'));
+        };
+        // Log errors
+        connection.onerror = function (error) {
+            console.log('WebSocket Error ' + error);
+        };
+        var audioElem = elem("audioID");
+        connection.onmessage = function(e) {
+            var packet = wsDecodeMsg(e.data);
+            var dataArr = packet.data.split('|');
+            console.log(packet);
+            if(packet.op == "RELAY") {
+                if(dataArr[0] == "PLAY") {
+                    playMusic(dataArr[1]);
+                    $("#playerArea").fadeOut(0);
+                    $("#playerArea").fadeIn();
+                }
+            }
+        }
+        function playMusic(path)
+        {
+            audioElem.setAttribute("src","file://"+path);
+            audioElem.play();
+            elem("innerContent").textContent = path.substr(path.lastIndexOf('\\')+1);
+            animationStatus = 1;
+            // set new color
+            $(document.body).css({"background-color":"#1e88e5"});
+            $("#borderCol").css({"background-color":"#64b5f6"});
+            $("#borderMask").css({"border":"0.5vmin solid #1e88e5"});
+            $("#innerContent").css({"background-color":"#2196f3"});
+            delete MusicPlayerBorder;
+            musicPlayerBorder = createBorderRotationObject(elem("borderMask"),elem("borderCol"),"#1e88e5");
+            musicPlayerBorder.offsetPerc = 0;
+        }
+        audioElem.addEventListener('pause',musicPause);
+        function musicPause(e)
+        {
+            if(audioElem.ended) {
+                $(document.body).css({"background-color":"#c62828"});
+                $("#borderCol").css({"background-color":"#ef5350"});
+                $("#borderMask").css({"border":"0.5vmin solid #c62828"});
+                $("#innerContent").css({"background-color":"#e53935"});
+                delete MusicPlayerBorder;
+                musicPlayerBorder = createBorderRotationObject(elem("borderMask"),elem("borderCol"),"#c62828");
+                animationStatus = 0;
+                elem("innerContent").textContent = "Waiting ...";
+            }
+        }
+        elem("showDock").onmouseover = function(){
+            //elem("sideBW").className = "";
+            $("#sideBW").animate({"left":"0px"},200);
+            $("#playerArea").animate({"margin-left":"200px"},200);
+        }
+        elem("sideBW").onmouseout = function(){
+            $("#sideBW").animate({"left":"-320px"},200);
+            $("#playerArea").animate({"margin-left":"0px"},200);
+        }
+    </script>
+</html>

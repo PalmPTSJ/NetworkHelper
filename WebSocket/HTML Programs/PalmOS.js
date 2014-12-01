@@ -1,10 +1,10 @@
 /* type is not needed because server is not strict with the rule */
-function wsEncodeMsg(opcode,data,encodingType='2') // encoding to packet msg
+function wsEncodeMsg(opcode,data,encodingType) // encoding to packet msg
 {
 	var toRet = (encodingType+opcode+'|'+data);
 	return toRet;
 }
-function wsEncodeBlobMsg(opcode,data,encodingType='2')
+function wsEncodeBlobMsg(opcode,data,encodingType)
 {
 	
 }
