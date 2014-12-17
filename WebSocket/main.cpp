@@ -749,9 +749,39 @@ void recv(byteArray data,int i) {
                         }
                         if(INPUT_LOG) cout << "    " << "Mouse clicked" << endl;
                     }
-                    else if(args[0].compare(L"KEYBOARD") == 0) { /// INPUT -> KEYBOARD|KEYCODE : Keyboard event
+                    else if(args[0].compare(L"KEYBOARD") == 0) { /// INPUT -> KEYBOARD|KEYCODE(3-digit dec)+(U,D,P)+(_,E) : Keyboard event
                         cout << "    " << "Keyboard pressed" << endl;
-                        if(args.size() < 2) {cout << "    " << "!!! ARG SIZE NOT CORRECT" << endl; continue; }
+                        if(args.size() < 2 || args[1].size() < 4) {cout << "    " << "!!! ARG SIZE NOT CORRECT" << endl; continue; }
+                        int keycode = (args[1][0]-'0')*100+(args[1][1]-'0')*10+(args[1][2]-'0');
+                        cout << "    " << "Keycode : " << keycode << endl;
+                        INPUT    Input={0};
+                        // left down
+                        Input.type      = INPUT_KEYBOARD;
+                        Input.ki.wVk = 0;
+                        Input.ki.wScan = keycode;
+                        //cout << MapVirtualKey(VK_LEFT, 0) << " &&& " << MapVirtualKey(VK_RIGHT, 0) << endl;
+                        Input.ki.time = 0;
+                        Input.ki.dwExtraInfo = 0;
+                        if(args[1][3] == 'U') {
+                            Input.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
+                            if(args[1].size() > 4 && args[1][4] == 'E') Input.ki.dwFlags |= KEYEVENTF_EXTENDEDKEY;
+                            cout << "    " << "KEYUP" << endl;
+                        }
+                        else {
+                            Input.ki.dwFlags = KEYEVENTF_SCANCODE;
+                            if(args[1].size() > 4 && args[1][4] == 'E') Input.ki.dwFlags |= KEYEVENTF_EXTENDEDKEY;
+                            cout << "    " << "KEYDOWN" << endl;
+                        }
+                        ::SendInput(1,&Input,sizeof(INPUT));
+                        if(args[1][3] == 'P') {
+                            //::ZeroMemory(&Input,sizeof(INPUT));
+                            //Input.type      = INPUT_KEYBOARD;
+                            //Input.ki.wVk = keycode;
+                            Input.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
+                            if(args[1].size() > 4 && args[1][4] == 'E') Input.ki.dwFlags |= KEYEVENTF_EXTENDEDKEY;
+                            ::SendInput(1,&Input,sizeof(INPUT));
+                            cout << "    " << "KEYPRESS" << endl;
+                        }
                     }
                     else {
                         cout << "    " << "!!! Input type doesn't exist" << endl;

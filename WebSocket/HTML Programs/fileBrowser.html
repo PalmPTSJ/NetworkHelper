@@ -228,8 +228,12 @@
                     inHTML+=("' onclick='clicked(this)'><div class='cardCategory'>"+type+"</div><div class='cardContent'>"+dataArr[i]+"</div></div>");
                 }
                 elem("browseArea").innerHTML = inHTML;
-                $("#browseArea").fadeOut(0);
-                $("#browseArea").fadeIn();
+                var fileList = elem("browseArea").children;
+                for(var i = 0;i < fileList.length;i++) {
+                    $(fileList[i]).fadeOut(0).delay(Math.min(i*10,1000)).fadeIn();
+                }
+                /*$("#browseArea").fadeOut(0);
+                $("#browseArea").fadeIn();*/
             }
             else if(packet.op == "DRIVE") {
                 if(driveAvList.length == 0) // no drive ever detected
