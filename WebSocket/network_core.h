@@ -15,6 +15,7 @@
 #define NET_RECV_NONE 2
 #define NET_RECV_ERROR 3
 
+#define SOCKET_RECVBUFFERSIZE 100000
 using namespace std;
 
 typedef vector<unsigned char> byteArray;
@@ -53,5 +54,5 @@ string net_getWsaError();
 
 extern WSADATA net_wsaData;
 extern string net_lastError;
-extern char net_tempBuffer[100000];
+extern char net_tempBuffer[SOCKET_RECVBUFFERSIZE];
 #endif // NETWORK_CORE_H_INCLUDED

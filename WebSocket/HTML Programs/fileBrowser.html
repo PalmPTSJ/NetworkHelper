@@ -177,6 +177,7 @@
 	    connection.onopen = function () {
             connection.send(wsEncodeMsg('RETD','','1'));
             connection.send(wsEncodeMsg('REGIS','fileBrowserReal','1'));
+            connection.send(wsEncodeMsg('REGFLAG','FLAG_DRIVECHANGE','1'));
         };
         // Log errors
         connection.onerror = function (error) {

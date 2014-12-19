@@ -1,0 +1,1 @@
+start /d .\bin\Debug\ WebSocket.exe

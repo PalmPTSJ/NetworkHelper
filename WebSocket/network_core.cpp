@@ -2,7 +2,7 @@
 
 WSADATA net_wsaData;
 string net_lastError = "";
-char net_tempBuffer[100000] = "\0";
+char net_tempBuffer[SOCKET_RECVBUFFERSIZE] = "\0";
 
 void net_init() {
     WSAStartup(MAKEWORD(2,0), &net_wsaData);
@@ -89,22 +89,30 @@ int net_recv(SOCKET &sock,byteArray& data)
 {
     data.clear();
     bool recvAnyData = false;
-    memset(net_tempBuffer,0,100000);
-    int recvStat = recv(sock,net_tempBuffer,100000,0);
+    memset(net_tempBuffer,0,SOCKET_RECVBUFFERSIZE);
+    int recvStat = recv(sock,net_tempBuffer,SOCKET_RECVBUFFERSIZE,0);
     while(recvStat != 0 && recvStat != SOCKET_ERROR)
     {
         data.insert(data.end(),net_tempBuffer,net_tempBuffer+recvStat);
-        //cout << "Recieved " << recvStat << " bytes ";
+        cout << "Recieved " << recvStat << " bytes " << endl;
+
         //for(int i = 0;i < 20;i++) cout << cvtt(net_tempBuffer[i]) << " ";
         //cout << endl;
         recvAnyData = true;
-        memset(net_tempBuffer,0,100000);
-        recvStat = recv(sock,net_tempBuffer,100000,0);
+        memset(net_tempBuffer,0,SOCKET_RECVBUFFERSIZE);
+        recvStat = recv(sock,net_tempBuffer,SOCKET_RECVBUFFERSIZE,0);
     }
     if(recvStat == 0)
         return NET_RECV_CLOSE;
-    if(recvStat == SOCKET_ERROR && WSAGetLastError() != 10035)
-        return NET_RECV_ERROR;
+    if(recvStat == SOCKET_ERROR)
+    {
+        int lastErrorCode = WSAGetLastError();
+        if(lastErrorCode != 10035) {
+            cout << "recv SOCKET_ERROR , error code : " << lastErrorCode << endl;
+            return NET_RECV_ERROR;
+        }
+    }
+
     return recvAnyData?NET_RECV_OK:NET_RECV_NONE;
 }
 
