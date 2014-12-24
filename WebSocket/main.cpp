@@ -20,7 +20,7 @@
 #define TIMESTAMP TRUE
 #define LOG_CONN TRUE // Connection ( Websocket handshake , id assignment )
 #define LOG_SERVDBG TRUE // Server ( Connect , Accept , Disconnect )
-#define LOG_PARSE TRUE // Parse ( WebSocket packet parsing )
+#define LOG_PARSE FALSE // Parse ( WebSocket packet parsing )
 #define LOG_PACKET TRUE // Packet ( Arrival , Info )
 #define LOG_OS TRUE // OS ( OS command )
 
@@ -51,10 +51,37 @@ struct packetData {
 };
 vector<clientS> clientList;
 map<string,vector<int> > clientFlag;
+string workingDir;
+
+map<string,string> contentTypeMap;
+
 /*  Flag list
 FLAG_DRIVECHANGE = Notified ( DRIVELST ) when server's physical drive list changed
 FLAG_AUTOPONG = Send a PONG message every 15 ticks ( about 0.5 sec )
 */
+/// STATIC VAR , ASSIGNMENT
+void initContentTypeMap()
+{
+    // Text
+    contentTypeMap[".html"] = "text/html";
+    contentTypeMap[".js"] = "application/javascript";
+    contentTypeMap[".css"] = "text/css";
+    contentTypeMap[".txt"] = "text/plain";
+    // Image
+    contentTypeMap[".bmp"] = "image/bmp";
+    contentTypeMap[".gif"] = "image/gif";
+    contentTypeMap[".jpg"] = "image/jpeg";
+    contentTypeMap[".jpeg"] = "image/jpeg";
+    contentTypeMap[".png"] = "image/png";
+    // Audio
+    contentTypeMap[".mp3"] = "audio/mpeg";
+    contentTypeMap[".ogg"] = "audio/ogg";
+    contentTypeMap[".wav"] = "audio/vnd.wave";
+    // Video
+    contentTypeMap[".mp4"] = "video/mp4";
+    contentTypeMap[".avi"] = "video/avi";
+    contentTypeMap[".wmv"] = "video/x-ms-wmv";
+}
 /// LOGGING FUNCTION
 int timestamp;
 string reqTimestamp() {
@@ -84,9 +111,11 @@ void debug(string str) {
 }
 bool isLogEnable(string module)
 {
-    if(module.compare("CONN") && !LOG_CONN) return false;
-    else if(module.compare("PARSE") && !LOG_PARSE) return false;
-    else if(module.compare("PACKET") && !LOG_PACKET) return false;
+    if(module.compare("CONN")==0 && !LOG_CONN) return false;
+    else if(module.compare("PARSE")==0 && !LOG_PARSE) return false;
+    else if(module.compare("PACKET")==0 && !LOG_PACKET) return false;
+    else if(module.compare("SERVDBG")==0 && !LOG_SERVDBG) return false;
+    else if(module.compare("OS")==0 && !LOG_OS) return false;
     return true;
 }
 /// FUNCTION
@@ -625,16 +654,77 @@ void run() {
 }
 void recv(byteArray data,int i) {
     string str = toString(data);
-    if(isLogEnable("PACKET")) cout << logHeader("PACKET") << "Packet recieved from " << reqClientInfo(i) << endl;
-    if(str.find("GET / HTTP/1.1") != string::npos) { // is HTML request
+    //cout << str << endl;
+    //if(isLogEnable("PACKET")) cout << logHeader("PACKET") << "Packet recieved from " << reqClientInfo(i) << endl;
+    if(str.find("GET /") == 0 && str.find("HTTP/1.1") != string::npos)
+    {
         if(str.find("Upgrade: websocket") != string::npos) { // is WebSocket handshake
             server.sendTo(wsHandshake(str),i);
             if(isLogEnable("CONN")) cout << logHeader("CONN") << "Websocket connected with " << reqClientInfo(i) << endl;
         }
         else {
             // HTML request
+            string pageRequest = str.substr(5,str.find("HTTP/1.1")-6);
+            if(isLogEnable("PACKET")) cout << logHeader("PACKET") << reqClientInfo(i) << "HTTP req '" << pageRequest << "'" << endl;
+            if(pageRequest.size() == 0) pageRequest = "index.html"; // default page
+            string fullpath = workingDir;
+            fullpath.append("\\");
+            fullpath.append(pageRequest);
+            string response;
+            if(pageRequest.find_last_of('.') == string::npos) {
+                cout << "Invalid resource indication" << endl;
+                response = "HTTP/1.1 404 Not Found\r\n";
+                response.append("\r\n");
+            }
+            else {
+                string extension = pageRequest.substr(pageRequest.find_last_of('.'));
+                string contentType = "";
+                cout << "EXTENSION : " << extension << endl;
+
+                FILE* f = fopen(fullpath.c_str(),"rb");
+                if(f == NULL) {
+                    response = "HTTP/1.1 404 Not Found\r\n";
+                    response.append("\r\n");
+                    if(isLogEnable("HTTP")) cout << logHeader("HTTP") << reqClientInfo(i) << " 404 " << endl;
+                }
+                else {
+                    response = "HTTP/1.1 200 OK\r\n";
+                    response.append("Content-Type: ");
+                    if(contentTypeMap.count(extension) == 0) response.append("application/octet-stream"); // byte array of unknown thing
+                    else response.append(contentTypeMap[extension]);
+                    response.append("\r\n\r\n");
+                    char c;
+                    c=fgetc(f);
+                    while(!feof(f)) {
+                        response.push_back(cvt(c));
+                        c=fgetc(f);
+                    }
+                    if(ferror(f) != 0) {
+                        if(isLogEnable("HTTP")) cout << logHeader("HTTP") << reqClientInfo(i) << "HTTP response read error : " << ferror(f) << endl;
+                        response = "HTTP/1.1 404 Not Found\r\n";
+                    }
+                    else {
+                        if(isLogEnable("HTTP")) cout << logHeader("HTTP") << reqClientInfo(i) << "200 OK" << endl;
+                    }
+                    fclose(f);
+                }
+            }
+            //cout << "RESP : \n" << response.substr(0,response.size()<600?response.size():600);
+            server.sendTo(response,i);
+            server.disconnect(i);
         }
     }
+    /*if(str.find("GET / HTTP/1.1") != string::npos) { // is HTML request
+        if(str.find("Upgrade: websocket") != string::npos) { // is WebSocket handshake
+            server.sendTo(wsHandshake(str),i);
+            if(isLogEnable("CONN")) cout << logHeader("CONN") << "Websocket connected with " << reqClientInfo(i) << endl;
+        }
+        else {
+            // HTML request
+            if(isLogEnable("PACKET")) cout << logHeader("PACKET") << "HTTP request packet from " << reqClientInfo(i) << endl;
+            //cout << str << endl;
+        }
+    }*/
     else {
         packetData pData;
         // append data to recvBuffer
@@ -957,13 +1047,19 @@ void startServer()
     server.start();
     server.runLoop();
 }
-int main()
+int main(int argc,char** argv)
 {
     net_init();
     SetErrorMode(SEM_NOOPENFILEERRORBOX); // for drives detection
     youtubeClient.setDebugFunc(debug);
     youtubeClient.setup(NULL,youtubeRecv,error);
     timestamp = 0;
+    if(argc >= 1) {
+        workingDir = argv[0];
+        workingDir = workingDir.substr(0,workingDir.find_last_of('\\'));
+        cout << "Working dir : " << workingDir << endl;
+    }
+    initContentTypeMap();
     startServer();
     net_close();
     return 0;

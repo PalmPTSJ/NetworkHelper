@@ -11,9 +11,10 @@ net_ext_sock net_ext_createSock()
 byteArray toByteArray(string str)
 {
     byteArray toRet;
-    for(int i = 0;i < str.size();i++) {
+    /*for(int i = 0;i < str.size();i++) {
         toRet.push_back((unsigned char)(str[i]));
-    }
+    }*/
+    toRet.insert(toRet.end(),str.begin(),str.end());
     return toRet;
 }
 string toString(byteArray bA)
