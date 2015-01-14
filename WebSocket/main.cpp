@@ -7,6 +7,7 @@
 #include <string.h>
 #include <tchar.h>
 #include <windows.h>
+#include <Psapi.h>
 #include <string>
 #include <cstdlib>
 #include <wchar.h>
@@ -14,25 +15,16 @@
 #include <map>
 #include <algorithm>
 
-#define WS_OP_TXT 129
-#define WS_OP_BIN 130
+#define WS_OP_TXT 129 // WebSocket Opcode "Text" data
+#define WS_OP_BIN 130 // WebSocket Opcode "Binary" data
 
-#define TIMESTAMP TRUE
+#define TIMESTAMP TRUE // Use timestamp in debugging
 #define LOG_CONN TRUE // Connection ( Websocket handshake , id assignment )
 #define LOG_SERVDBG TRUE // Server ( Connect , Accept , Disconnect )
 #define LOG_PARSE FALSE // Parse ( WebSocket packet parsing )
-#define LOG_PACKET TRUE // Packet ( Arrival , Info )
-#define LOG_OS TRUE // OS ( OS command )
-
-#define DEBUG 3
-/* DEBUG LEVEL :
-0 = No debug at all ( error messages still appear )
-1 = Little debug ( Connect & Close )
-2 = Some debug ( Packet type )
-3 = More debug ( Packet info )
-4 = Extra debug ( Packet recieved , Packet pending , parsing data )
-5 = Full debug ( Server status )
-*/
+#define LOG_PACKET FALSE // Packet ( Arrival , Info )
+#define LOG_OS FALSE // OS ( OS command )
+#define LOG_HTTP FALSE // HTTP ( HTTP request )
 
 /// DEFINITION
 net_server_serverClass server;
@@ -55,6 +47,7 @@ string workingDir;
 
 map<string,string> contentTypeMap;
 
+vector<INPUT> inputQueue;
 /*  Flag list
 FLAG_DRIVECHANGE = Notified ( DRIVELST ) when server's physical drive list changed
 FLAG_AUTOPONG = Send a PONG message every 15 ticks ( about 0.5 sec )
@@ -101,7 +94,6 @@ string logHeader(string module) {
     stringstream ss;
     ss << reqTimestamp() << " " << "[" << module << "]" << " ";
     return ss.str();
-    //cout << reqTimestamp() << " " << "[" << module << "]" << " ";
 }
 void error(string str) {
     cout << logHeader("ERROR") << str << endl;
@@ -315,7 +307,7 @@ string translate_ws_to_s1(wstring str) // ABCD(Unicode char) -> ABCD*
     }
     return toRetStr;
 }
-string translate_ws_to_s2(wstring str)
+string translate_ws_to_s2(wstring str) // ABCDX -> _A_B_C_DXX
 {
     string toRetStr = "";
     for(int i = 0;i < str.size();i++) {
@@ -347,12 +339,7 @@ string translate_ws_to_url(wstring str) // ABCD -> %..%..%..%..
         else {
             toRetStr.append("%E0");
         }
-        //toRetStr.push_back()
-        /*if(int(str[i]) > 255) toRetStr.push_back('*');
-        else toRetStr.push_back(str[i]);
-        cout << int(str[i]) << ",";*/
     }
-    //cout << "TOURL : " << toRetStr << endl;
     return toRetStr;
 }
 /// PROGRAM FUNCTION
@@ -362,7 +349,6 @@ string wsHandshake(string str)
     Upgrade: websocket
     Connection: Upgrade
     Sec-WebSocket-Accept: HSmrc0sMlYUkAGmm5OPpG2HaGWk=
-    Sec-WebSocket-Protocol: chat
 
     (Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==)
     */
@@ -391,12 +377,11 @@ byteArray wsPingMsg()
 }
 bool wsDecodeMsg(clientS& clientData,packetData& pData)
 {
-    //cout << "START DECODE MSG FOR " << id << endl;
     pData.data = L"";
     pData.opcode = pData.trimData = "";
     int meta[6];
     meta[0] = clientData.recvBuffer[0]; // type & everything
-    meta[1] = clientData.recvBuffer[1] & 127;
+    meta[1] = clientData.recvBuffer[1] & 127; // length + masked
     int nowPtr = 2;
     int metaLen = 6;
     unsigned long long sz = 0;
@@ -419,7 +404,6 @@ bool wsDecodeMsg(clientS& clientData,packetData& pData)
     // split message with sz
     if((clientData.recvBuffer.size()-metaLen)<sz) {
         if(isLogEnable("PARSE")) cout << logHeader("PARSE") << "BufferSize - metaLen < sz , data might be incompleted" << endl;
-        //clientData.recvBuffer.clear();
         return false;
     }
     int charcode = 0;
@@ -431,7 +415,7 @@ bool wsDecodeMsg(clientS& clientData,packetData& pData)
     clientData.recvBuffer.erase(clientData.recvBuffer.begin(),clientData.recvBuffer.begin()+sz+metaLen);
 
     if(packetOP&8) {
-        cout << "[Control Frame]" << endl;
+        if(isLogEnable("PARSE")) cout << logHeader("PARSE") << "[Control Frame]" << endl;
         if(packetOP == 8) { /// opcode for closing connection
             // reading closing code
             int closingCode = ((cvt(thisChunk[nowPtr])^meta[(nowPtr-metaLen)%4+2])<<8) + (cvt(thisChunk[nowPtr+1])^meta[(nowPtr-metaLen+1)%4+2]);
@@ -446,12 +430,12 @@ bool wsDecodeMsg(clientS& clientData,packetData& pData)
         nowPtr++;
     }
     if(packetFIN == 0) {
-        cout << "FIN = 0 ";
+        if(isLogEnable("PARSE")) cout << logHeader("PARSE") << "FIN = 0 ";
         if(packetOP == 0) {
-            cout << "<Continuation> (OP 0)" << endl;
+            if(isLogEnable("PARSE")) cout << logHeader("PARSE") << "<Continuation> (OP 0)" << endl;
         }
         else {
-            cout << "<Start point> with OP " << packetOP << endl;
+            if(isLogEnable("PARSE")) cout << logHeader("PARSE") << "<Start point> with OP " << packetOP << endl;
         }
         return false;
     }
@@ -468,6 +452,7 @@ bool wsDecodeMsg(clientS& clientData,packetData& pData)
         pData.opcode.push_back(char(c));
         nowPtr++;
         if(nowPtr >= finalData.size()) {
+            if(isLogEnable("PARSE")) cout << logHeader("PARSE") << "invalid PalmOS packet" << endl;
             return false; // invalid packet spec
         }
     }
@@ -490,7 +475,6 @@ bool wsDecodeMsg(clientS& clientData,packetData& pData)
             nowPtr += 2;
         }
     }
-    //cout << "Decode successful , waitingBuffer : " << clientData.waitingBuffer.size() << " , recvBuffer : " << clientData.recvBuffer.size() << endl;
     return true;
 }
 byteArray wsEncodeMsg(string opcode,string data,int type=WS_OP_TXT,char encodingType='2')
@@ -587,8 +571,7 @@ net_client_clientClass youtubeClient;
 bool youtubeDataFound = false;
 int youtubeStat = -1;
 string youtubeRecvData = "";
-void youtubeRecv(byteArray bt)
-{
+void youtubeRecv(byteArray bt) {
     youtubeRecvData.append(toString(bt));
     int res = youtubeRecvData.find("section-list");
     if(!youtubeDataFound && res != string::npos) {
@@ -608,8 +591,7 @@ void youtubeRecv(byteArray bt)
         }
     }
 }
-string reqClientInfo(int id)
-{
+string reqClientInfo(int id) {
     stringstream ss;
     ss << "(" << id << " " << clientList[id].ip;
     if(clientList[id].appname.size() > 0) ss << " " << translate_ws_to_s1(clientList[id].appname);
@@ -617,6 +599,66 @@ string reqClientInfo(int id)
     return ss.str();
     //i << " (" << clientList[i].ip << ")" << endl;
 }
+BOOL isGoodWindow(HWND hwnd)
+{
+    HWND hwndTry, hwndWalk = NULL;
+    if(!IsWindowVisible(hwnd)) return FALSE;
+    hwndTry = GetAncestor(hwnd, GA_ROOTOWNER);
+    while(hwndTry != hwndWalk) {
+        hwndWalk = hwndTry;
+        hwndTry = GetLastActivePopup(hwndWalk);
+        if(IsWindowVisible(hwndTry)) break;
+    }
+    if(hwndWalk != hwnd) return FALSE;
+    if(GetWindowLong(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW) return FALSE;
+    return TRUE;
+}
+wstring progListBuff;
+BOOL CALLBACK EnumWindowsCB(HWND hwnd, LPARAM lParam) {
+    char class_name[80];
+	char title[80];
+	GetClassName(hwnd,class_name, sizeof(class_name));
+	GetWindowText(hwnd,title,sizeof(title));
+	if(!isGoodWindow(hwnd)) return true;
+	cout <<title << "," << class_name << endl;
+	// retr process id
+	DWORD procID;
+    GetWindowThreadProcessId(hwnd,&procID);
+    //cout << "    PID : " << procID << endl;
+    HANDLE procH = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,FALSE,procID);
+    if(procH) {
+        wchar_t buff[10000];
+        if(GetModuleFileNameExW(procH, NULL, buff, 10000))
+        {
+            wstring str = buff;
+            if(progListBuff.size() > 0) progListBuff.append(L"|");
+            progListBuff.append(str);
+            // try to get file ver
+            /*DWORD fileVerLen = GetFileVersionInfoSize(buff,NULL);
+            void* data = NULL;
+            GetFileVersionInfo(buff,0,fileVerLen,data);*/
+        }
+        else
+        {
+            cout << "    Error : " << GetLastError() << endl;
+        }
+        CloseHandle(procH);
+    }
+    else {
+        cout << "    WTF Error : " << GetLastError() << endl;
+    }
+    string titl = title;
+    if(titl.find("Code::Blocks") != string::npos) {
+        /*ShowWindow(hwnd,SW_RESTORE);
+        SetActiveWindow(hwnd);
+        SetForegroundWindow(hwnd); // test set focus to code::blocks
+        INPUT    Input={0};*/
+        // left down
+        // try send 3 spacebar
+    }
+    return true;
+}
+// testareahere012345678901234567890123456789
 /// MAIN LOOP FUNCTION
 void run() {
     timestamp++;
@@ -651,21 +693,22 @@ void run() {
         }
         cntDown = 0;
     }
+    if(inputQueue.size() > 0) {
+        ::SendInput(inputQueue.size(),&inputQueue[0],sizeof(INPUT));
+        inputQueue.clear();
+    }
 }
 void recv(byteArray data,int i) {
     string str = toString(data);
-    //cout << str << endl;
     //if(isLogEnable("PACKET")) cout << logHeader("PACKET") << "Packet recieved from " << reqClientInfo(i) << endl;
-    if(str.find("GET /") == 0 && str.find("HTTP/1.1") != string::npos)
-    {
-        if(str.find("Upgrade: websocket") != string::npos) { // is WebSocket handshake
+    if(str.find("GET /") == 0 && str.find("HTTP/1.1") != string::npos) {
+        if(str.find("Upgrade: websocket") != string::npos) { // WebSocket handshake
             server.sendTo(wsHandshake(str),i);
             if(isLogEnable("CONN")) cout << logHeader("CONN") << "Websocket connected with " << reqClientInfo(i) << endl;
         }
-        else {
-            // HTML request
+        else { // HTTP request
             string pageRequest = str.substr(5,str.find("HTTP/1.1")-6);
-            if(isLogEnable("PACKET")) cout << logHeader("PACKET") << reqClientInfo(i) << "HTTP req '" << pageRequest << "'" << endl;
+            if(isLogEnable("HTTP")) cout << logHeader("HTTP") << reqClientInfo(i) << "HTTP req '" << pageRequest << "'" << endl;
             if(pageRequest.size() == 0) pageRequest = "index.html"; // default page
             string fullpath = workingDir;
             fullpath.append("\\");
@@ -679,7 +722,6 @@ void recv(byteArray data,int i) {
             else {
                 string extension = pageRequest.substr(pageRequest.find_last_of('.'));
                 string contentType = "";
-                cout << "EXTENSION : " << extension << endl;
 
                 FILE* f = fopen(fullpath.c_str(),"rb");
                 if(f == NULL) {
@@ -709,22 +751,10 @@ void recv(byteArray data,int i) {
                     fclose(f);
                 }
             }
-            //cout << "RESP : \n" << response.substr(0,response.size()<600?response.size():600);
             server.sendTo(response,i);
             server.disconnect(i);
         }
     }
-    /*if(str.find("GET / HTTP/1.1") != string::npos) { // is HTML request
-        if(str.find("Upgrade: websocket") != string::npos) { // is WebSocket handshake
-            server.sendTo(wsHandshake(str),i);
-            if(isLogEnable("CONN")) cout << logHeader("CONN") << "Websocket connected with " << reqClientInfo(i) << endl;
-        }
-        else {
-            // HTML request
-            if(isLogEnable("PACKET")) cout << logHeader("PACKET") << "HTTP request packet from " << reqClientInfo(i) << endl;
-            //cout << str << endl;
-        }
-    }*/
     else {
         packetData pData;
         // append data to recvBuffer
@@ -741,13 +771,11 @@ void recv(byteArray data,int i) {
             }
             else {
                 if(opcode.compare("RETR") == 0) { /// RETR [DIR] : retrieve file list at DIR
-                    //cout << "    " << "<RETR>" << endl;
                     if(isLogEnable("OS")) cout << logHeader("OS") << reqClientInfo(i) << "RETR" << endl;
                     wstring toRet = retr(decodeMsg);
                     server.sendTo(wsEncodeMsg("DIRLST",translate_ws_to_s2(toRet),WS_OP_TXT,'2'),i);
                 }
                 else if(opcode.compare("EXEC") == 0) { /// EXEC [PATH] : Execute file
-                    //cout << "    " << "<EXEC>" << endl;
                     wstring fullpath = decodeMsg;
                     wstring dir = fullpath.substr(0,fullpath.find_last_of(L"/\\"));
                     //wcout << L"    " << L"Executing " << dir << endl;
@@ -869,35 +897,33 @@ void recv(byteArray data,int i) {
                         else args[args.size()-1].push_back(decodeMsg[i]);
                     }
                     if(args[0].compare(L"MOUSEMOVE") == 0) { /// INPUT -> MOUSEMOVE|PIXEL X|PIXEL Y : Mouse move event
-                        //if(INPUT_LOG) cout << "    " << "Mouse move" << endl;
                         if(args.size() < 3) {cout << "    " << "!!! ARG SIZE NOT CORRECT" << endl; continue; }
-                        /*POINT cursorCoord;
-                        GetCursorPos(&cursorCoord);
-                        if(args[1].compare(L"X") == 0) {
-                            if(INPUT_LOG) cout << "    " << "Axis X : " << _wtoi(args[2].c_str()) << endl;
-                            cursorCoord.x += _wtoi(args[2].c_str());
-                        }
-                        else if(args[1].compare(L"Y") == 0) {
-                            if(INPUT_LOG) cout << "    " << "Axis Y : " << _wtoi(args[2].c_str()) << endl;
-                            cursorCoord.y += _wtoi(args[2].c_str());
-                        }
-                        SetCursorPos(cursorCoord.x,cursorCoord.y);
-                        */
                         INPUT Input = {0};
                         Input.type = INPUT_MOUSE;
                         Input.mi.dx = (LONG)_wtoi(args[1].c_str());
                         Input.mi.dy = (LONG)_wtoi(args[2].c_str());
-                        // set move cursor directly
                         //Input.mi.dwFlags = MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE;
                         Input.mi.dwFlags = MOUSEEVENTF_MOVE;
-                        SendInput(1, &Input, sizeof(INPUT));
+                        //SendInput(1, &Input, sizeof(INPUT));
+                        inputQueue.push_back(Input);
                         if(isLogEnable("OS")) cout << logHeader("OS") << reqClientInfo(i) << "INPUT MOUSEMOVE " << Input.mi.dx << "," << Input.mi.dy << endl;
                     }
+                    else if(args[0].compare(L"MOUSESETPOS") == 0) { /// INPUT -> MOUSESETPOS|X|Y : Set cursor pos to X Y ( leave blank for unchange )
+                        if(args.size() < 3) {cout << "    " << "!!! ARG SIZE NOT CORRECT" << endl; continue; }
+                        POINT cursorCoord;
+                        GetCursorPos(&cursorCoord);
+                        if(args[1].size() != 0) {
+                            cursorCoord.x = _wtoi(args[1].c_str());
+                        }
+                        else if(args[2].size() != 0) {
+                            cursorCoord.y = _wtoi(args[2].c_str());
+                        }
+                        SetCursorPos(cursorCoord.x,cursorCoord.y);
+                        if(isLogEnable("OS")) cout << logHeader("OS") << reqClientInfo(i) << "INPUT MOUSESET " << cursorCoord.x << "," << cursorCoord.y << endl;
+                    }
                     else if(args[0].compare(L"MOUSECLICK") == 0) { /// INPUT -> MOUSECLICK|(L,R)+(_,U,D) : Mouse click event
-                        //if(INPUT_LOG) cout << "    " << "Mouse click" << endl;
                         if(args.size() < 2) {cout << "    " << "!!! ARG SIZE NOT CORRECT" << endl; continue; }
                         INPUT    Input={0};
-                        // left down
                         Input.type      = INPUT_MOUSE;
                         if(args[1].compare(L"LD") == 0) Input.mi.dwFlags  = MOUSEEVENTF_LEFTDOWN;
                         else if(args[1].compare(L"LU") == 0) Input.mi.dwFlags  = MOUSEEVENTF_LEFTUP;
@@ -906,16 +932,16 @@ void recv(byteArray data,int i) {
                         else if(args[1].compare(L"RU") == 0) Input.mi.dwFlags  = MOUSEEVENTF_RIGHTUP;
                         else if(args[1].compare(L"R") == 0) Input.mi.dwFlags  = MOUSEEVENTF_RIGHTDOWN;
                         else Input.mi.dwFlags  = MOUSEEVENTF_LEFTDOWN; // default
-                        ::SendInput(1,&Input,sizeof(INPUT));
+                        inputQueue.push_back(Input);
 
                         // immediate up (for click)
                         if(args[1].size() == 1) {
-                            ::ZeroMemory(&Input,sizeof(INPUT));
-                            Input.type      = INPUT_MOUSE;
+                            //::ZeroMemory(&Input,sizeof(INPUT));
                             if(args[1].compare(L"L") == 0)Input.mi.dwFlags  = MOUSEEVENTF_LEFTUP;
                             else if(args[1].compare(L"R") == 0)Input.mi.dwFlags  = MOUSEEVENTF_RIGHTUP;
                             else Input.mi.dwFlags  = MOUSEEVENTF_LEFTUP; // default
-                            ::SendInput(1,&Input,sizeof(INPUT));
+                            //::SendInput(1,&Input,sizeof(INPUT));
+                            inputQueue.push_back(Input);
                         }
                         if(isLogEnable("OS")) cout << logHeader("OS") << reqClientInfo(i) << "INPUT MOUSECLICK " << endl;
                         //if(INPUT_LOG) cout << "    " << "Mouse clicked" << endl;
@@ -923,10 +949,7 @@ void recv(byteArray data,int i) {
                     else if(args[0].compare(L"KEYBOARD") == 0) { /// INPUT -> KEYBOARD|KEYCODE(3-digit dec)+(U,D,P)+(_,E) : Keyboard event
                         if(args.size() < 2 || args[1].size() < 4) {cout << "    " << "!!! ARG SIZE NOT CORRECT" << endl; continue; }
                         int keycode = (args[1][0]-'0')*100+(args[1][1]-'0')*10+(args[1][2]-'0');
-                        //cout << "    " << "Keycode : " << keycode << endl;
-                        //cout << "{" << timestamp << "} ";
                         if(isLogEnable("OS")) cout << logHeader("OS") << reqClientInfo(i) << " KEYBOARD " << keycode << " , " << char(args[1][3]) << " , " << char((args[1].size()>4)?args[1][4]:'-') << endl;
-                        //cout << "Keyboard Input = Keycode : " << keycode << " , EvtType : " << char(args[1][3]) << " , ExtFlag : " << char((args[1].size()>4)?args[1][4]:'-') << endl;
                         INPUT    Input={0};
                         // left down
                         Input.type      = INPUT_KEYBOARD;
@@ -938,19 +961,18 @@ void recv(byteArray data,int i) {
                         if(args[1][3] == 'U') {
                             Input.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
                             if(args[1].size() > 4 && args[1][4] == 'E') Input.ki.dwFlags |= KEYEVENTF_EXTENDEDKEY;
-                            //cout << "    " << "KEYUP" << endl;
                         }
                         else {
                             Input.ki.dwFlags = KEYEVENTF_SCANCODE;
                             if(args[1].size() > 4 && args[1][4] == 'E') Input.ki.dwFlags |= KEYEVENTF_EXTENDEDKEY;
-                            //cout << "    " << "KEYDOWN" << endl;
                         }
-                        ::SendInput(1,&Input,sizeof(INPUT));
+                        //::SendInput(1,&Input,sizeof(INPUT));
+                        inputQueue.push_back(Input);
                         if(args[1][3] == 'P') {
                             Input.ki.dwFlags = KEYEVENTF_SCANCODE | KEYEVENTF_KEYUP;
                             if(args[1].size() > 4 && args[1][4] == 'E') Input.ki.dwFlags |= KEYEVENTF_EXTENDEDKEY;
-                            ::SendInput(1,&Input,sizeof(INPUT));
-                            //cout << "    " << "KEYPRESS" << endl;
+                            //::SendInput(1,&Input,sizeof(INPUT));
+                            inputQueue.push_back(Input);
                         }
                     }
                     else {
@@ -981,15 +1003,13 @@ void recv(byteArray data,int i) {
                         clientFlag[args[x]].push_back(i);
                     }
                     cout << endl;
-                    /*cout << "Map data : " << endl;
-                    for(map<string,vector<int> >::iterator it = clientFlag.begin(); it != clientFlag.end(); ++it) {
-                        cout << it->first << " : ";
-                        for(int x = 0;x < it->second.size();x++) {
-                            cout << it->second[x] << " ";
-                        }
-                        cout << endl;
-                    }
-                    cout << endl;*/
+                }
+                else if(opcode.compare("WINDOWLIST") == 0) {
+                    if(isLogEnable("OS")) cout << logHeader("OS") << reqClientInfo(i) << "WINDOWLIST" << endl;
+                    // Request every running programs
+                    progListBuff = L""; // clear toRet buffer
+                    EnumWindows(EnumWindowsCB, NULL);
+                    server.sendTo(wsEncodeMsg("WINDOW",translate_ws_to_s2(progListBuff),WS_OP_TXT,'2'),i);
                 }
                 else {
                     if(isLogEnable("PACKET")) cout << logHeader("PACKET") << "Invalid OS packet opcode : " << opcode << endl;

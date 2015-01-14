@@ -94,7 +94,7 @@ int net_recv(SOCKET &sock,byteArray& data)
     while(recvStat != 0 && recvStat != SOCKET_ERROR)
     {
         data.insert(data.end(),net_tempBuffer,net_tempBuffer+recvStat);
-        cout << "Recieved " << recvStat << " bytes " << endl;
+        //cout << "Recieved " << recvStat << " bytes " << endl;
         recvAnyData = true;
         memset(net_tempBuffer,0,SOCKET_RECVBUFFERSIZE);
         recvStat = recv(sock,net_tempBuffer,SOCKET_RECVBUFFERSIZE,0);

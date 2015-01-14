@@ -4,9 +4,10 @@
 #include "network_ext.h"
 
 #define NET_SERVER_STOPSUCCESS 1
-#define NET_SERVER_SLEEP 32 // time sleep
+#define NET_SERVER_SLEEP 16 // time sleep
 #define NET_SERVER_ACCEPT 30 // delay count until accept
-#define NET_SERVER_RUN 1 // delay count until run , must < accept
+#define NET_SERVER_RUN 2 // delay count until run , must < accept
+#define NET_SERVER_RECV 1 // delay count until recv , must < accept
 class net_server_serverClass
 {
 public:

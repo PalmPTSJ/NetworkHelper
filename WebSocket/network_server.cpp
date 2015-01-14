@@ -194,8 +194,7 @@ void net_server_serverClass::setDebugFunc(void(*f)(string))
 void net_server_serverClass::runLoop()
 {
     if(!isStart) {
-        // try to start
-        if(!start()) {
+        if(!start()) { // start error
             if(errFunc != NULL) (*errFunc)(net_lastError);
             return;
         }
@@ -203,15 +202,15 @@ void net_server_serverClass::runLoop()
     if(debugFunc != NULL) (*debugFunc)("Run Loop started");
     while(isStart) {
         --delay;
-        if(delay < 0) {
+        if(delay <= 0) {
             delay = NET_SERVER_ACCEPT;
             acceptNewRequest();
         }
-        if(delay % NET_SERVER_RUN == 0) {
-            int runStat = run();
-            if(isShuttingDown && (runStat == NET_SERVER_STOPSUCCESS)) break;
+        if(delay % NET_SERVER_RECV == 0) {
+            int runStat = run(); // run for recieving data
+            if(isShuttingDown && (runStat == NET_SERVER_STOPSUCCESS)) break; // shutdown completed
             for(int i = 0;i < clientList.size();i++) {
-                while(isClientHaveData(i)) { /* if this client have data */
+                while(isClientHaveData(i)) { /* if this client have data , call recv function */
                     byteArray recvData = getRecvDataFrom(i);
                     if(recvFunc != NULL) (*recvFunc)(recvData,i);
                 }
@@ -222,7 +221,9 @@ void net_server_serverClass::runLoop()
             if(errFunc != NULL) (*errFunc)(net_lastError);
             break; /* Force exit */
         }
-        if(runFunc != NULL) (*runFunc)();
+        if(delay % NET_SERVER_RUN == 0) {
+            if(runFunc != NULL) (*runFunc)();
+        }
         Sleep(NET_SERVER_SLEEP);
     }
 }

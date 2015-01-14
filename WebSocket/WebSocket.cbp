@@ -35,6 +35,7 @@
 				<Option use_console_runner="0" />
 				<Linker>
 					<Add library="libws2_32.a" />
+					<Add library="libpsapi.a" />
 				</Linker>
 			</Target>
 		</Build>
@@ -44,6 +45,8 @@
 		</Compiler>
 		<Linker>
 			<Add library="libws2_32.a" />
+			<Add library="libpsapi.a" />
+			<Add library="libversion.a" />
 		</Linker>
 		<Unit filename="main.cpp" />
 		<Unit filename="network_client.cpp" />
