@@ -22,7 +22,7 @@
 #define LOG_CONN TRUE // Connection ( Websocket handshake , id assignment )
 #define LOG_SERVDBG TRUE // Server ( Connect , Accept , Disconnect )
 #define LOG_PARSE FALSE // Parse ( WebSocket packet parsing )
-#define LOG_PACKET FALSE // Packet ( Arrival , Info )
+#define LOG_PACKET TRUE // Packet ( Arrival , Info )
 #define LOG_OS FALSE // OS ( OS command )
 #define LOG_HTTP FALSE // HTTP ( HTTP request )
 
@@ -33,11 +33,13 @@ struct clientS {
     byteArray waitingBuffer;
     string ip;
     wstring appname;
-    net_client_clientClass clientSock;
+    int socket_idRunner;
+    map<int,net_client_clientClass> socketList;
 };
 struct packetData {
     char enc;
     string opcode;
+    string id;
     wstring data;
     string trimData;
 };
@@ -378,7 +380,7 @@ byteArray wsPingMsg()
 bool wsDecodeMsg(clientS& clientData,packetData& pData)
 {
     pData.data = L"";
-    pData.opcode = pData.trimData = "";
+    pData.opcode = pData.trimData = pData.id = "";
     int meta[6];
     meta[0] = clientData.recvBuffer[0]; // type & everything
     meta[1] = clientData.recvBuffer[1] & 127; // length + masked
@@ -452,11 +454,20 @@ bool wsDecodeMsg(clientS& clientData,packetData& pData)
         pData.opcode.push_back(char(c));
         nowPtr++;
         if(nowPtr >= finalData.size()) {
-            if(isLogEnable("PARSE")) cout << logHeader("PARSE") << "invalid PalmOS packet" << endl;
+            if(isLogEnable("PARSE")) cout << logHeader("PARSE") << "invalid PalmOS packet , OPCODE not fin" << endl;
             return false; // invalid packet spec
         }
     }
     nowPtr++; // skip |
+    while((c = finalData[nowPtr]) != int('|')) {
+        pData.id.push_back(char(c));
+        nowPtr++;
+        if(nowPtr >= finalData.size()) {
+            if(isLogEnable("PARSE")) cout << logHeader("PARSE") << "invalid PalmOS packet , ID not fin" << endl;
+            return false; // invalid packet spec
+        }
+    }
+    nowPtr++; // skip second |
     if(encodingType == int('1')) { // 1-byte encoding ( normal string )
         while(nowPtr < finalData.size()) {
             charcode = finalData[nowPtr];
@@ -477,10 +488,10 @@ bool wsDecodeMsg(clientS& clientData,packetData& pData)
     }
     return true;
 }
-byteArray wsEncodeMsg(string opcode,string data,int type=WS_OP_TXT,char encodingType='2')
+byteArray wsEncodeMsg(string opcode,string data,string id="0",int type=WS_OP_TXT,char encodingType='2')
 {
     byteArray toRet;
-    unsigned long long int sz = data.size()+opcode.size()+1+1; // DATA , OPCODE , | , ENC
+    unsigned long long int sz = data.size()+opcode.size()+1+1+id.size()+1; // ENC OPCODE | ID | DATA
     toRet.push_back(type);
     if(sz <= 125) { // normal len
         toRet.push_back(sz);
@@ -504,6 +515,8 @@ byteArray wsEncodeMsg(string opcode,string data,int type=WS_OP_TXT,char encoding
     // DATA area
     toRet.push_back(cvt(encodingType));
     toRet.insert(toRet.end(),opcode.begin(),opcode.end());
+    toRet.push_back('|');
+    toRet.insert(toRet.end(),id.begin(),id.end());
     toRet.push_back('|');
     toRet.insert(toRet.end(),data.begin(),data.end());
     return toRet;
@@ -567,37 +580,13 @@ string getDriveList()
 
 bool sp = false;
 bool rs = false;
-net_client_clientClass youtubeClient;
-bool youtubeDataFound = false;
-int youtubeStat = -1;
-string youtubeRecvData = "";
-void youtubeRecv(byteArray bt) {
-    youtubeRecvData.append(toString(bt));
-    int res = youtubeRecvData.find("section-list");
-    if(!youtubeDataFound && res != string::npos) {
-        res = youtubeRecvData.find("yt-lockup-title",res);
-        if(res != string::npos) {
-            res = youtubeRecvData.find("href=",res);
-            if(res != string::npos) {
-                string last = youtubeRecvData.substr(res+15,11);
-                if(last.size() == 11) {
-                    cout << "Youtube search found [" << last << "]" << endl;
-                    server.sendTo(wsEncodeMsg("YOUT",last,WS_OP_TXT,'1'),youtubeStat);
-                    youtubeDataFound = true;
-                    youtubeStat = -1;
-                    youtubeClient.disconnect();
-                }
-            }
-        }
-    }
-}
+
 string reqClientInfo(int id) {
     stringstream ss;
     ss << "(" << id << " " << clientList[id].ip;
     if(clientList[id].appname.size() > 0) ss << " " << translate_ws_to_s1(clientList[id].appname);
     ss << ")";
     return ss.str();
-    //i << " (" << clientList[i].ip << ")" << endl;
 }
 BOOL isGoodWindow(HWND hwnd)
 {
@@ -672,11 +661,33 @@ void run() {
     else if(!GetAsyncKeyState(VK_RSHIFT) && rs) rs = false;
 
     cntDown++;
-    youtubeClient.run();
     if(cntDown % 15 == 0) {
         vector<int> *idListToSend = &clientFlag["FLAG_AUTOPONG"];
         for(int i = 0;i < idListToSend->size();i++) {
-            server.sendTo(wsEncodeMsg("PONG","",WS_OP_TXT,'1'),idListToSend->at(i));
+            server.sendTo(wsEncodeMsg("PONG","","0",WS_OP_TXT,'1'),idListToSend->at(i));
+        }
+        // recv
+        for(int i = 0;i < clientList.size();i++) {
+            map<int,net_client_clientClass>::iterator it = clientList[i].socketList.begin();
+            while(it != clientList[i].socketList.end()) {
+                // hack deep into client
+                //cout << "TRY RECVING" << endl;
+                byteArray recvD;
+                int stat = (it->second).recvData(recvD);
+                if(stat == 1) {
+                    stringstream ss;
+                    ss << "RESP|" << (it->first) << "|" << toString(recvD);
+                    cout << "Data recieved size : " << recvD.size() << endl;
+                    server.sendTo(wsEncodeMsg("SOCKET",ss.str(),"0",WS_OP_TXT,'1'),i);
+                }
+                else if(stat == 2) {
+                    // disconnect
+                    stringstream ss;
+                    ss << "CLOSE|" << (it->first);
+                    server.sendTo(wsEncodeMsg("SOCKET",ss.str(),"0",WS_OP_TXT,'1'),i);
+                }
+                it++;
+            }
         }
     }
     if(cntDown >= 120) {
@@ -685,9 +696,8 @@ void run() {
         if(driveList_new.compare(driveList_old) != 0) {
             vector<int> *idListToSend = &clientFlag["FLAG_DRIVECHANGE"];
             for(int i = 0;i < idListToSend->size();i++) {
-                server.sendTo(wsEncodeMsg("DRIVE",driveList_new,WS_OP_TXT,'1'),idListToSend->at(i));
+                server.sendTo(wsEncodeMsg("DRIVE",driveList_new,"0",WS_OP_TXT,'1'),idListToSend->at(i));
             }
-            //server.sendToAllClient(wsEncodeMsg("DRIVE",driveList_new,WS_OP_TXT,'1'));
             if(isLogEnable("OS")) cout << logHeader("OS") << "Drive list changed : " << driveList_new << endl;
             driveList_old = driveList_new;
         }
@@ -763,7 +773,7 @@ void recv(byteArray data,int i) {
             if(wsDecodeMsg(clientList[i],pData) == false) continue; // do nothing
             string opcode = pData.opcode;
             wstring decodeMsg = pData.data;
-            //if(PACKET_LOG) cout << "  " << "OP [" << opcode.substr(0,15) << "] DATA [" << translate_ws_to_s1(decodeMsg.substr(0,20)) << "] SIZE [" << decodeMsg.size() << "]" << endl;
+            if(isLogEnable("PACKET")) cout << "  " << "OP [" << opcode.substr(0,15) << "] ID [" << pData.id << "] DATA [" << translate_ws_to_s1(decodeMsg.substr(0,20)) << "] SIZE [" << decodeMsg.size() << "]" << endl;
             if(opcode.compare("CLOS")==0) {
                 int closingCode = int(decodeMsg[0]);
                 if(isLogEnable("PACKET")) cout << logHeader("PACKET") << "Close packet from " << reqClientInfo(i) << " code " << closingCode << endl;
@@ -773,7 +783,7 @@ void recv(byteArray data,int i) {
                 if(opcode.compare("RETR") == 0) { /// RETR [DIR] : retrieve file list at DIR
                     if(isLogEnable("OS")) cout << logHeader("OS") << reqClientInfo(i) << "RETR" << endl;
                     wstring toRet = retr(decodeMsg);
-                    server.sendTo(wsEncodeMsg("DIRLST",translate_ws_to_s2(toRet),WS_OP_TXT,'2'),i);
+                    server.sendTo(wsEncodeMsg("DIRLST",translate_ws_to_s2(toRet),pData.id,WS_OP_TXT,'2'),i);
                 }
                 else if(opcode.compare("EXEC") == 0) { /// EXEC [PATH] : Execute file
                     wstring fullpath = decodeMsg;
@@ -785,7 +795,7 @@ void recv(byteArray data,int i) {
                 else if(opcode.compare("RETD") == 0) { /// RETD [] : retrieve drive letter
                     //cout << "    " << "<RETD>" << endl;
                     if(isLogEnable("OS")) cout << logHeader("OS") << reqClientInfo(i) << "RETD" << endl;
-                    server.sendTo(wsEncodeMsg("DRIVE",driveList_old,WS_OP_TXT,'1'),i);
+                    server.sendTo(wsEncodeMsg("DRIVE",driveList_old,pData.id,WS_OP_TXT,'1'),i);
                 }
                 else if(opcode.compare("READ") == 0) { /// READ [PATH] : read file
                     //cout << "    " << "<READ>" << endl;
@@ -812,23 +822,7 @@ void recv(byteArray data,int i) {
                         if(isLogEnable("OS")) cout << logHeader("OS") << reqClientInfo(i) << "READ " << translate_ws_to_s1(fullpath) << " , size " << sizeCnt << endl;
                     }
                     fclose(f);
-                    server.sendTo(wsEncodeMsg("FILE",realData,WS_OP_BIN,'2'),i);
-                }
-                else if(opcode.compare("YOUT") == 0) { /// YOUT [QUERY] : Youtube Music search
-                    cout << "    " << "<YOUT>" << endl;
-                    wstring query = decodeMsg;
-                    if(youtubeClient.connect("www.youtube.com",80,200)) {
-                        string httpReq = "GET /results?search_query=";
-                        httpReq.append(translate_ws_to_url(query));
-                        httpReq.append(" HTTP/1.1\n");
-                        httpReq.append("Host: www.youtube.com\n");
-                        httpReq.append("User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0\n\n");
-                        youtubeClient.send(toByteArray(httpReq));
-                        youtubeRecvData = "";
-                        youtubeDataFound = false;
-                        youtubeStat = i;
-                        wcout << L"    " << L"Youtube query request [" << query << L"] sent" << endl;
-                    }
+                    server.sendTo(wsEncodeMsg("FILE",realData,pData.id,WS_OP_BIN,'2'),i);
                 }
                 else if(opcode.compare("SAVE") == 0) { /// SAVE [PATH | BINARYDATA] : save binary data to file
                     cout << "    " << "<SAVE>" << endl;
@@ -861,11 +855,11 @@ void recv(byteArray data,int i) {
                     for(int j = 0;j < clientList.size();j++) {
                         if(i != j && appname.compare(clientList[j].appname) == 0) {
                             cout << "    " << "Name already exists by " << j << endl;
-                            server.sendTo(wsEncodeMsg("REGISSTAT","FAIL",WS_OP_TXT,'1'),i);
+                            server.sendTo(wsEncodeMsg("REGISSTAT","FAIL",pData.id,WS_OP_TXT,'1'),i);
                             continue;
                         }
                     }
-                    server.sendTo(wsEncodeMsg("REGISSTAT","SUCCESS",WS_OP_TXT,'1'),i);
+                    server.sendTo(wsEncodeMsg("REGISSTAT","SUCCESS",pData.id,WS_OP_TXT,'1'),i);
                     clientList[i].appname = decodeMsg;
                 }
                 else if(opcode.compare("RELAY") == 0) { /// RELAY [APPNAME|DATA] : Relay message to other app
@@ -878,15 +872,15 @@ void recv(byteArray data,int i) {
                     for(int j = 0;j < clientList.size();j++) {
                         if(appname.compare(clientList[j].appname) == 0) {
                             cout << "    " << "Will relay to client " << j << endl;
-                            server.sendTo(wsEncodeMsg("RELAY",data,WS_OP_TXT,'2'),j);
-                            server.sendTo(wsEncodeMsg("RELAYSTAT","SUCCESS",WS_OP_TXT,'1'),i);
+                            server.sendTo(wsEncodeMsg("RELAY",data,"0",WS_OP_TXT,'2'),j);
+                            server.sendTo(wsEncodeMsg("RELAYSTAT","SUCCESS",pData.id,WS_OP_TXT,'1'),i);
                             targFound = true;
                             break;
                         }
                     }
                     if(targFound) continue;
                     cout << "    " << "Target not found" << endl;
-                    server.sendTo(wsEncodeMsg("REGISSTAT","FAIL",WS_OP_TXT,'1'),i);
+                    server.sendTo(wsEncodeMsg("RELAYSTAT","FAIL",pData.id,WS_OP_TXT,'1'),i);
                 }
                 else if(opcode.compare("INPUT") == 0) { /// INPUT [TYPE|Additional args ...] : Simulate input events
                     //if(INPUT_LOG) cout << "    " << "<INPUT>" << endl;
@@ -981,7 +975,7 @@ void recv(byteArray data,int i) {
                 }
                 else if(opcode.compare("PING") == 0) {
                     if(isLogEnable("OS")) cout << logHeader("OS") << reqClientInfo(i) << "Ping !!" << endl;
-                    server.sendTo(wsEncodeMsg("PONG","",WS_OP_TXT,'1'),i);
+                    server.sendTo(wsEncodeMsg("PONG","",pData.id,WS_OP_TXT,'1'),i);
                 }
                 else if(opcode.compare("REGFLAG") == 0) {
                     vector<string> args;
@@ -1009,7 +1003,41 @@ void recv(byteArray data,int i) {
                     // Request every running programs
                     progListBuff = L""; // clear toRet buffer
                     EnumWindows(EnumWindowsCB, NULL);
-                    server.sendTo(wsEncodeMsg("WINDOW",translate_ws_to_s2(progListBuff),WS_OP_TXT,'2'),i);
+                    server.sendTo(wsEncodeMsg("WINDOW",translate_ws_to_s2(progListBuff),pData.id,WS_OP_TXT,'2'),i);
+                }
+                else if(opcode.compare("SOCKET") == 0) {
+                    // SOCKET
+                    vector<string> args;
+                    args.push_back("");
+                    for(int i = 0;i < decodeMsg.size();i++) {
+                        if(decodeMsg[i] == wchar_t('|')) args.push_back("");
+                        else args[args.size()-1].push_back(char(decodeMsg[i]));
+                    }
+                    if(args[0].compare("CREATE") == 0) {
+                        // create new socket , give an id
+                        net_client_clientClass cl;
+                        cl.setup(NULL,NULL,error);
+                        cl.setDebugFunc(debug);
+                        clientList[i].socketList.insert(pair<int,net_client_clientClass>(clientList[i].socket_idRunner,cl));
+                        //cout << "INSERTED" << endl;
+                        stringstream toRet;
+                        toRet << "OK" << clientList[i].socket_idRunner++;
+                        server.sendTo(wsEncodeMsg("STAT",toRet.str(),pData.id,WS_OP_TXT,'1'),i);
+                    }
+                    else if(args[0].compare("CONNECT") == 0) { // SOCKET|CONNECT|[ID]|[HOST]|[PORT]
+                        if(args.size() < 4) break;
+                        int id = (LONG)atoi(args[1].c_str());
+                        int port = (LONG)atoi(args[3].c_str());
+                        cout << "DATA : " << args[2] << " , id " << id << " , port " << port << endl;
+                        clientList[i].socketList[id].connect(args[2],port,1); // allow 1 second freeze
+                        if(clientList[i].socketList[id].status == NET_CLIENT_ONLINE) server.sendTo(wsEncodeMsg("STAT","CONNECTED",pData.id,WS_OP_TXT,'1'),i);
+                        else server.sendTo(wsEncodeMsg("STAT","ERROR",pData.id,WS_OP_TXT,'1'),i);
+                    }
+                    else if(args[0].compare("SEND") == 0) { // SOCKET|SEND|[ID]|[DATA]
+                        if(args.size() < 3) break;
+                        int id = (LONG)atoi(args[1].c_str());
+                        clientList[i].socketList[id].send(args[2]);
+                    }
                 }
                 else {
                     if(isLogEnable("PACKET")) cout << logHeader("PACKET") << "Invalid OS packet opcode : " << opcode << endl;
@@ -1023,6 +1051,7 @@ bool acc(net_ext_sock connector)
     if(isLogEnable("CONN")) cout << logHeader("CONN") << "Add " << net_getIpFromHandle(connector.sockHandle) << " as id " << clientList.size() << endl;
     clientS clientData;
     clientData.ip = net_getIpFromHandle(connector.sockHandle);
+    clientData.socket_idRunner = 1;
     clientList.push_back(clientData);
     return true; // accept the connection
 }
@@ -1041,22 +1070,19 @@ void dis(int id)
             }
         }
         if(targ->size() == 0) {
-            //map<string,vector<int> >::iterator toDel = it;
             clientFlag.erase(it++);
         }
         else {
             it++;
         }
     }
-    /*cout << "Map data : " << endl;
-    for(map<string,vector<int> >::iterator it = clientFlag.begin(); it != clientFlag.end(); ++it) {
-        cout << it->first << " : ";
-        for(int x = 0;x < it->second.size();x++) {
-            cout << it->second[x] << " ";
-        }
-        cout << endl;
+    // close socket
+    map<int,net_client_clientClass>::iterator itt = clientList[id].socketList.begin();
+    while(itt != clientList[id].socketList.end()) {
+        cout << "Force shutdown " << endl;
+        (itt->second).forceShutdown();
+        itt++;
     }
-    cout << endl;*/
     clientList.erase(clientList.begin() + id);
 }
 void startServer()
@@ -1071,8 +1097,6 @@ int main(int argc,char** argv)
 {
     net_init();
     SetErrorMode(SEM_NOOPENFILEERRORBOX); // for drives detection
-    youtubeClient.setDebugFunc(debug);
-    youtubeClient.setup(NULL,youtubeRecv,error);
     timestamp = 0;
     if(argc >= 1) {
         workingDir = argv[0];

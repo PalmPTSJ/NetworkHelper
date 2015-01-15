@@ -14,7 +14,7 @@ Return value : List of available drives, split with '|'
 Return markup : DRIVE|[List of drives]
 
 Example Call : RETD
-Example Return : DRIVE|C:|D:|N:|
+Example Return : DRIVE|C|D|N|
 
 3. EXEC (EXECute) : EXEC|[PATH TO FILE]
 Usage : Execute file by system
@@ -34,7 +34,7 @@ Return markup : FILE|[PATH TO FILE]|[DATA]
 Example Call : READ|D:\mytext.txt
 Example Return : FILE|D:\mytext.txt|Hello world ! This is inside mytext file
 
-Note : 	- Data will be send as binary (blob)
+Note :  - Data will be send as binary (blob)
 
 5. YOUT (YOUTube) : YOUT|[SEARCH TEXT] *** Experimental, not properly support ***
 Usage : Get first youtube search result of the text
@@ -77,18 +77,56 @@ Return markup : REGISSTAT|[STAT : SUCCESS/FAIL]
 Example Call : REGIS|fileBrowser
 Example Return REGISSTAT|SUCCESS
 
-9. INPUT (TYPE|Additional args ...) : simulate INPUT
-Usage : Simulate input events
+9. INPUT (INPUT) : TYPE|Additional args ...
+Usage : Simulate hardware input events
 
 9.1 MOUSEMOVE : INPUT|MOUSEMOVE|AXIS|PIXELS
 9.2 MOUSECLICK : INPUT|MOUSECLICK|TYPE
-9.3 KEYBOARD : INPUT|KEYBOARD|KEYCODE *** working in progress ***
+9.3 KEYBOARD : INPUT|KEYBOARD|KEYCODE(3-digit dec)+(U,D,P)+(_,E)
+     -  U = Up , D = Down , P = Press
+     -  _ = Normal scancode , E = Extended scancode
+9.4 MOUSESETPOS : INPUT|MOUSESETPOS|X|Y
 
+10. PING (PING) : PING
+Usage : Ping the server for connectivity
+
+Return value : PONG packet
+Return markup : PONG
+
+Example Call : PING
+Example Return PONG
+
+11. REGFLAG (REGister FLAG) : REGFLAG|FLAG1|...
+Usage : Registering program's flag to server
+
+Return value : -None-
+Return markup : -None-
+
+Example Call : REGFLAG|FLAG_AUTOPONG
+Example Return : -None-
+
+12. WINDOWLIST (WINDOW LIST) : WINDOWLIST
+Usage : Retrieve server's host window list
+
+Return value : WINDOW packet
+Return markup : WINDOW|WIN1|...
+
+Example Call : WINDOWLIST
+Example Return : WINDOW|
 /// Drafting phase
-T1. SOCKET (SOCKET handler) : SOCKET|[CMD]|...
+T1. SOCKET (SOCKET handler) : SOCKET|[ID]|[CMD]|...
 Usage : Handle client socket associate with this app
 
-T1.1 CONNECT : SOCKET|CONNECT|[TARGET]|[PORT]
+T1.1 CREATE : SOCKET|CREATE
+Usage : Create new SOCKET for this app
+
+Return value : SOCKETSTATUS create
+Return markup : SOCKETSTAT|CREATE|[ID]
+
+Example Call : SOCKET|CREATE
+Example Return : SOCKETSTAT|CREATE|1
+
+T1.2 CONNECT : SOCKET|CONNECT|[TARGET]|[PORT]
 Usage : Connect socket to TARGET with port PORT
 
 Return value : Connection status
@@ -97,7 +135,7 @@ Return markup : SOCKETSTAT|CONNECT|[STAT : SUCCESS/FAIL]
 Example Call : SOCKET|CONNECT|www.youtube.com|80
 Example Return : SOCKETSTAT|CONNECT|SUCCESS
 
-T1.2 CONNECTSEND : SOCKET|CONNECTSEND|[TARGET]|[PORT]|[DATA]
+T1.3 CONNECTSEND : SOCKET|CONNECTSEND|[TARGET]|[PORT]|[DATA]
 Usage : Connect socket to TARGET and send DATA immediately
 
 Return value : Connection / Send status
@@ -108,7 +146,7 @@ Example Return : SOCKETSTAT|CONNECTSEND|SUCCESS
 
 Note : This function is usually used to connect to HTTP server , sending HTTP request as data
 
-T1.3 SEND : SOCKET|SEND|[DATA]
+T1.4 SEND : SOCKET|SEND|[DATA]
 Usage : Send DATA
 
 Return value : Send status
@@ -116,5 +154,3 @@ Return markup : SOCKETSTAT|SEND|[STAT : SUCCESS/NOTCONN/FAIL]
 
 Example Call : SOCKET|SEND|HELLOWORLD
 Example Return : SOCKETSTAT|SEND|OK
-
-T1.4

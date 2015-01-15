@@ -24,7 +24,10 @@ public:
     bool run();
     void runLoop();
 
+    int recvData(byteArray& data);
+
     void send(byteArray data);
+    void send(string data);
 
     void disconnect();
     void forceShutdown();
@@ -36,6 +39,7 @@ public:
 
     int delay;
     int status;
+
     SOCKET sock;
 };
 

@@ -1,13 +1,19 @@
-ENC[1] CMD | DATA
+ENC[1] OPCODE | ID | DATA
 ENC :
 '1' (0x31) = 1-byte encoding ( normal packet )
 '2' (0x32) = 2-bytes encoding ( wstring )
 
 ** multiple type encoding not supported, send multiple packet or special implementation
 
-CMD :
+OPCODE :
 1-byte encoding string (ex. READ RETR YOUT)
 end with '|' char
+
+ID :
+Numbers 
+Special packet identifier that will return back with the response
+"1" - "999999999" = Normal ID
+"0" = Server's packet ID
 
 DATA :
 byteArray with encoding defined by ENC
@@ -15,5 +21,6 @@ byteArray with encoding defined by ENC
 
 --- Reading ---
 1. Read 1 byte for ENC
-2. Read until reach first '|' , treat them as 1-byte encoding string , for CMD
-3. Read after first '|' , decode them with ENC , for DATA
+2. Read until reach first '|' , treat them as 1-byte encoding string , for OPCODE
+3. Read after first '|' until second '|' , treat them as 1-byte string , for ID
+4. Read after second '|' , decode them with ENC , for DATA

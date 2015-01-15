@@ -1,53 +1,7 @@
 /* type is not needed because server is not strict with the rule */
-var commandList = new Array();
-var conn = null;
-function sendCommand(packetStruct,_cb,_arg)
-{
-	var commandStruct = {
-		cb:_cb ,
-		arg:_arg ,
-		id:packetStruct.id
-	};
-	commandList.push(commandStruct);
-	if(conn != null) conn.send(wsEncodeMsgFromPacket(packetStruct));
-}
-function runCommand(data)
-{
-	// if data.id in commandList
-	for(var i = 0;i < commandList.length;i++) {
-		if(commandList[i].id == data.id) {
-			// data is the response
-			commandList[i].cb(data.data,commandList[i].arg);
-			commandList.splice(i,1);
-			return true;
-		}
-	}
-	return false;
-}
-var idCount = 1;
-function buildPacket(opcode,_data,encodingType)
-{
-	var toRet = {
-		op:opcode ,
-		data:_data ,
-		enc:encodingType ,
-		id:idCount
-	}
-	idCount++;
-	if(idCount>999999999) idCount = 1;
-	return toRet;
-}
-
 function wsEncodeMsg(opcode,data,encodingType) // encoding to packet msg
 {
-	var toRet = (encodingType+opcode+'|'+idCount+'|'+data);
-	idCount++;
-	if(idCount>999999999) idCount = 1;
-	return toRet;
-}
-function wsEncodeMsgFromPacket(packet)
-{
-	var toRet = packet.enc+packet.op+'|'+packet.id+'|'+packet.data;
+	var toRet = (encodingType+opcode+'|'+data);
 	return toRet;
 }
 function wsEncodeBlobMsg(opcode,data,encodingType)
@@ -88,16 +42,12 @@ function wsDecodeMsg(msg) // decode packet msg to data & auto decoding data with
 	var splitter = msg.indexOf('|');
 	if(splitter == -1) return {error:"INVALID"};
 	var opcode = msg.substring(1,splitter);
-	var tid = msg.substring(splitter+1);
-	var splitter2 = tid.indexOf('|')
-	var dataS = tid.substring(splitter2+1);
-	tid = tid.substring(0,splitter2);
+	var dataS = msg.substring(splitter+1);
 	// decoding data
 	if(encType == '2') dataS = translate_s2_to_ws(dataS);
 	return {
 		op:opcode ,
 		data:dataS ,
-		id:tid
 	};
 }
 function wsDecodeBlobMsg(msg,callback) // reflow the message for blob loading & reading

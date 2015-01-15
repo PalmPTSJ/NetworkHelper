@@ -32,7 +32,7 @@ public:
     void forceStop();
 
     byteArray getRecvDataFrom(int index);
-     bool isClientHaveData(int index);
+    bool isClientHaveData(int index);
     string getIpFrom(int index);
 
     void sendTo(byteArray data,int index);

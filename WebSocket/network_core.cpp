@@ -140,7 +140,6 @@ bool net_connect(SOCKET &sock,sockaddr_in addr,int timeout)
     timer.tv_sec = timeout;
 
     int ret = select(sock, NULL, &socket_set, NULL, &timer);
-
     if(ret == 0) return false;
     return true;
 }

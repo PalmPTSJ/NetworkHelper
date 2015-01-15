@@ -4,6 +4,7 @@ net_client_clientClass::net_client_clientClass()
 {
     status = NET_CLIENT_OFFLINE;
     sock = INVALID_SOCKET;
+    cout << "Constructed" << endl;
 }
 net_client_clientClass::~net_client_clientClass()
 {
@@ -18,7 +19,9 @@ void net_client_clientClass::setup(void(*run)(),void(*recv)(byteArray),void(*err
 }
 bool net_client_clientClass::connect(string ip,int port,int timeout)
 {
-    if(sock == INVALID_SOCKET) sock = net_createSocket();
+    if(sock == INVALID_SOCKET) {
+        sock = net_createSocket();
+    }
     if(debugFunc != NULL) (*debugFunc)("Connecting");
     bool con = net_connect(sock,net_createAddr(ip,port),timeout);
     if(!con) {
@@ -31,11 +34,53 @@ bool net_client_clientClass::connect(string ip,int port,int timeout)
         return true;
     }
 }
+int net_client_clientClass::recvData(byteArray& data)
+{
+    if(status != NET_CLIENT_ONLINE && status != NET_CLIENT_SHUTTINGDOWN) {
+        //cout << "Socket not online" << endl;
+        return -1;
+    }
+    if(status == NET_CLIENT_SHUTTINGDOWN) {
+        cout << "Socket is shutting down " << endl;
+    }
+    if(sock == INVALID_SOCKET) {
+        cout << "INV socket" << endl;
+    }
+    //cout << "I am recieving" << endl;
+    int stat = net_recv(sock,data);
+    if(stat == NET_RECV_CLOSE || stat == NET_RECV_ERROR)
+    {
+        //cout << "I recieved close" << endl;
+        // close
+        if(debugFunc != NULL) (*debugFunc)("Disconnected (CSIGN)");
+        if(status == NET_CLIENT_SHUTTINGDOWN) {
+            (*debugFunc)("Graceful shutdown completed (CSIGN)");
+            /*net_closeSocket(sock);
+            sock = INVALID_SOCKET;*/
+        }
+        net_closeSocket(sock);
+        sock = INVALID_SOCKET;
+        status = NET_CLIENT_OFFLINE;
+        return 2;
+    }
+    else if(stat == NET_RECV_OK) {
+        //cout << "I recieved data" << endl;
+        return 1;
+    }
+    if(net_error()) /* If have error */
+    {
+        if(errFunc != NULL) (*errFunc)(net_lastError);
+        status = NET_CLIENT_OFFLINE;
+        return -1; /* Force exit */
+    }
+    //cout << "I recieved nothing" << endl;
+    return 0;
+}
 bool net_client_clientClass::run()
 {
     if(status != NET_CLIENT_ONLINE && status != NET_CLIENT_SHUTTINGDOWN) return false;
     --delay;
-    if(delay < 0) {
+    if(delay <= 0) {
         delay = NET_CLIENT_DELAY;
         byteArray data;
         int stat = net_recv(sock,data);
@@ -78,6 +123,10 @@ void net_client_clientClass::runLoop()
 void net_client_clientClass::send(byteArray data)
 {
     net_send(sock,data);
+}
+void net_client_clientClass::send(string data)
+{
+    send(toByteArray(data));
 }
 void net_client_clientClass::disconnect()
 {
