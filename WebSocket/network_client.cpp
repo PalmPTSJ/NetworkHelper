@@ -4,7 +4,10 @@ net_client_clientClass::net_client_clientClass()
 {
     status = NET_CLIENT_OFFLINE;
     sock = INVALID_SOCKET;
-    cout << "Constructed" << endl;
+    runFunc = NULL;
+    recvFunc = NULL;
+    errFunc = NULL;
+    debugFunc = NULL;
 }
 net_client_clientClass::~net_client_clientClass()
 {

@@ -22,7 +22,43 @@ function runCommand(data)
 			return true;
 		}
 	}
+	if(data.op == "SOCKETSTAT") {
+		var args = data.data.split('|');
+	}
 	return false;
+}
+function socket_build(fnc)
+{
+	var toRet = {
+		status:"NONE",
+		recvBuffer:[],
+		sendBuffer:[],
+		cb:fnc,
+		id:-1
+	}
+	return toRet;
+}
+function socket_send(sock,data)
+{
+	sock.sendBuffer.push(data);
+}
+function socket_create(sock)
+{
+	sendCommand(buildPacket("SOCKET","CREATE",'1'),socket_create_cb,sock);
+}
+function socket_connect(sock,host,port,cb)
+{
+	sendCommand(buildPacket("SOCKET","CONNECT|"+sock.id+"|"+host+"|"+port,'1'),cb,sock);
+}
+function socket_create_cb(ret,sock)
+{
+	if(ret.length < 3 || ret[0] != 'O') {
+		sock.status = "ERROR"; // Error
+		return;
+	}
+	var id = parseInt(ret.substring(2));
+	sock.id = id;
+	sock.status = "READY";
 }
 var idCount = 1;
 function buildPacket(opcode,_data,encodingType)

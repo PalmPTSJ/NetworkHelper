@@ -677,14 +677,15 @@ void run() {
                 if(stat == 1) {
                     stringstream ss;
                     ss << "RESP|" << (it->first) << "|" << toString(recvD);
-                    cout << "Data recieved size : " << recvD.size() << endl;
-                    server.sendTo(wsEncodeMsg("SOCKET",ss.str(),"0",WS_OP_TXT,'1'),i);
+                    //cout << "Data recieved size : " << recvD.size() << endl;
+                    server.sendTo(wsEncodeMsg("SOCKETSTAT",ss.str(),"0",WS_OP_TXT,'1'),i);
                 }
                 else if(stat == 2) {
                     // disconnect
                     stringstream ss;
                     ss << "CLOSE|" << (it->first);
-                    server.sendTo(wsEncodeMsg("SOCKET",ss.str(),"0",WS_OP_TXT,'1'),i);
+                    server.sendTo(wsEncodeMsg("SOCKETSTAT",ss.str(),"0",WS_OP_TXT,'1'),i);
+
                 }
                 it++;
             }
@@ -1019,24 +1020,45 @@ void recv(byteArray data,int i) {
                         cl.setup(NULL,NULL,error);
                         cl.setDebugFunc(debug);
                         clientList[i].socketList.insert(pair<int,net_client_clientClass>(clientList[i].socket_idRunner,cl));
-                        //cout << "INSERTED" << endl;
                         stringstream toRet;
                         toRet << "OK" << clientList[i].socket_idRunner++;
-                        server.sendTo(wsEncodeMsg("STAT",toRet.str(),pData.id,WS_OP_TXT,'1'),i);
+                        server.sendTo(wsEncodeMsg("SOCKETSTAT",toRet.str(),pData.id,WS_OP_TXT,'1'),i);
                     }
                     else if(args[0].compare("CONNECT") == 0) { // SOCKET|CONNECT|[ID]|[HOST]|[PORT]
-                        if(args.size() < 4) break;
+                        if(args.size() < 4) continue;
                         int id = (LONG)atoi(args[1].c_str());
                         int port = (LONG)atoi(args[3].c_str());
                         cout << "DATA : " << args[2] << " , id " << id << " , port " << port << endl;
-                        clientList[i].socketList[id].connect(args[2],port,1); // allow 1 second freeze
-                        if(clientList[i].socketList[id].status == NET_CLIENT_ONLINE) server.sendTo(wsEncodeMsg("STAT","CONNECTED",pData.id,WS_OP_TXT,'1'),i);
-                        else server.sendTo(wsEncodeMsg("STAT","ERROR",pData.id,WS_OP_TXT,'1'),i);
+                        bool stat = clientList[i].socketList[id].connect(args[2],port,1); // allow 1 second freeze
+                        if(stat) server.sendTo(wsEncodeMsg("SOCKETSTAT","CONNECTED",pData.id,WS_OP_TXT,'1'),i);
+                        else server.sendTo(wsEncodeMsg("SOCKETSTAT","ERROR",pData.id,WS_OP_TXT,'1'),i);
                     }
                     else if(args[0].compare("SEND") == 0) { // SOCKET|SEND|[ID]|[DATA]
-                        if(args.size() < 3) break;
+                        if(args.size() < 3) continue;
                         int id = (LONG)atoi(args[1].c_str());
                         clientList[i].socketList[id].send(args[2]);
+                        server.sendTo(wsEncodeMsg("SOCKETSTAT","SENT",pData.id,WS_OP_TXT,'1'),i);
+                    }
+                    else if(args[0].compare("CREATECONNECTSEND") == 0) { // SOCKET|CREATECONNECTSEND|[HOST]|[PORT]|[DATA]
+                        if(args.size() < 4) continue;
+                        net_client_clientClass cl;
+                        cl.setup(NULL,NULL,error);
+                        cl.setDebugFunc(debug);
+                        clientList[i].socketList.insert(pair<int,net_client_clientClass>(clientList[i].socket_idRunner,cl));
+                        net_client_clientClass* sock = &(clientList[i].socketList[clientList[i].socket_idRunner]);
+                        int port = (LONG)atoi(args[2].c_str());
+                        if(!sock->connect(args[1],port,1)) {
+                            server.sendTo(wsEncodeMsg("SOCKETSTAT","NOCONNECT",pData.id,WS_OP_TXT,'1'),i);
+                            continue;
+                        }
+                        sock->send(args[3]);
+                        stringstream ss;
+                        ss << "CCS" << clientList[i].socket_idRunner++;
+                        server.sendTo(wsEncodeMsg("SOCKETSTAT",ss.str(),pData.id,WS_OP_TXT,'1'),i);
+                    }
+                    else if(args[0].compare("CLOSE") == 0) { // SOCKET|CLOSE|[ID]
+                        int id = (LONG)atoi(args[1].c_str());
+                        clientList[i].socketList[id].disconnect();
                     }
                 }
                 else {

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Scoreboard</title>
+        <style>
+            html,body {
+                margin:0px;
+                height:100%;
+                font-family:"Consolas";
+                background-color:rgba(252,252,252,1);
+                //background-color:white;
+                font-size:20px;
+            }
+            h1 {
+                text-align:center;
+                font-size:40px;
+                margin:5px;
+            }
+            .card {
+                padding:8px;
+                box-shadow:0px 3px 2px #888;
+                background-color:white;
+                width:100%;
+                box-sizing: border-box;
+            }
+            #header {
+                background-color:#2196f3;
+                //box-shadow:0px 2px 2px #888;
+                //border-radius:12px 12px 0 0;
+                color:white;
+            }
+            .block {
+                display:inline-block;
+                margin-left:5px;
+                text-align:center;
+                transition:background-color 0.4s ease,opacity 0.4s ease;
+            }
+            .blockSmall {
+                width:60px;
+            }
+            .blockProb {
+                width:80px;
+                //border:1px solid black;
+            }
+            .blockLarge {
+                width:120px;
+            }
+            #scoreboard {
+                padding-bottom:160px;
+                background-color:white;
+            }
+            .scoreUpdateChange {
+                background:radial-gradient(circle, green , white);
+                transition:background 0.8s;
+                position:absolute;
+                z-index:100;
+            }
+            .floatRow {
+                position:absolute;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <h1>SCC : Scoreboard</h1>
+        <div class="card" id="header">
+
+        </div>
+        <div id="scoreboard">
+            <!--<div class="card" id="user1">
+                <div class="block blockLarge">SKN</div>
+                <div class="block blockSmall">1500</div>
+                <div class="block blockSmall">#15</div>
+                <div class="block blockProb">0</div>
+                <div class="block blockProb">0</div>
+                <div class="block blockProb">0</div>
+                <div class="block blockProb">0</div>
+                <div class="block blockProb">0</div>
+                <div class="block blockProb">0</div>
+                <div class="block blockProb">0</div>
+                <div class="block blockProb">0</div>
+                <div class="block blockProb">0</div>
+                <div class="block blockProb">0</div>
+                <div class="block blockProb">0</div>
+                <div class="block blockProb">0</div>
+                <div class="block blockProb">0</div>
+                <div class="block blockProb">0</div>
+                <div class="block blockProb">0</div>
+            </div>-->
+        </div>
+        <input type="button" value="REF" onclick="monoScoreboard()">
+    </body>
+    <script src="PalmOS.js"></script>
+    <script src="jquery.js"></script>
+    <script src="jqueryEase.js"></script>
+    <script>
+        function elem(id) {
+            return document.getElementById(id);
+        }
+        //var toCopy = document.getElementById("user1").outerHTML;
+        var username = ["SKN","HelloWorld","ABC","DEF","GHI","JKL","MNO","EIGHT","IAMNINE","TENNY","7-11","TWEL","XIII","OLO","FIFT"];
+        var prob = ["A+B","Probb2","Probb3","Probb4","Probb5","Probb6","Probb7","Probb8","Probb9","10","mod","Project","Ship","Count","Happy"];
+        var raw_username = new Array();
+        var raw_prob = new Array();
+        function initScoreboard() {
+            elem("header").innerHTML = "";
+            elem("scoreboard").innerHTML = "";
+            elem("header").innerHTML = "<div class='block blockLarge'>"+"Username"+"</div>";
+            elem("header").innerHTML += "<div class='block blockSmall'>Score</div>";
+            elem("header").innerHTML += "<div class='block blockSmall'>Last</div>";
+            for(var i = 0;i < prob.length;i++) {
+                elem("header").innerHTML += "<div class='block blockProb'>"+prob[i]+"</div>";
+            }
+            for(var i = 0;i < username.length;i++) {
+                var cardElem = document.createElement("div");
+                cardElem.className = "card";
+                cardElem.id = "c_"+username[i];
+                cardElem.innerHTML = "<div class='block blockLarge'>"+username[i]+"</div>";
+                cardElem.innerHTML += "<div class='block blockSmall'>0</div>";
+                cardElem.innerHTML += "<div class='block blockSmall'>#0</div>";
+                //console.log(prob.length);
+                for(var j = 0;j < prob.length;j++) {
+                    cardElem.innerHTML += "<div class='block blockProb'>0</div>";
+                }
+                document.getElementById("scoreboard").appendChild(cardElem);
+            }
+        }
+        
+        function totalScore(id) {
+            return parseInt(elem("scoreboard").children[id].children[1].innerHTML);
+        }
+        var animationDone = true;
+        function updateRanking(id) {
+            // find position for this to end
+            var myScore = totalScore(id);
+            var targ = id;
+            var now = elem("scoreboard").children[id];
+            while(targ >= 1 && totalScore(targ-1) < myScore) {
+                targ--;
+            }
+            if(targ == id) {
+                animationDone = true;
+                animationDoneFunc();
+                return;
+            }
+            // use box shadow
+            var anim = now.cloneNode(true);
+            document.body.appendChild(anim);
+            var startPos = now.getBoundingClientRect();
+            anim.style.top = ""+(startPos.top+window.scrollY)+"px";
+            anim.style.left = "0px";
+            anim.className += " floatRow";
+            $(anim).css({"box-shadow":"0px 3px 8px #888","z-index":"100","background-color":""});
+            $(anim).fadeOut(0);
+            $(anim).fadeIn(250,function() {
+                // move this shit
+                var endPos = elem("scoreboard").children[targ].getBoundingClientRect();
+                var endTop = endPos.top+window.scrollY;
+                //anim.style.top = endTop+"px";
+                var targHeight = endPos.height;
+                // gen placeholder elem
+                var placeHolder = now.cloneNode(true);
+                placeHolder.style.visibility = "hidden";
+                elem("scoreboard").insertBefore(placeHolder,elem("scoreboard").children[targ]);
+                $(anim).animate({top:endTop},800,"easeOutQuad");
+                placeHolder.style.height = "0px";
+                placeHolder.style.padding = "0px";
+                
+                $(now).animate({height:"0"},800,"easeOutQuad");
+                now.style.padding = "0px";
+                now.style.visibility = "hidden";
+                $(placeHolder).animate({height:targHeight},800,"easeOutQuad",function(){
+                    placeHolder.style.visibility = "visible";
+                    placeHolder.style.padding = "8px";
+                    $(anim).fadeOut(250,function() {
+                        // remove every shit
+                        anim.parentNode.removeChild(anim);
+                        now.parentNode.removeChild(now);
+                        // done
+                        animationDone = true;
+                        animationDoneFunc();
+                    });
+                });
+            });
+        }
+        function updateScore(id,probId,score,subm) {
+            if(score > 100) score = 100;
+            var lastScore = elem("scoreboard").children[id].children[probId+3];
+            var totalScore = elem("scoreboard").children[id].children[1];
+            var submElem = elem("scoreboard").children[id].children[2];
+            var scoreAdd = score - parseInt(lastScore.innerHTML);
+            var targColor = score==100?"#4caf50":" #03a9f4";
+            if(scoreAdd > 0) {
+                animationDone = false;
+                // animation
+                totalScore.style.background = lastScore.style.background = "radial-gradient(circle,white,"+targColor+")";
+                submElem.style.opacity = totalScore.style.opacity = lastScore.style.opacity = "0";
+                setTimeout(function(){
+                    totalScore.style.background = lastScore.style.background = "none";
+                    submElem.style.opacity = totalScore.style.opacity = lastScore.style.opacity = "1";
+                    lastScore.innerHTML = score;
+                    totalScore.innerHTML = parseInt(totalScore.innerHTML)+scoreAdd;
+                    submElem.innerHTML = "#"+subm;
+                    lastScore.style.color = targColor;
+                    },400);
+                    
+                setTimeout(function(){
+                    // continue
+                    updateRanking(id);
+                },800)
+                //lastScore.style.backgroundColor = "white";
+            }
+            else {
+                animationDoneFunc();
+            }
+        }
+        var submission = 0;
+        var submissionList = new Array();
+        var lastSubmissionProcessed = -1;
+        var lastSubmission = -1;
+        function processSubmission()
+        {
+            console.log("Process submission , last : "+lastSubmission+" , lastProc : "+lastSubmissionProcessed);
+            // new data to process
+            while(lastSubmissionProcessed <= lastSubmission) {
+                // process
+                if(submissionList[lastSubmissionProcessed] != undefined) {
+                    console.log("Have to Process : "+submissionList[lastSubmissionProcessed]);
+                    var subm = submissionList[lastSubmissionProcessed][0];
+                    var sender = raw_username.indexOf(submissionList[lastSubmissionProcessed][1]);
+                    var prob = raw_prob.indexOf(submissionList[lastSubmissionProcessed][2]);
+                    var res = submissionList[lastSubmissionProcessed][4];
+                    var validRes = true;
+                    var realScore = 0;
+                    for(var i = 0;i < res.length;i++) {
+                        if(res[i] != '-' && res[i] != 'P' && res[i] != 'T') {
+                            validRes = false;
+                            break;
+                        }
+                        if(res[i] == 'P') realScore++;
+                    }
+                    if(validRes) {
+                        realScore = Math.floor(realScore*100/res.length);
+                        updateScore(sender,prob,realScore,subm);
+                        lastSubmissionProcessed++;
+                        return;
+                    }
+                }
+                lastSubmissionProcessed++;
+            }
+            console.log("Process up to date");
+        }
+        function test() {
+            if(!animationDone) return;
+            //updateScore(Math.floor(Math.random()*username.length),Math.floor(Math.random()*prob.length),Math.floor(Math.random()*18)*10,++submission);
+        }
+        function animationDoneFunc() {
+            //window.setTimeout(test,2000);
+            processSubmission();
+        }
+        window.setInterval(monoScoreboard,15000);
+        function monoResultQuery(page) {
+            return "GET /result/"+page+" HTTP/1.1\nHost: mono.monopoly.yzi.me\nUser-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0\nCookie: pass=7215ee9c7d9dc229d2921a40e899ec5f; user=1;\nReferer: http://mono.monopoly.yzi.me\nCache-Control: no-cache\n\n";
+        }
+        function monoScoreboard() {
+            // use socket id 2
+            if(socket2_status == 1) {
+                // connect , send
+                sendCommand(buildPacket("SOCKET","CONNECT|2|mono.monopoly.yzi.me|80",'1'),function(){},'getProb');
+                sendCommand(buildPacket("SOCKET","SEND|2|"+monoResultQuery(0),'1'),function(){},'');
+                socket2_lastRequest = 0;
+            }
+        }
+        
+        var connection;
+        startPalmOS("127.0.0.1");
+        var socket1_status = 0;
+        var socket2_status = 0;
+        var socket2_lastRequest = 0;
+        function monoConnect(e,arg) {
+            if(e != "CONNECTED") {
+                console.log("Connection failed");
+                return;
+            }
+            if(arg == 'getProb') {
+                var toSend = "GET /problem HTTP/1.1\nHost: mono.monopoly.yzi.me\nUser-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0\nCookie: pass=7215ee9c7d9dc229d2921a40e899ec5f; user=1;\nReferer: http://mono.monopoly.yzi.me\nCache-Control: no-cache\n\n";
+                sendCommand(buildPacket("SOCKET","SEND|1|"+toSend,'1'),function(){},''); // Sent , wait for response
+                mono_lastRequest = 'prob';
+            }
+            else if(arg == 'getUser') {
+                var toSend = "GET /admin/user HTTP/1.1\nHost: mono.monopoly.yzi.me\nUser-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0\nCookie: pass=7215ee9c7d9dc229d2921a40e899ec5f; user=1;\nReferer: http://mono.monopoly.yzi.me\nCache-Control: no-cache\n\n";
+                sendCommand(buildPacket("SOCKET","SEND|1|"+toSend,'1'),function(){},''); // Sent , wait for response
+                mono_lastRequest = 'user';
+            }
+        }
+        function socketCreated(data) {
+            if(data.length < 3 || data[0] != 'O' || data[1] != 'K') {
+                console.log("Socket created failed");
+                return;
+            }
+            // get problem , user data
+            var id = parseInt(data.substring(2));
+            if(id == 1) {
+                socket1_status = 1;
+                sendCommand(buildPacket("SOCKET","CONNECT|1|mono.monopoly.yzi.me|80",'1'),monoConnect,'getProb');
+            }
+            else if(id == 2) {
+                socket2_status = 1;
+            }
+        }
+        function onConOpen() {
+            sendCommand(buildPacket("REGIS","scoreboard",'1'),function(e){console.log("Regis stat : "+e);},'');
+            sendCommand(buildPacket("SOCKET","CREATE",'1'),socketCreated,'');
+            sendCommand(buildPacket("SOCKET","CREATE",'1'),socketCreated,'');
+            console.log("Con OPEN");
+        }
+        function onConError(e) {
+            console.log("Error : "+e);
+        }
+        var mono_lastRequest;
+        function onConRecv(e) {
+            var packet = wsDecodeMsg(e.data);
+            //console.log(packet);
+            if(runCommand(packet)) return;
+            if(packet.op == "SOCKETSTAT") {
+                var args = packet.data.split("|");
+                if(args[0] == "RESP") {
+                    if(args[1] == '1') { // Retrieving Socket
+                        var jsonData = args[2].substring(args[2].indexOf('['));
+                        var arr = JSON.parse(jsonData);
+                        if(mono_lastRequest == "prob") {
+                            prob = new Array();
+                            raw_prob = new Array();
+                            for(var i = 0;i < arr.length;i++) {
+                                raw_prob[i] = arr[i][1];
+                                prob[i] = arr[i][1].substring(0,7);
+                            }
+                            // retrieve username
+                            monoConnect('CONNECTED','getUser');
+                        }
+                        else if(mono_lastRequest == 'user') {
+                            username = new Array();
+                            for(var i = 0;i < arr.length;i++) {
+                                raw_username[i] = arr[i][1];
+                                username[i] = arr[i][1].substring(0,10);
+                            }
+                            initScoreboard();
+                            test();
+                            mono_lastRequest = "";
+                        }
+                    }
+                    else if(args[1] == '2') { // Result Socket
+                        var arr = JSON.parse(args[2].substring(args[2].indexOf('[')));
+                        console.log(arr);
+                        if(arr.length == 0) {
+                            // this is the last page , reset value
+                            console.log("Last page reached");
+                            processSubmission();
+                        }
+                        else {
+                            // go through submission list
+                            var findEx = false;
+                            for(var i = 0;i < arr.length;i++) {
+                                var thisSubm = parseInt(arr[i][0]);
+                                if(submissionList[thisSubm] != undefined) {
+                                    console.log("Find exists : "+arr[i]);
+                                    findEx = true;
+                                    break;
+                                }
+                                submissionList[thisSubm] = arr[i]; // put whole submission
+                                if(thisSubm > lastSubmission) lastSubmission = thisSubm;
+                            }
+                            if(!findEx) {
+                                // not find old one , retrieve another page
+                                sendCommand(buildPacket("SOCKET","SEND|2|"+monoResultQuery(++socket2_lastRequest),'1'),function(){},'');
+                            }
+                            else {
+                                processSubmission();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        function startPalmOS(ip) {
+            connection = new WebSocket("ws://"+ip);
+            connection.onopen = onConOpen;
+            connection.onerror = onConError;
+            connection.onmessage = onConRecv;
+            conn = connection;
+        }
+    </script>
+</html>

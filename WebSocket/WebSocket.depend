@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1421306146 source:c:\users\acer\documents\networkhelper\websocket\network_client.cpp
+1421575672 source:c:\users\acer\documents\networkhelper\websocket\network_client.cpp
 	"network_client.h"
 
-1421257049 c:\users\acer\documents\networkhelper\websocket\network_client.h
+1421306592 c:\users\acer\documents\networkhelper\websocket\network_client.h
 	"network_ext.h"
 
 1412694719 c:\users\acer\documents\networkhelper\websocket\network_ext.h
@@ -28,7 +28,7 @@
 1421256914 c:\users\acer\documents\networkhelper\websocket\network_server.h
 	"network_ext.h"
 
-1421305801 source:c:\users\acer\documents\networkhelper\websocket\main.cpp
+1421575533 source:c:\users\acer\documents\networkhelper\websocket\main.cpp
 	"network_core.h"
 	"network_server.h"
 	"network_client.h"
