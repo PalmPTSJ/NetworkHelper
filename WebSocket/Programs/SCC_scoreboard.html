@@ -46,7 +46,7 @@
                 width:120px;
             }
             #scoreboard {
-                padding-bottom:160px;
+                /padding-bottom:160px;
                 background-color:white;
             }
             .scoreUpdateChange {
@@ -143,6 +143,10 @@
                 animationDoneFunc();
                 return;
             }
+            // edit raw_username to the new position
+            var toMove = raw_username[id];
+            raw_username.splice(id,1)
+            raw_username.splice(targ,0,toMove);
             // use box shadow
             var anim = now.cloneNode(true);
             document.body.appendChild(anim);
@@ -220,12 +224,12 @@
         var lastSubmission = -1;
         function processSubmission()
         {
-            console.log("Process submission , last : "+lastSubmission+" , lastProc : "+lastSubmissionProcessed);
+            console.log("Process Submission [Now : "+lastSubmissionProcessed+" , Finish : "+lastSubmission + "]");
             // new data to process
             while(lastSubmissionProcessed <= lastSubmission) {
                 // process
                 if(submissionList[lastSubmissionProcessed] != undefined) {
-                    console.log("Have to Process : "+submissionList[lastSubmissionProcessed]);
+                    console.log(submissionList[lastSubmissionProcessed]);
                     var subm = submissionList[lastSubmissionProcessed][0];
                     var sender = raw_username.indexOf(submissionList[lastSubmissionProcessed][1]);
                     var prob = raw_prob.indexOf(submissionList[lastSubmissionProcessed][2]);
@@ -241,9 +245,13 @@
                     }
                     if(validRes) {
                         realScore = Math.floor(realScore*100/res.length);
-                        updateScore(sender,prob,realScore,subm);
+                        console.log("Valid result : "+realScore);
                         lastSubmissionProcessed++;
+                        updateScore(sender,prob,realScore,subm);
                         return;
+                    }
+                    else {
+                        console.log("Not valid result");
                     }
                 }
                 lastSubmissionProcessed++;
@@ -347,6 +355,7 @@
                             initScoreboard();
                             test();
                             mono_lastRequest = "";
+                            monoScoreboard();
                         }
                     }
                     else if(args[1] == '2') { // Result Socket

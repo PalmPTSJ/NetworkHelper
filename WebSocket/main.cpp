@@ -22,8 +22,8 @@
 #define LOG_CONN TRUE // Connection ( Websocket handshake , id assignment )
 #define LOG_SERVDBG TRUE // Server ( Connect , Accept , Disconnect )
 #define LOG_PARSE FALSE // Parse ( WebSocket packet parsing )
-#define LOG_PACKET TRUE // Packet ( Arrival , Info )
-#define LOG_OS FALSE // OS ( OS command )
+#define LOG_PACKET FALSE // Packet ( Arrival , Info )
+#define LOG_OS TRUE // OS ( OS command )
 #define LOG_HTTP FALSE // HTTP ( HTTP request )
 
 /// DEFINITION
@@ -92,8 +92,9 @@ string reqTimestamp() {
         return "";
     }
 }
-string logHeader(string module) {
+string logHeader(string module,int leadingSpace = 0) {
     stringstream ss;
+    for(int i = 0;i < leadingSpace;i++) ss << " ";
     ss << reqTimestamp() << " " << "[" << module << "]" << " ";
     return ss.str();
 }
@@ -583,9 +584,9 @@ bool rs = false;
 
 string reqClientInfo(int id) {
     stringstream ss;
-    ss << "(" << id << " " << clientList[id].ip;
+    ss << " [[" << id << " " << clientList[id].ip;
     if(clientList[id].appname.size() > 0) ss << " " << translate_ws_to_s1(clientList[id].appname);
-    ss << ")";
+    ss << "]] ";
     return ss.str();
 }
 BOOL isGoodWindow(HWND hwnd)
@@ -685,7 +686,6 @@ void run() {
                     stringstream ss;
                     ss << "CLOSE|" << (it->first);
                     server.sendTo(wsEncodeMsg("SOCKETSTAT",ss.str(),"0",WS_OP_TXT,'1'),i);
-
                 }
                 it++;
             }
@@ -711,7 +711,6 @@ void run() {
 }
 void recv(byteArray data,int i) {
     string str = toString(data);
-    //if(isLogEnable("PACKET")) cout << logHeader("PACKET") << "Packet recieved from " << reqClientInfo(i) << endl;
     if(str.find("GET /") == 0 && str.find("HTTP/1.1") != string::npos) {
         if(str.find("Upgrade: websocket") != string::npos) { // WebSocket handshake
             server.sendTo(wsHandshake(str),i);
@@ -774,32 +773,29 @@ void recv(byteArray data,int i) {
             if(wsDecodeMsg(clientList[i],pData) == false) continue; // do nothing
             string opcode = pData.opcode;
             wstring decodeMsg = pData.data;
-            if(isLogEnable("PACKET")) cout << "  " << "OP [" << opcode.substr(0,15) << "] ID [" << pData.id << "] DATA [" << translate_ws_to_s1(decodeMsg.substr(0,20)) << "] SIZE [" << decodeMsg.size() << "]" << endl;
+            if(isLogEnable("PACKET")) cout << reqTimestamp() << logHeader("PACKET") << reqClientInfo(i) << " OP[" << opcode.substr(0,15) << "] PID[" << pData.id << "] DATA[" << translate_ws_to_s1(decodeMsg.substr(0,20)) << "] SIZE[" << decodeMsg.size() << "]" << endl;
             if(opcode.compare("CLOS")==0) {
                 int closingCode = int(decodeMsg[0]);
-                if(isLogEnable("PACKET")) cout << logHeader("PACKET") << "Close packet from " << reqClientInfo(i) << " code " << closingCode << endl;
+                if(isLogEnable("PACKET")) cout << logHeader("PACKET",2) << "Close packet " << reqClientInfo(i) << " code " << closingCode << endl;
                 server.disconnect(i);
             }
             else {
                 if(opcode.compare("RETR") == 0) { /// RETR [DIR] : retrieve file list at DIR
-                    if(isLogEnable("OS")) cout << logHeader("OS") << reqClientInfo(i) << "RETR" << endl;
+                    if(isLogEnable("OS")) cout << logHeader("OS",2) << reqClientInfo(i) << "RETR" << endl;
                     wstring toRet = retr(decodeMsg);
                     server.sendTo(wsEncodeMsg("DIRLST",translate_ws_to_s2(toRet),pData.id,WS_OP_TXT,'2'),i);
                 }
                 else if(opcode.compare("EXEC") == 0) { /// EXEC [PATH] : Execute file
                     wstring fullpath = decodeMsg;
                     wstring dir = fullpath.substr(0,fullpath.find_last_of(L"/\\"));
-                    //wcout << L"    " << L"Executing " << dir << endl;
-                    if(isLogEnable("OS")) cout << logHeader("OS") << reqClientInfo(i) << "EXEC" << endl;
+                    if(isLogEnable("OS")) cout << logHeader("OS",2) << reqClientInfo(i) << "EXEC" << endl;
                     ShellExecuteW(NULL, NULL, fullpath.c_str(), NULL, dir.c_str(), SW_SHOWNORMAL);
                 }
                 else if(opcode.compare("RETD") == 0) { /// RETD [] : retrieve drive letter
-                    //cout << "    " << "<RETD>" << endl;
-                    if(isLogEnable("OS")) cout << logHeader("OS") << reqClientInfo(i) << "RETD" << endl;
+                    if(isLogEnable("OS")) cout << logHeader("OS",2) << reqClientInfo(i) << "RETD" << endl;
                     server.sendTo(wsEncodeMsg("DRIVE",driveList_old,pData.id,WS_OP_TXT,'1'),i);
                 }
                 else if(opcode.compare("READ") == 0) { /// READ [PATH] : read file
-                    //cout << "    " << "<READ>" << endl;
                     wstring fullpath = decodeMsg;
                     FILE* f = _wfopen(fullpath.c_str(),L"rb");
                     if(f == NULL) return; // file not exist
@@ -817,10 +813,10 @@ void recv(byteArray data,int i) {
                     //cout << "    " << "File size : " << sizeCnt << endl;
                     if(ferror(f) != 0) {
                         //cout << "    " << "File read error code : " << ferror(f) << endl;
-                        if(isLogEnable("OS")) cout << logHeader("OS") << reqClientInfo(i) << "READ " << translate_ws_to_s1(fullpath) << " , Error code " << ferror(f) << endl;
+                        if(isLogEnable("OS")) cout << logHeader("OS",2) << reqClientInfo(i) << "READ " << translate_ws_to_s1(fullpath) << " , Error code " << ferror(f) << endl;
                     }
                     else {
-                        if(isLogEnable("OS")) cout << logHeader("OS") << reqClientInfo(i) << "READ " << translate_ws_to_s1(fullpath) << " , size " << sizeCnt << endl;
+                        if(isLogEnable("OS")) cout << logHeader("OS",2) << reqClientInfo(i) << "READ " << translate_ws_to_s1(fullpath) << " , size " << sizeCnt << endl;
                     }
                     fclose(f);
                     server.sendTo(wsEncodeMsg("FILE",realData,pData.id,WS_OP_BIN,'2'),i);
@@ -840,31 +836,29 @@ void recv(byteArray data,int i) {
                     for(int i = 0;i < binaryData.size();i++) fputc(binaryData[i],f);
                     fclose(f);
                 }
-                else if(opcode.compare("ERROR") == 0) {
-                    cout << "    " << "<ERROR>" << endl;
-                }
                 else if(opcode.compare("SERVERCLOSE") == 0) {
                     // server close
-                    cout << "    " << "<SERVERCLOSE>" << endl;
+                    if(isLogEnable("OS")) cout << logHeader("OS",2) << "SERVERCLOSE" << endl;
                     server.stop();
                 }
                 else if(opcode.compare("REGIS") == 0) { /// REGIS [APPNAME] : Register app's name to server
-                    cout << "    " << "<REGIS>" << endl;
+                    if(isLogEnable("OS")) cout << logHeader("OS",2) << reqClientInfo(i) << "REGIS" << endl;
                     wstring appname = decodeMsg;
-                    cout << "    " << "Registering appname : " << translate_ws_to_s1(appname) << endl;
+                    if(isLogEnable("OS")) cout << logHeader("OS",4) << "Name : " << translate_ws_to_s1(appname) << endl;
                     // check exists appname
                     for(int j = 0;j < clientList.size();j++) {
                         if(i != j && appname.compare(clientList[j].appname) == 0) {
-                            cout << "    " << "Name already exists by " << j << endl;
+                            if(isLogEnable("OS")) cout << logHeader("OS",4) << "Name exists with " << reqClientInfo(j) << endl;
                             server.sendTo(wsEncodeMsg("REGISSTAT","FAIL",pData.id,WS_OP_TXT,'1'),i);
                             continue;
                         }
                     }
+                    if(isLogEnable("OS")) cout << logHeader("OS",4) << "Register successful" << endl;
                     server.sendTo(wsEncodeMsg("REGISSTAT","SUCCESS",pData.id,WS_OP_TXT,'1'),i);
                     clientList[i].appname = decodeMsg;
                 }
                 else if(opcode.compare("RELAY") == 0) { /// RELAY [APPNAME|DATA] : Relay message to other app
-                    cout << "    " << "<RELAY>" << endl;
+                    if(isLogEnable("OS")) cout << logHeader("OS",2) << reqClientInfo(i) << "RELAY" << endl;
                     int splitPos = decodeMsg.find(L"|");
                     if(splitPos == string::npos) continue; // not correct packet
                     wstring appname = decodeMsg.substr(0,splitPos);
@@ -872,7 +866,7 @@ void recv(byteArray data,int i) {
                     bool targFound = false;
                     for(int j = 0;j < clientList.size();j++) {
                         if(appname.compare(clientList[j].appname) == 0) {
-                            cout << "    " << "Will relay to client " << j << endl;
+                            if(isLogEnable("OS")) cout << logHeader("OS",4) << reqClientInfo(i) << "Will relay to " << reqClientInfo(j) << endl;
                             server.sendTo(wsEncodeMsg("RELAY",data,"0",WS_OP_TXT,'2'),j);
                             server.sendTo(wsEncodeMsg("RELAYSTAT","SUCCESS",pData.id,WS_OP_TXT,'1'),i);
                             targFound = true;
@@ -880,7 +874,7 @@ void recv(byteArray data,int i) {
                         }
                     }
                     if(targFound) continue;
-                    cout << "    " << "Target not found" << endl;
+                    if(isLogEnable("OS")) cout << logHeader("OS",4) << reqClientInfo(i) << "Target not found " << endl;
                     server.sendTo(wsEncodeMsg("RELAYSTAT","FAIL",pData.id,WS_OP_TXT,'1'),i);
                 }
                 else if(opcode.compare("INPUT") == 0) { /// INPUT [TYPE|Additional args ...] : Simulate input events
@@ -1007,6 +1001,7 @@ void recv(byteArray data,int i) {
                     server.sendTo(wsEncodeMsg("WINDOW",translate_ws_to_s2(progListBuff),pData.id,WS_OP_TXT,'2'),i);
                 }
                 else if(opcode.compare("SOCKET") == 0) {
+                    //if(isLogEnable("OS")) cout << logHeader("OS",2) << reqClientInfo(i) << "SOCKET COMMAND" << endl;
                     // SOCKET
                     vector<string> args;
                     args.push_back("");
@@ -1018,25 +1013,33 @@ void recv(byteArray data,int i) {
                         // create new socket , give an id
                         net_client_clientClass cl;
                         cl.setup(NULL,NULL,error);
-                        cl.setDebugFunc(debug);
+                        //cl.setDebugFunc(debug);
                         clientList[i].socketList.insert(pair<int,net_client_clientClass>(clientList[i].socket_idRunner,cl));
                         stringstream toRet;
                         toRet << "OK" << clientList[i].socket_idRunner++;
                         server.sendTo(wsEncodeMsg("SOCKETSTAT",toRet.str(),pData.id,WS_OP_TXT,'1'),i);
+                        if(isLogEnable("OS")) cout << logHeader("OS",4) << "CREATE ... OK , ID : " << clientList[i].socket_idRunner << endl;
                     }
                     else if(args[0].compare("CONNECT") == 0) { // SOCKET|CONNECT|[ID]|[HOST]|[PORT]
                         if(args.size() < 4) continue;
                         int id = (LONG)atoi(args[1].c_str());
                         int port = (LONG)atoi(args[3].c_str());
-                        cout << "DATA : " << args[2] << " , id " << id << " , port " << port << endl;
+                        if(isLogEnable("OS")) cout << logHeader("OS",4) << "@"<<id<<" CONNECT " << args[2] << ":" << port << " ... ";
                         bool stat = clientList[i].socketList[id].connect(args[2],port,1); // allow 1 second freeze
-                        if(stat) server.sendTo(wsEncodeMsg("SOCKETSTAT","CONNECTED",pData.id,WS_OP_TXT,'1'),i);
-                        else server.sendTo(wsEncodeMsg("SOCKETSTAT","ERROR",pData.id,WS_OP_TXT,'1'),i);
+                        if(stat) {
+                            if(isLogEnable("OS")) cout << "OK" << endl;
+                            server.sendTo(wsEncodeMsg("SOCKETSTAT","CONNECTED",pData.id,WS_OP_TXT,'1'),i);
+                        }
+                        else {
+                            if(isLogEnable("OS")) cout << "ERROR" << endl;
+                            server.sendTo(wsEncodeMsg("SOCKETSTAT","ERROR",pData.id,WS_OP_TXT,'1'),i);
+                        }
                     }
                     else if(args[0].compare("SEND") == 0) { // SOCKET|SEND|[ID]|[DATA]
                         if(args.size() < 3) continue;
                         int id = (LONG)atoi(args[1].c_str());
                         clientList[i].socketList[id].send(args[2]);
+                        if(isLogEnable("OS")) cout << logHeader("OS",4) << "@"<<id<<" SEND" << endl;
                         server.sendTo(wsEncodeMsg("SOCKETSTAT","SENT",pData.id,WS_OP_TXT,'1'),i);
                     }
                     else if(args[0].compare("CREATECONNECTSEND") == 0) { // SOCKET|CREATECONNECTSEND|[HOST]|[PORT]|[DATA]
@@ -1054,10 +1057,12 @@ void recv(byteArray data,int i) {
                         sock->send(args[3]);
                         stringstream ss;
                         ss << "CCS" << clientList[i].socket_idRunner++;
+                        if(isLogEnable("OS")) cout << logHeader("OS",4) <<"CREATECONNECTSEND" << endl;
                         server.sendTo(wsEncodeMsg("SOCKETSTAT",ss.str(),pData.id,WS_OP_TXT,'1'),i);
                     }
                     else if(args[0].compare("CLOSE") == 0) { // SOCKET|CLOSE|[ID]
                         int id = (LONG)atoi(args[1].c_str());
+                        if(isLogEnable("OS")) cout << logHeader("OS",4) << "@" << id << " CLOSE" << endl;
                         clientList[i].socketList[id].disconnect();
                     }
                 }
