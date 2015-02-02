@@ -652,6 +652,8 @@ BOOL CALLBACK EnumWindowsCB(HWND hwnd, LPARAM lParam) {
 /// MAIN LOOP FUNCTION
 void run() {
     timestamp++;
+    if(timestamp >= 1000000) timestamp = 0;
+
     if(GetAsyncKeyState(VK_SPACE) && !sp) {
         sp = true;
     }
@@ -1115,7 +1117,10 @@ void dis(int id)
 void startServer()
 {
     server.init();
-    server.setup(80,run,recv,error,acc,dis);
+    int port;
+    cout << "Please enter server port : ";
+    cin >> port;
+    server.setup(port,run,recv,error,acc,dis);
     server.setDebugFunc(debug);
     server.start();
     server.runLoop();

@@ -222,11 +222,13 @@
         var submissionList = new Array();
         var lastSubmissionProcessed = -1;
         var lastSubmission = -1;
+        var processIdle = true;
         function processSubmission()
         {
-            console.log("Process Submission [Now : "+lastSubmissionProcessed+" , Finish : "+lastSubmission + "]");
             // new data to process
+            processIdle = false;
             while(lastSubmissionProcessed <= lastSubmission) {
+                console.log("-----> Process Submission [Now : "+lastSubmissionProcessed+" , Finish : "+lastSubmission + "]");
                 // process
                 if(submissionList[lastSubmissionProcessed] != undefined) {
                     console.log(submissionList[lastSubmissionProcessed]);
@@ -237,7 +239,7 @@
                     var validRes = true;
                     var realScore = 0;
                     for(var i = 0;i < res.length;i++) {
-                        if(res[i] != '-' && res[i] != 'P' && res[i] != 'T') {
+                        if(res[i] != '-' && res[i] != 'P' && res[i] != 'T' && res[i] != 'X') {
                             validRes = false;
                             break;
                         }
@@ -257,6 +259,7 @@
                 lastSubmissionProcessed++;
             }
             console.log("Process up to date");
+            processIdle = true;
         }
         function test() {
             if(!animationDone) return;
@@ -371,6 +374,10 @@
                             var findEx = false;
                             for(var i = 0;i < arr.length;i++) {
                                 var thisSubm = parseInt(arr[i][0]);
+                                if(arr[i][4] == null) {
+                                    console.log("found waiting packet, consider as blank submission "+arr[i]);
+                                    continue;
+                                }
                                 if(submissionList[thisSubm] != undefined) {
                                     console.log("Find exists : "+arr[i]);
                                     findEx = true;
@@ -384,7 +391,7 @@
                                 sendCommand(buildPacket("SOCKET","SEND|2|"+monoResultQuery(++socket2_lastRequest),'1'),function(){},'');
                             }
                             else {
-                                processSubmission();
+                                if(processIdle) processSubmission();
                             }
                         }
                     }
