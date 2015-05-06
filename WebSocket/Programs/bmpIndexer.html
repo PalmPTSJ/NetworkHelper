@@ -78,11 +78,13 @@
         function onBlobMessage(packet)
         {
             var dataArr = packet.data.split('|');
+            console.log(dataArr);
             elem("deb").innerHTML = "Done decoding msg !";
             if(packet.op == "FILE") {
                 infoAdd("File path : "+dataArr[0]);
+                //infoAdd("Packet ID : "+dataArr[1]);
                 infoAdd("File size : "+packet.dataArr.length);
-                parseBMP(packet.dataArr.subarray((dataArr[0].length+1) * 2));
+                parseBMP(packet.dataArr.subarray((dataArr[0].length+1) * 2),packet.dataArr.length-((dataArr[0].length+1) * 2));
             }
         }
         function toString(arr)
@@ -114,16 +116,34 @@
         {
             return stream.streamData[stream.streamOffset+index];
         }
+        function peekMultiDataFromArrayStream(stream,index,bytes)
+        {
+            return stream.streamData.subarray(stream.streamOffset+index,stream.streamOffset+index+bytes);
+        }
         var imagePixel = new Array(3); // R G B
         var renderedPixel = new Array(3);
         var imageHeight;
         var imageWidth;
         var bmpHeaderCache;
         var rowSize;
-        function parseBMP(data)
+        function parseBMP(data,len)
         {
             elem("deb").innerHTML = "Parsing BMP !";
             var fileStream = createArrayStream(data);
+            
+            // try to find FileCode
+            // peek some data
+            console.log("PEEK : "+toString(peekMultiDataFromArrayStream(fileStream,0,200)));
+            /*var nowInd = 0;
+            while(toString(peekDataFromArrayStream(fileStream,nowInd))!='B' && toString(peekDataFromArrayStream(fileStream,nowInd+1)) != 'M') {
+                nowInd++;
+                if(nowInd == len-1) {
+                    infoAdd("Can't find FileCode");
+                    alert("Can't find FileCode ...");
+                    return;
+                }
+            }
+            getDataFromArrayStream(fileStream,nowInd)*/
             var bmpHeader = getDataFromArrayStream(fileStream,14);
             infoAdd("FileCode : " + toString(bmpHeader[0]+bmpHeader[1]));
             var dibHeaderSize = parseLittleEndian(getDataFromArrayStream(fileStream,4));
@@ -257,7 +277,7 @@
         function saveFile()
         {
             var path = elem("pathArea").value;
-            var header = "2SAVE|"+translate_ws_to_s2(path+"|"); // hard coded
+            var header = "2SAVE|"+translate_ws_to_s2(path+"|99|"); // hard coded
             // form bmp data structure with bmpHeaderCache
             var len = header.length + bmpHeaderCache.length + rowSize*imageHeight;
             var data = new Uint8Array(len);

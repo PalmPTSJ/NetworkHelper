@@ -39,7 +39,7 @@
                 width:60px;
             }
             .blockProb {
-                width:80px;
+                width:55px;
                 //border:1px solid black;
             }
             .blockLarge {
@@ -94,6 +94,11 @@
     <script src="jquery.js"></script>
     <script src="jqueryEase.js"></script>
     <script>
+        // CONFIG
+        var graderLocation = "mono.monopoly.yzi.me";
+        var graderPort = 80;
+        var requestHeader = "HTTP/1.1\nHost: mono.monopoly.yzi.me\nUser-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0\nCookie: pass=7215ee9c7d9dc229d2921a40e899ec5f; user=1;\nReferer: http://mono.monopoly.yzi.me\nCache-Control: no-cache\n\n";
+        
         function elem(id) {
             return document.getElementById(id);
         }
@@ -271,13 +276,13 @@
         }
         window.setInterval(monoScoreboard,15000);
         function monoResultQuery(page) {
-            return "GET /result/"+page+" HTTP/1.1\nHost: mono.monopoly.yzi.me\nUser-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0\nCookie: pass=7215ee9c7d9dc229d2921a40e899ec5f; user=1;\nReferer: http://mono.monopoly.yzi.me\nCache-Control: no-cache\n\n";
+            return "GET /result/"+page+" "+requestHeader;
         }
         function monoScoreboard() {
             // use socket id 2
             if(socket2_status == 1) {
                 // connect , send
-                sendCommand(buildPacket("SOCKET","CONNECT|2|mono.monopoly.yzi.me|80",'1'),function(){},'getProb');
+                sendCommand(buildPacket("SOCKET","CONNECT|2|"+graderLocation+"|"+graderPort,'1'),function(){},'getProb');
                 sendCommand(buildPacket("SOCKET","SEND|2|"+monoResultQuery(0),'1'),function(){},'');
                 socket2_lastRequest = 0;
             }
@@ -294,12 +299,12 @@
                 return;
             }
             if(arg == 'getProb') {
-                var toSend = "GET /problem HTTP/1.1\nHost: mono.monopoly.yzi.me\nUser-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0\nCookie: pass=7215ee9c7d9dc229d2921a40e899ec5f; user=1;\nReferer: http://mono.monopoly.yzi.me\nCache-Control: no-cache\n\n";
+                var toSend = "GET /problem "+requestHeader;
                 sendCommand(buildPacket("SOCKET","SEND|1|"+toSend,'1'),function(){},''); // Sent , wait for response
                 mono_lastRequest = 'prob';
             }
             else if(arg == 'getUser') {
-                var toSend = "GET /admin/user HTTP/1.1\nHost: mono.monopoly.yzi.me\nUser-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0\nCookie: pass=7215ee9c7d9dc229d2921a40e899ec5f; user=1;\nReferer: http://mono.monopoly.yzi.me\nCache-Control: no-cache\n\n";
+                var toSend = "GET /admin/user "+requestHeader;
                 sendCommand(buildPacket("SOCKET","SEND|1|"+toSend,'1'),function(){},''); // Sent , wait for response
                 mono_lastRequest = 'user';
             }
@@ -313,7 +318,7 @@
             var id = parseInt(data.substring(2));
             if(id == 1) {
                 socket1_status = 1;
-                sendCommand(buildPacket("SOCKET","CONNECT|1|mono.monopoly.yzi.me|80",'1'),monoConnect,'getProb');
+                sendCommand(buildPacket("SOCKET","CONNECT|1|"+graderLocation+"|"+graderPort,'1'),monoConnect,'getProb');
             }
             else if(id == 2) {
                 socket2_status = 1;
@@ -344,7 +349,7 @@
                             raw_prob = new Array();
                             for(var i = 0;i < arr.length;i++) {
                                 raw_prob[i] = arr[i][1];
-                                prob[i] = arr[i][1].substring(0,7);
+                                prob[i] = arr[i][1].substring(0,4);
                             }
                             // retrieve username
                             monoConnect('CONNECTED','getUser');

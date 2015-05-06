@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <!--<link rel="stylesheet" type="text/css" href="css/index.css" />-->
+        <style>
+            body {
+                background-color:white;
+            }
+            #debug {
+                width:100%;
+                margin:auto;
+                text-align:left;
+            }
+            #youtArea {
+                border:1px solid red;
+                margin:5px;
+            }
+            #musicArea {
+                border:1px solid green;
+                display:none;
+            }
+            #touchpadArea {
+                width:75%;
+                height:300px;
+                border:1px solid black;
+                background-color:#DDD;
+                margin:10px;
+            }
+            .touchpadClickArea {
+                width:35%;
+                height:50px;
+                display:inline-block;
+                background-color:#DDD;
+                margin:10px;
+                border:1px solid black;
+            }
+        </style>
+        <title>Hello Remote !</title>
+    </head>
+    <body>
+        <h1>PalmOS Remote</h1>
+        <textarea id="debug"></textarea>
+        <input type="text" id='txt'>
+        <input type="button" value="send data" onclick="sendData()">
+        <div id="youtArea">
+            Youtube : 
+            <input type="button" value="Play" onclick="yout(0)">
+            <input type="button" value="Pause" onclick="yout(1)">
+            <input type="text" id='youtTxt'>
+            <input type="button" value="Search" onclick="yout(2)">
+        </div>
+        <div id="musicArea">
+            Music : 
+            <input type="button" value="Play" onclick="mus(0)">
+            <input type="button" value="Pause" onclick="mus(1)">
+        </div>
+        <div id="touchpadArea">
+            
+        </div>
+        <div class="touchpadClickArea" id="touchpadL">
+            
+        </div>
+        <div class="touchpadClickArea" id="touchpadR">
+            
+        </div>
+        <br>
+        Controller List : <br>
+        <a href="outrun.html">Outrun</a> <a href="minecraft.html">Minecraft</a> <a href="gun.html">Gun</a>
+    </body>
+    <script type="text/javascript" src="PalmOS.js"></script>
+    <script type="text/javascript">
+        function elem(id) { return document.getElementById(id);}
+        function debugg(str)
+        {
+            document.getElementById("debug").innerHTML += (str+"\n");
+            console.log(str);
+        }
+        var connection = new WebSocket('ws://127.0.0.1');
+        connection.onopen = function () {
+            debugg("Connection Open"); 
+            console.log("CON OPEN");
+            window.setTimeout(y0,500);
+        };
+        // Log errors
+        connection.onerror = function (error) {
+            debugg("Connection Error : "+error); 
+        };
+        // Log messages from the server
+        connection.onmessage = function (e) {
+        }
+        function y0()
+        {
+            console.log("y0");
+            connection.send(wsEncodeMsg('INPUT', 'MOUSESETPOS|300|278', '1'));
+            window.setTimeout(y1,200);
+            window.setTimeout(y2,400);
+            window.setTimeout(y3,600);
+            window.setTimeout(y4,800);
+            window.setTimeout(y5,1000);
+            window.setTimeout(cc,1200);
+        }
+        function y1()
+        {
+            connection.send(wsEncodeMsg('INPUT', 'MOUSECLICK|LD', '1'));
+        }
+        function y2()
+        {
+            connection.send(wsEncodeMsg('INPUT', 'MOUSESETPOS|742|521', '1'));
+        }
+        function y3()
+        {
+            connection.send(wsEncodeMsg('INPUT', 'MOUSECLICK|LU', '1'));
+        }
+        function y4()
+        {
+            connection.send(wsEncodeMsg('INPUT', 'MOUSESETPOS|742|221', '1'));
+        }
+        function y5()
+        {
+            connection.send(wsEncodeMsg('INPUT', 'MOUSECLICK|LD', '1'));
+            connection.send(wsEncodeMsg('INPUT', 'MOUSECLICK|LU', '1'));
+        }
+        function cc()
+        {
+            window.close();
+        }
+    </script>
+</html>

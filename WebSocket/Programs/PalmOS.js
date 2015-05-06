@@ -154,7 +154,7 @@ function wsDecodeBlobMsg(msg,callback) // reflow the message for blob loading & 
         console.log(str);
         
         var packetObj = wsDecodeMsg(str);
-        packetObj["dataArr"] = arr.subarray(str.indexOf('|')+1,arr.length);
+        packetObj["dataArr"] = arr.subarray(str.indexOf('|',str.indexOf('|')+1)+1,arr.length);
        	callback(packetObj);
     });
     reader.readAsArrayBuffer(msg);
