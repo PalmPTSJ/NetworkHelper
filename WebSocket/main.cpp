@@ -1136,7 +1136,7 @@ void startServer()
 int main(int argc,char** argv)
 {
     net_init();
-    /*SetErrorMode(SEM_NOOPENFILEERRORBOX); // for drives detection
+    SetErrorMode(SEM_NOOPENFILEERRORBOX); // for drives detection
     timestamp = 0;
     if(argc >= 1) {
         workingDir = argv[0];
@@ -1145,8 +1145,8 @@ int main(int argc,char** argv)
     }
     initContentTypeMap();
     startServer();
-    net_close();*/
-    cout << wsHandshake("Sec-WebSocket-Key: sa4toaUtuog1BgXWcNJtjA==\r\nUpgrade: websocket");
+    net_close();
+    //cout << wsHandshake("Sec-WebSocket-Key: sa4toaUtuog1BgXWcNJtjA==\r\nUpgrade: websocket");
     system("pause");
     return 0;
 }
