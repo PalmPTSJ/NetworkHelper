@@ -1,0 +1,370 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>My Web</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<!--<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>-->
+		<style>
+		    #browseArea {
+		        vertical-align:top;
+		        text-align:center;
+		        display:inline-block;
+		    }
+		    .cardCategory {
+		        border-radius:50%;
+		        background-color:#81d4fa;
+		        display:inline-block;
+		        height:30px;
+		        width:30px;
+		        color:black;
+		        text-align:center;
+		        float:left;
+		        font-size:18px;
+		        margin-right:10px;
+		    }
+		    .card {
+		        display:inline-block;
+                width:100%;
+                line-height:30px;
+                text-align:left;
+                cursor:pointer;
+                margin:3px;
+                border-radius:15px;
+		    }
+		    .cardContent {
+		        margin-left:40px;
+		        word-break:break-all;
+		    }
+		    .card:hover {
+		        background-color:#CCEEFF;
+		    }
+		    .card:active {
+		        background-color:#EEFFEE;
+		    }
+		    .cardFile {
+		        color:blue;
+		    }
+		    .cardFolder {
+		        color:green;
+		    }
+		    #navBar {
+		        position:fixed;
+		        left:0px;
+		        bottom:0px;
+		        display:inline-block;
+                width:100%;
+                overflow:hidden;
+                max-height:200px;
+                z-index:20;
+		    }
+		    #nav_music {
+		        //repeat scroll 0% 0% transparent;
+		        background:linear-gradient(to right, #8ca 50%, #afc 50%);
+		        border-top:1px solid #88CC88;
+		        overflow:hidden;
+		    }
+		    #nav_alert_holder {
+		        overflow:hidden;
+		        vertical-align:top;
+		        max-height:100px;
+		    }
+		    .nav_card {
+		        border-top:1px solid #888888;
+		        padding-left:10px;
+		    }
+		    .nav_alert_info {
+		        background-color:yellow;
+		    }
+		    .nav_alert_error {
+		        background-color:red;
+		    }
+		    html {
+		        height:100%;
+		        overflow-x:hidden;
+		    }
+		    body {
+		        padding:0px;
+		        margin:0px;
+		        /font-family:"Roboto";
+		        background:linear-gradient(to top,#CCEEEE,#EEFFFF);
+		        background-attachment:fixed;
+		        min-height:100%;
+		        padding-bottom:200px;
+		    }
+		    #audioID {
+		        width:100%;
+		    }
+		    #titleArea {
+		        background-color: #b3e5fc;
+		        width:100%;
+		        height:44px;
+		        font-size:24px;
+		        padding-top:10px;
+		        overflow:hidden;
+		    }
+		    #addressBar {
+		        margin-left:10px;
+		        cursor:text;
+		    }
+		    .nav_btn {
+		        height:16px;
+		        vertical-align:middle;
+		        cursor:pointer;
+		    }
+		    .nav_icon {
+		        height:16px;
+                vertical-align:middle;
+		    }
+		    .driveCard {
+		        border-radius:50%;
+		        width:30px;
+		        height:30px;
+		        line-height:30px;
+		        display:inline-block !important;
+		        border:1px solid black;
+		        background-color:#81d4fa;
+		        padding:5px;
+		        margin:5px;
+		        margin-right:0px;
+		        text-align:center;
+		        cursor:pointer;
+		        transition:background-color 0.25s;
+		    }
+		    .driveCard:hover {
+		        background-color:#def;
+		    }
+		</style>
+		<script src="jquery.js"></script>
+		<script src="PalmOS.js"></script>
+	</head>
+	<body>
+	    <div id="navBar">
+            <audio id="audioID"> </audio>
+            <div id="nav_alert_holder">
+                
+            </div>
+            <div id="nav_music" class="nav_card" style="height:0px">
+                 <img src="play.png" id="music_btn1" class="nav_btn" onclick="music_pp()"> 
+                 <span id="musicName" style="vertical-align:middle;"> </span>
+            </div>
+        </div>
+		<div id="titleArea">
+		    <div id="addressBar">...</div>
+		</div>
+		<div id="driveArea">
+		    
+		</div>
+		<div id="browseArea">
+
+		</div>
+	</body>
+	<script type="text/javascript">
+	    function elem(id)
+	    {
+	        return document.getElementById(id);
+	    }
+	    var nav_mini = 25;
+	    var nav_full = 600;
+	    var nav_delay = 3000;
+	    var nav_anim = 250;
+	    
+	    var connection = new WebSocket("ws://127.0.0.1");
+	    var tm;
+	    var nowDir = "";
+	    var nowPlaying = "";
+	    
+	    var driveAvList = [];
+	    connection.onopen = function () {
+            connection.send(wsEncodeMsg('RETD','','1'));
+            connection.send(wsEncodeMsg('REGIS','fileBrowserReal','1'));
+            connection.send(wsEncodeMsg('REGFLAG','FLAG_DRIVECHANGE','1'));
+        };
+        // Log errors
+        connection.onerror = function (error) {
+            console.log('WebSocket Error ' + error);
+        };
+        function parseDir(dir)
+        {
+            var lst = dir.split("\\");
+            var lstParsed = [];
+            var str = "";
+            for(var i = 0;i < lst.length;i++) {
+                if(lst[i] == '.') continue;
+                if(lst[i] == "..") {
+                    lstParsed.pop();
+                    continue;
+                }
+                lstParsed.push(lst[i]);
+            }
+            for(var i = 0;i < lstParsed.length;i++) {
+                str += lstParsed[i]+'\\';
+            }
+            return str;
+        }
+        // Log messages from the server
+        connection.onmessage = function (e) {
+            var packet = wsDecodeMsg(e.data);
+            console.log(packet);
+            var dataArr = packet.data.split('|'); // split data into inner section
+            if(packet.op == "DIRLST") {
+                nowDir = parseDir(dataArr[0]);
+                elem("addressBar").innerHTML = nowDir;
+                var inHTML = "";
+                for(var i = 1;i < dataArr.length;i++) {
+                    if(dataArr[i].length==0) continue;
+                    if(dataArr[i] == ">.") continue;
+                    inHTML += "<div class='card ";
+                    var type = "O"; 
+                    if(dataArr[i][0] == '>') {
+                        inHTML += "cardFolder";
+                        type="F"; // Folder
+                        if(dataArr[i] == ">..") type="N";
+                        dataArr[i] = dataArr[i].substr(1);
+                    }
+                    else {
+                        inHTML += "cardFile";
+                        var fileCage = fileCategorize(dataArr[i]);
+                        if(fileCage == "music") type="M";
+                    }
+                    inHTML+=("' onclick='clicked(this)'><div class='cardCategory'>"+type+"</div><div class='cardContent'>"+dataArr[i]+"</div></div>");
+                }
+                elem("browseArea").innerHTML = inHTML;
+                var fileList = elem("browseArea").children;
+                for(var i = 0;i < fileList.length;i++) {
+                    $(fileList[i]).fadeOut(0).delay(Math.min(i*10,1000)).fadeIn();
+                }
+                /*$("#browseArea").fadeOut(0);
+                $("#browseArea").fadeIn();*/
+            }
+            else if(packet.op == "DRIVE") {
+                if(driveAvList.length == 0) // no drive ever detected
+                {
+                    var inHTML = "";
+                    for(var i = 0;i < dataArr.length;i++) {
+                        if(dataArr[i].length==0) continue;
+                        inHTML += "<div class='driveCard";
+                        inHTML+=("' onclick='clickedDrive(this)'>"+dataArr[i]+":"+"</div>");
+                        driveAvList.push(dataArr[i]);
+                    }
+                    elem("driveArea").innerHTML = inHTML;
+                }
+                else {
+                    var elemList = Array.prototype.slice.call(elem("driveArea").children);
+                    for(var i = 0;i < driveAvList.length;i++) {
+                        if(dataArr.indexOf(driveAvList[i]) == -1) { // drive remove
+                            navAlert("Drive removed ( "+driveAvList[i]+": )","INF");
+                            removeDrive(elemList[i]);
+                            elemList.splice(i,1);
+                            driveAvList.splice(i,1);
+                            i--;
+                        }
+                    }
+                    for(var i = 0;i < dataArr.length;i++) {
+                        if(dataArr[i].length==0) continue;
+                        if(driveAvList.indexOf(dataArr[i]) == -1) { // new drive
+                            navAlert("New drive detected ( "+dataArr[i]+": )","INF");
+                            driveAvList.push(dataArr[i]);
+                            var cardElem = document.createElement("div");
+                            cardElem.className = "driveCard";
+                            cardElem.setAttribute("onclick","clickedDrive(this)");
+                            //cardElem.innerHTML = dataArr[i]+":\\";
+                            cardElem.innerHTML = dataArr[i]+":";
+                            $(cardElem).fadeOut(0);
+                            $(cardElem).fadeIn();
+                            elem("driveArea").appendChild(cardElem);
+                        }
+                    }
+                }
+            }
+            else if(packet.op == "REGISSTAT") {
+                var stat = dataArr[0];
+                if(stat == "FAIL") {
+                    
+                }
+                
+            }
+        }
+        function removeDrive(targ)
+        {
+            $(targ).fadeOut(function(){$(targ).remove()});
+        }
+        function rem(par,chi)
+        {
+            par.removeChild(chi);
+        }
+        var audioElem = elem("audioID");
+        var navAlert_icon = new Array();
+        navAlert_icon["INF"] = "info.png";
+        navAlert_icon["ERR"] = "pause.png";
+        function navAlert(text,type)
+        {
+            var alertDiv = document.createElement("div");
+            alertDiv.className = "nav_card ";
+            if(type=="ERR") alertDiv.className += "nav_alert_error ";
+            else if(type=="INF") alertDiv.className += "nav_alert_info ";
+            alertDiv.style.height = 0;
+            alertDiv.innerHTML = "<img src='"+navAlert_icon[type]+"' class='nav_icon'> ";
+            alertDiv.innerHTML += text;
+            elem("nav_alert_holder").insertBefore(alertDiv,elem("nav_alert_holder").firstChild);
+            jQuery(alertDiv).animate(
+                    {height:nav_mini}
+                    ,nav_anim);
+            window.setTimeout(function(){navAlertOff(alertDiv)},nav_delay);
+        }
+        function navAlertOff(targ)
+        {
+            //alert("TEST2");
+            jQuery(targ).animate(
+                    {height:0}
+                    ,nav_anim,function() {targ.remove();});
+        }
+        // connection.send(wEncode("RETR D:\\DAD\\Musics 2\\รวมฮิต\\ดา\\"));
+        var musicExt = ["mp3","MP3","WAV","wav","OGG","ogg","M4A","m4a"];
+        function fileCategorize(fileName)
+        {
+            for(var i = 0;i < musicExt.length;i++) {
+                if(fileName.indexOf("."+musicExt[i]) != -1) {
+                    return "music";
+                }
+            }
+            return "unknown";
+        }
+        function fileExec(fileName)
+        {
+            var cag = fileCategorize(fileName);
+            if(cag == "music") {
+                //playMusic(fileName);
+                connection.send(wsEncodeMsg("RELAY",translate_ws_to_s2("musicPlayer|PLAY|"+fileName),'2'));
+                return;
+            }
+            if(fileName.indexOf(".bmp") != -1) {
+                // try relaying to bmpIndexer
+                console.log("Relaying to bmpIndexer");
+                connection.send(wsEncodeMsg('RELAY','bmpIndexer|'+translate_ws_to_s2(fileName),'1'));
+                return;
+            }
+            navAlert("File "+fileName+" will be executed from your system","INF");
+            //connection.send(wEncode("EXEC "+nowDir+inHTML+""));
+            connection.send(wsEncodeMsg("EXEC",translate_ws_to_s2(fileName),'2'));
+        }
+        function clicked(e)
+        {
+            var inHTML = e.textContent.substr(1);
+            if(e.className.indexOf("cardFolder") != -1) {
+                // is a folder , requesting new directory
+                connection.send(wsEncodeMsg("RETR",translate_ws_to_s2(nowDir+inHTML),'2'));
+                var dirParsed = parseDir(nowDir+inHTML);
+                //addDock(dirParsed,"folder");
+            }
+            else {
+                fileExec(nowDir+inHTML);
+                //addDock(inHTML,fileCategorize(inHTML),nowDir+inHTML);
+            }
+        }
+        function clickedDrive(e)
+        {
+            connection.send(wsEncodeMsg("RETR",translate_ws_to_s2(e.textContent),'2'));
+            //addDock(e.textContent,"folder");
+        }
+	</script>
+</html>

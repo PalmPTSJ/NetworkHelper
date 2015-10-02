@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>OffGrader - Creator</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<link rel="stylesheet" href="http://bootswatch.com/paper/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+<script src="jsencrypt.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
+<meta charset="UTF-8">
+<style>
+html {
+    width:100%;
+}
+    body {
+        padding:20px;
+        width:80%;
+        margin-left:10%;
+    }
+    textarea {
+        font-family:"Consolas";
+        line-height:16px;
+        border:1px solid #888;
+        width:100%;
+        height:150px;
+    }
+    #output {
+        height:450px;
+    }
+</style>
+</head>
+<body>
+    <h1>Welcome to OffGrader problem setter</h1>
+    <hr>
+    <h4>Correct answer</h4>
+    <textarea id="output"></textarea>
+    <br>
+    <button onclick="submit()">Generate encrypted data</button>
+    <h4>Answer key (secret)</h4>
+    <textarea id="output2_txt"></textarea>
+    <h4>Encrypted File</h4>
+    <textarea id="output3_txt"></textarea>
+    
+</body>
+<script>
+    var toCheck = "1234567890_OffGrader_Judge_Result_Correct_Answer_qwertyuiopasdfghjklzxcvbnm";
+    function submit() {
+        try {
+            var ans = $("#output").val().trim().replace(/\r\n/g,'\n').replace(/[\n]+/g,'\n').replace(/[ ]+/g,' ');
+            ans = ans.replace(/[ ]\n/g,'\n').replace(/\n[ ]/g,'\n');
+            console.log("Ans ",JSON.stringify(ans));
+            var key = CryptoJS.SHA256(ans) + ans;
+            $("#output2_txt").val(JSON.stringify(key));
+            var enc = CryptoJS.AES.encrypt(toCheck, key)
+            $("#output3_txt").val(enc.toString(CryptoJS.enc.b64));
+            console.log(enc.toString(CryptoJS.enc.b64));
+        }
+        catch(err) {
+            alert("Error");
+            console.log(err);
+        }
+    }
+</script>
+</html>

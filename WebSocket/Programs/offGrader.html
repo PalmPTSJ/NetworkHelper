@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>OffGrader - Main</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<link rel="stylesheet" href="http://bootswatch.com/paper/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+<script src="jsencrypt.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
+<meta charset="UTF-8">
+<style>
+html {
+    width:100%;
+}
+    body {
+        padding:20px;
+        width:80%;
+        margin-left:10%;
+    }
+    textarea {
+        font-family:"Consolas";
+        line-height:16px;
+        border:1px solid #888;
+        width:100%;
+        height:150px;
+    }
+    #output {
+        height:450px;
+    }
+</style>
+</head>
+<body>
+    <h1>OffGrader</h1>
+    <hr>
+    <h4>Problem File</h4>
+    <textarea id="prob_txt"></textarea>
+    <input type="file" id="prob_in"><button onclick="parseProb()">Parse (manual text)</button>
+    <div id="prob_name" style="color:gray; width:100%;"></div>
+    <div id="prob_key" style="color:gray; width:100%;"></div>
+    <h4>Input</h4>
+    <textarea id="input_txt"></textarea>
+    <hr>
+    <h4>Code</h4>
+    <textarea id="output">
+        
+    </textarea>
+    <input type="file" id="code_in">
+    <br>
+    <button onclick="submit()">Judge !</button>
+    <div id="feedback_txt" style="color:gray; width:100%;">Waiting ...</div>
+</body>
+<script src="PalmOS.js"></script>
+<script>
+    function elem(id) {
+        return document.getElementById(id);
+    }
+    var toCheck = "1234567890_OffGrader_Judge_Result_Correct_Answer_qwertyuiopasdfghjklzxcvbnm";
+    var connection = new WebSocket("ws://127.0.0.1");
+    conn = connection;
+    var tempPath = "";
+    connection.onopen = function () {
+        sendCommand(buildPacket("REGIS","offGrader",'1'),regisSuccess,'');
+    };
+    connection.onmessage = function(e) {
+        var packet = wsDecodeMsg(e.data);
+        if(packet.error == "BLOB") {
+            // blob message !
+            console.log("Blob message");
+            wsDecodeBlobMsg(e.data,blobRead);
+            return;
+        }
+        var dataArr = packet.data.split('|');
+        if(runCommand(packet)) return;
+        cmdLog("Data recieved : \n"+packet.data);
+    }
+    function blobRead(packet) {
+        if(runCommand(packet)) return;
+    }
+    // Log errors
+    connection.onerror = function (error) {
+        console.log('WebSocket Error ' + error);
+    };
+    function regisSuccess(data,args) {
+        sendCommand(buildPacket("INFO","TMPPATH",'1'),function(data,args){tempPath = data; elem("feedback_txt").innerHTML = "PalmOS Connected !"; },'');
+    }
+    var savePath = "";
+    var exePath = "";
+    var inputPath = "";
+    var outputPath = "";
+    function submit() {
+        elem("feedback_txt").className = "";
+        if(tempPath == "") {
+            alert("Not connected !");
+            return;
+        }
+        if(probKey == "") {
+            parseProb();
+            if(probKey == "") {
+                alert("Problem not completed !");
+                return;
+            }
+        }
+        savePath = tempPath+"\\offGrader.cpp";
+        exePath = tempPath+"\\offGrader.exe";
+        inputPath = tempPath+"\\offGrader.in";
+        outputPath = tempPath+"\\offGrader.out";
+        elem("feedback_txt").innerHTML = "Saving files ..."
+        sendCommand(buildPacket("SAVE",savePath+"|"+$("#output").val(),'1'),
+        function(data,args){
+            sendCommand(buildPacket("SAVE",inputPath+"|"+$("#input_txt").val(),'1'),PalmOS_cb,"SAVED");
+        },'');
+    }
+    function PalmOS_cb(data,args) {
+        if(args == "SAVED") {
+            elem("feedback_txt").innerHTML = "Compiling ..."
+            sendCommand(buildPacket("SYSTEM","g++ "+savePath+" -o "+exePath,'1'),PalmOS_cb,"COMPILE");
+        }
+        else if(args == "COMPILE") {
+            elem("feedback_txt").innerHTML = "Running ..."
+            sendCommand(buildPacket("SYSTEM",""+exePath+" < "+inputPath+" > "+outputPath,'1'),PalmOS_cb,"RUN");
+        }
+        else if(args == "RUN") {
+            elem("feedback_txt").innerHTML = "Reading output file";
+            sendCommand(buildPacket("READ",outputPath,'1'),PalmOS_cb,"READOUT");
+        }
+        else if(args == "READOUT") {
+            var bin = data.split('|')[1];
+            bin = translate_ws_to_s2(bin);
+            console.log("Answer : ",bin);
+            try {
+                var ans = bin.trim().replace(/\r\n/g,'\n').replace(/[\n]+/g,'\n').replace(/[ ]+/g,' ');
+                ans = ans.replace(/[ ]\n/g,'\n').replace(/\n[ ]/g,'\n');
+                var key = CryptoJS.SHA256(ans) + ans;
+                console.log(probKey);
+                var dec = CryptoJS.AES.decrypt(probKey, key)
+                if(dec.toString(CryptoJS.enc.Utf8) == toCheck) {
+                    alert("Correct answer !!!");
+                    elem("feedback_txt").innerHTML = "Judge : Correct answer !!!"
+                    elem("feedback_txt").className = "success";
+                }
+                else {
+                    elem("feedback_txt").innerHTML = "Judge : Wrong answer ...";
+                }
+            }
+            catch(err) {
+                elem("feedback_txt").innerHTML = "Judge : Wrong answer ...";
+                console.log("Judge error !");
+            }
+        }
+    }
+    
+    
+    
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+    } else {
+      alert('The File APIs are not fully supported in this browser.');
+    }
+    
+
+    function codeSelect(evt) {
+        var f = evt.target.files[0];
+        var reader = new FileReader();
+        reader.onload = (function(theFile) {
+            return function(e) {
+                $("#output").val(e.target.result)
+            };
+        })(f);
+        reader.readAsBinaryString(f);
+        console.log('File',f);
+    }
+    function probSelect(evt) {
+        var f = evt.target.files[0];
+        var reader = new FileReader();
+        reader.onload = (function(theFile) {
+            return function(e) {
+                $("#prob_txt").val(e.target.result);
+                parseProb();
+            };
+        })(f);
+        reader.readAsBinaryString(f);
+        console.log('File',f);
+    }
+    var probKey = "";
+    function parseProb() {
+        var txt = $("#prob_txt").val();
+        var lines = txt.split('\n');
+        $("#prob_name").html("Problem name : "+lines[0]);
+        $("#prob_key").html("Problem key : "+lines[1]);
+        probKey = lines[1];
+        $("#input_txt").val();
+        for(var i = 2;i < lines.length;i++) {
+            $("#input_txt").val($("#input_txt").val()+lines[i]+"\n");
+        }
+    }
+    
+    document.getElementById('code_in').addEventListener('change', codeSelect, false);
+    document.getElementById('prob_in').addEventListener('change', probSelect, false);
+</script>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PalmOS - Center</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="jquery.js"></script>
+        <script src="PalmOS.js"></script>
+        <style>
+            .hidden {
+                display:none;
+            }
+            body {
+                overflow:hidden;
+                margin:0px;
+                background-color: #e91e63;
+                transition:background-color 2s;
+            }
+            #playerArea {
+                position:relative;
+                left:-47vmin;
+                /margin:0px;
+                margin-top:3vmin;
+                height:94vmin;
+                width:94vmin;
+            }
+            #borderCol {
+                position:absolute;
+                z-index:500;
+                margin-left:0.2vmin;
+                margin-top:0.2vmin;
+                height:94vmin;
+                width:94vmin;
+                border-radius:50%;
+                background-color:#f8bbd0;
+                transition:background-color 0s;
+            }
+            #borderMask {
+                position:absolute;
+                z-index:1000;
+                height:94vmin;
+                width:94vmin;
+                border-radius:50%;
+                border : 0.5vmin solid #e91e63;
+                
+            }
+            #innerContent {
+                background-color:#f06292;
+                position:relative;
+                z-index:2000;
+                border-radius:50%;
+                left:2vmin;
+                top:2vmin;
+                height:91vmin;
+                width:91vmin;
+                color:white;
+                line-height:90vmin;
+                font-size:3em;
+                text-align:center;
+                transition:background-color 2s;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="outerArea" style="margin:auto; width:1px; overflow:visible;">
+            <div id="playerArea">
+                <div id="borderCol">
+                    
+                </div>
+                <div id="borderMask">
+                    
+                </div>
+                <div id="innerContent">
+                    <span id="realContent" style="position:relative;">Waiting ...</span>
+                </div>
+            </div>
+        </div>
+        <audio id="audioID"> </audio>
+    </body>
+    <script>
+        var appFormation = "FULL"
+        function elem(id)
+        {
+            return document.getElementById(id);
+        }
+        function createBorderRotationObject(borderMask,borderCol,maskColor)
+        {
+            var obj = new Object();
+            obj.borderMask = borderMask;
+            obj.borderCol = borderCol;
+            obj.color = $(borderCol).css("background-color");
+            obj.maskColor = maskColor;
+            obj.perc = 0;
+            obj.offsetPerc = 0;
+            return obj;
+        }
+        function borderRotate_raw(obj,perc) {
+            while(obj.offsetPerc >= 100) obj.offsetPerc -= 100;
+            obj.perc = perc;
+            if(perc <= 50) {
+                var str = "linear-gradient("+(90+(obj.offsetPerc*3.6)+(perc*3.6))+"deg, transparent 50%, "+obj.maskColor+" 50%), ";
+                str += "linear-gradient("+(90+(obj.offsetPerc*3.6))+"deg, "+obj.maskColor+" 50%, transparent 50%)";
+                obj.borderMask.style.backgroundImage = str;
+            }
+            else {
+                var str = "linear-gradient("+(90+(obj.offsetPerc*3.6)+((perc-50)/100*360))+"deg, transparent 50%, "+obj.color+" 50%), ";
+                str += "linear-gradient("+(90+(obj.offsetPerc*3.6))+"deg, "+obj.maskColor+" 50%, transparent 50%)";
+                obj.borderMask.style.backgroundImage = str;
+            }
+        }
+        function borderRotate(obj,perc,type)
+        {
+            while(perc >= 100) perc-=100;
+            if(type == "FULL") borderRotate_raw(obj,perc);
+            else if(type == "HALFBOTTOM") borderRotate_raw(obj,25+perc/2.0);
+        }
+        var musicPlayerBorder = createBorderRotationObject(elem("borderMask"),elem("borderCol"),$(document.body).css("background-color"));
+        window.requestAnimationFrame(animFrame);
+        function formatTime(time)
+        {
+            var str = ""+time;
+            if(str.length == 1) str = "0"+str;
+            return str;
+        }
+        function animFrame()
+        {
+            var d = new Date();
+            elem("realContent").innerHTML = formatTime(d.getHours())+":"+formatTime(d.getMinutes())
+            elem("realContent").innerHTML += "<br>TEST"
+            borderRotate(musicPlayerBorder,(d.getSeconds()*1000+d.getMilliseconds())/600.0,appFormation);
+            window.requestAnimationFrame(animFrame);
+        }
+        /*var connection = new WebSocket("ws://127.0.0.1");
+        connection.onopen = function () {
+            connection.send(wsEncodeMsg('REGIS','app_clock','1'));
+        };
+        // Log errors
+        connection.onerror = function (error) {
+            console.log('WebSocket Error ' + error);
+        };
+        connection.onmessage = function(e) {
+            var packet = wsDecodeMsg(e.data);
+            var dataArr = packet.data.split('|');
+            console.log(packet);
+            if(packet.op == "RELAY") {
+                if(dataArr[0] == "PLAY") {
+                    playMusic(dataArr[1]);
+                    $("#playerArea").fadeOut(0);
+                    $("#playerArea").fadeIn();
+                }
+            }
+        }*/
+        function PalmOS_circleFormation(formation) {
+            if(formation == "FULL") {
+                $("#realContent").animate(
+                    {top:"0"},
+                    150
+                )
+                appFormation = "FULL"
+            }
+            else if(formation == "HALFBOTTOM") {
+                $("#realContent").animate(
+                    {top:"15vmin"},
+                    150
+                )
+                appFormation = "HALFBOTTOM";
+            }
+        }
+    </script>
+</html>

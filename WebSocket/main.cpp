@@ -21,7 +21,7 @@
 #define TIMESTAMP TRUE // Use timestamp in debugging
 #define LOG_CONN TRUE // Connection ( Websocket handshake , id assignment )
 #define LOG_SERVDBG TRUE // Server ( Connect , Accept , Disconnect )
-#define LOG_PARSE FALSE // Parse ( WebSocket packet parsing )
+#define LOG_PARSE TRUE // Parse ( WebSocket packet parsing )
 #define LOG_PACKET TRUE // Packet ( Arrival , Info )
 #define LOG_OS TRUE // OS ( OS command )
 #define LOG_HTTP FALSE // HTTP ( HTTP request )
@@ -823,6 +823,7 @@ void recv(byteArray data,int i) {
                         sizeCnt++;
                         c=fgetc(f);
                     }
+
                     if(ferror(f) != 0) {
                         if(isLogEnable("OS")) cout << logHeader("OS",2) << reqClientInfo(i) << "READ " << translate_ws_to_s1(fullpath) << " , Error code " << ferror(f) << endl;
                         continue;
@@ -845,6 +846,7 @@ void recv(byteArray data,int i) {
                     // add data to file
                     for(int i = 0;i < binaryData.size();i++) fputc(binaryData[i],f);
                     fclose(f);
+                    server.sendTo(wsEncodeMsg("CALLBACK","SAVESUCCESS",pData.id,WS_OP_TXT,'1'),i);
                 }
                 else if(opcode.compare("SERVERCLOSE") == 0) {
                     // server close
@@ -1075,6 +1077,22 @@ void recv(byteArray data,int i) {
                     char c[1000];
                     sprintf(c,"%s",translate_ws_to_s1(decodeMsg).c_str());
                     system(c);
+                    if(isLogEnable("OS")) cout << logHeader("OS",4) << " System Done " << endl;
+                    server.sendTo(wsEncodeMsg("CALLBACK","SYSTEMSUCCESS",pData.id,WS_OP_TXT,'1'),i);
+                }
+                else if(opcode == "INFO") {
+                    /// request server's info
+                    if(isLogEnable("OS")) cout << logHeader("OS",4) << reqClientInfo(i) << " Request Server's info : " << translate_ws_to_s1(decodeMsg) << endl;
+                    string cmd = translate_ws_to_s1(decodeMsg);
+                    if(cmd == "TMPPATH") {
+                        /// request temp's path for doing things
+                        string path = workingDir;
+                        path.append("\\tmp");
+                        server.sendTo(wsEncodeMsg("INFORESP",path.c_str(),pData.id,WS_OP_TXT,'1'),i);
+                    }
+                }
+                else if(opcode == "VOLUME") {
+
                 }
                 else {
                     if(isLogEnable("PACKET")) cout << logHeader("PACKET") << "Invalid OS packet opcode : " << opcode << endl;
@@ -1135,6 +1153,7 @@ void startServer()
 }
 int main(int argc,char** argv)
 {
+    cout << "PalmOS server ver 1.0" << endl;
     net_init();
     SetErrorMode(SEM_NOOPENFILEERRORBOX); // for drives detection
     timestamp = 0;
@@ -1146,7 +1165,6 @@ int main(int argc,char** argv)
     initContentTypeMap();
     startServer();
     net_close();
-    //cout << wsHandshake("Sec-WebSocket-Key: sa4toaUtuog1BgXWcNJtjA==\r\nUpgrade: websocket");
     system("pause");
     return 0;
 }

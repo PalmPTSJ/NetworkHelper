@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PalmOS - Center</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="jquery.js"></script>
+        <script src="PalmOS.js"></script>
+        <style>
+            .hidden {
+                display:none;
+            }
+            body {
+                overflow:hidden;
+                margin:0px;
+                background-color: #e91e63;
+                transition:background-color 2s;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="outerArea" style="margin:auto; width:1px; height:500px; overflow:visible;">
+            <iframe id="clock" name="clock" src="app_clock.html" style="width:200px; height:200px; position:relative; left:-100px; top:-100px; border:none;">
+            
+            </iframe>
+            <div onmouseover="focuss()" onmouseout="unfocuss()" style="width:200px; height:200px; position:relative; left:-100px; top:-300px;">
+            
+            </div>
+        </div>
+        
+        <div id="centerArea" style="margin:auto; width:1px; overflow:visible;">
+            <iframe id="music" name="music" src="app_music.html" style="width:500px; height:500px; position:relative; left:-250px; top:-250px; border:none;">
+            
+            </iframe>
+        </div>
+        
+    </body>
+    <script>
+        function elem(id)
+        {
+            return document.getElementById(id);
+        }
+        elem("clock").onload = function() {
+            elem("clock").contentWindow.PalmOS_circleFormation("HALFBOTTOM");
+        }
+        function focuss() {
+            elem("clock").contentWindow.PalmOS_circleFormation("FULL");
+            $("#clock").animate(
+                {top:"20px"},
+                150
+            )
+        }
+        function unfocuss() {
+            elem("clock").contentWindow.PalmOS_circleFormation("HALFBOTTOM");
+            $("#clock").animate(
+                {top:"-100px"},
+                150
+            )
+        }
+        
+        function createBorderRotationObject(borderMask,borderCol,maskColor)
+        {
+            var obj = new Object();
+            obj.borderMask = borderMask;
+            obj.borderCol = borderCol;
+            obj.color = $(borderCol).css("background-color");
+            obj.maskColor = maskColor;
+            obj.perc = 0;
+            obj.offsetPerc = 0;
+            return obj;
+        }
+        function borderRotate(obj,perc)
+        {
+            /* linear-gradient(126deg, transparent 50%, #2196f3 50%),
+                linear-gradient(90deg, #2196f3 50%, transparent 50%);
+                
+             linear-gradient(180deg, transparent 50%, green 50%),
+        linear-gradient(90deg, white 50%, transparent 50%); */
+            while(perc >= 100) perc-=100;
+            while(obj.offsetPerc >= 100) obj.offsetPerc -= 100;
+            obj.perc = perc;
+            if(perc <= 50) {
+                var str = "linear-gradient("+(90+(obj.offsetPerc*3.6)+(perc*3.6))+"deg, transparent 50%, "+obj.maskColor+" 50%), ";
+                str += "linear-gradient("+(90+(obj.offsetPerc*3.6))+"deg, "+obj.maskColor+" 50%, transparent 50%)";
+                obj.borderMask.style.backgroundImage = str;
+            }
+            else {
+                var str = "linear-gradient("+(90+(obj.offsetPerc*3.6)+((perc-50)/100*360))+"deg, transparent 50%, "+obj.color+" 50%), ";
+                str += "linear-gradient("+(90+(obj.offsetPerc*3.6))+"deg, "+obj.maskColor+" 50%, transparent 50%)";
+                obj.borderMask.style.backgroundImage = str;
+            }
+        }
+        var musicPlayerBorder = createBorderRotationObject(elem("borderMask"),elem("borderCol"),$(document.body).css("background-color"));
+        window.requestAnimationFrame(animFrame);
+        function animFrame()
+        {
+            window.requestAnimationFrame(animFrame);
+        }
+        var connection = new WebSocket("ws://127.0.0.1");
+        connection.onopen = function () {
+            connection.send(wsEncodeMsg('REGIS','PalmOS_home','1'));
+        };
+        // Log errors
+        connection.onerror = function (error) {
+            console.log('WebSocket Error ' + error);
+        };
+        connection.onmessage = function(e) {
+            var packet = wsDecodeMsg(e.data);
+            var dataArr = packet.data.split('|');
+            console.log(packet);
+            if(packet.op == "RELAY") {
+                if(dataArr[0] == "PLAY") {
+                    playMusic(dataArr[1]);
+                    $("#playerArea").fadeOut(0);
+                    $("#playerArea").fadeIn();
+                }
+            }
+        }
+    </script>
+</html>

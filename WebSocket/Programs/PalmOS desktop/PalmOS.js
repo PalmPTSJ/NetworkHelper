@@ -105,7 +105,7 @@ function translate_s2_to_ws(str) // for decoding '2' back to ws (_a_b_c[2 UNICOD
 {
 	var parsed = new String();
     for(var i = 0;i < str.length;i+=2) {
-        if(i == str.length-1) {parsed += String.fromCharCode(str[i].charCodeAt()*256); break;}
+        if(i == str.length-1) {parsed += String.fromCharCode(i); break;}
         var code = (str[i].charCodeAt()*256)+(str[i+1].charCodeAt());
         parsed += String.fromCharCode(code);
     }
@@ -131,17 +131,7 @@ function wsDecodeMsg(msg) // decode packet msg to data & auto decoding data with
 	var dataS = tid.substring(splitter2+1);
 	tid = tid.substring(0,splitter2);
 	// decoding data
-	if(encType == '2') {
-		console.log(dataS.length,dataS);
-		if(dataS.length %2 == 1) {
-			// last byte is boom !
-			dataS = translate_s2_to_ws(dataS);
-			dataS = dataS.substr(0,dataS.length-1);
-		}
-		else {
-			dataS = translate_s2_to_ws(dataS);
-		}
-	}
+	if(encType == '2') dataS = translate_s2_to_ws(dataS);
 	return {
 		op:opcode ,
 		data:dataS ,
