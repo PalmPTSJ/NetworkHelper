@@ -832,6 +832,32 @@ void recv(byteArray data,int i) {
                     fclose(f);
                     server.sendTo(wsEncodeMsg("FILE",realData,pData.id,WS_OP_BIN,'2'),i);
                 }
+                else if(opcode.compare("FILESIZE") == 0) {
+                    // request basic file size
+                    wstring fullpath = decodeMsg;
+                    FILE* f = _wfopen(fullpath.c_str(),L"rb");
+                    if(f == NULL) {
+                        // file not exist
+                        server.sendTo(wsEncodeMsg("ERROR","Can't open file",pData.id,WS_OP_TXT,'1'),i);
+                        continue;
+                    }
+                    char c;
+                    int sizeCnt = 0;
+                    c=fgetc(f);
+                    while(!feof(f)) {
+                        sizeCnt++;
+                        c=fgetc(f);
+                    }
+
+                    if(ferror(f) != 0) {
+                        if(isLogEnable("OS")) cout << logHeader("OS",2) << reqClientInfo(i) << "FILESIZE " << translate_ws_to_s1(fullpath) << " , Error code " << ferror(f) << endl;
+                        continue;
+                    }
+                    fclose(f);
+                    stringstream toSend;
+                    toSend << sizeCnt;
+                    server.sendTo(wsEncodeMsg("FILESIZE",toSend.str(),pData.id,WS_OP_TXT,'1'),i);
+                }
                 else if(opcode.compare("SAVE") == 0) { /// SAVE [PATH | BINARYDATA] : save binary data to file
                     cout << "    " << "<SAVE>" << endl;
                     wstring param = decodeMsg;
@@ -1073,10 +1099,11 @@ void recv(byteArray data,int i) {
                     server.sendToAllClientExcept(wsEncodeMsg("BROADCASTRELAY",translate_ws_to_s2(decodeMsg),"0",WS_OP_TXT,'2'),i);
                 }
                 else if(opcode == "SYSTEM") {
-                    if(isLogEnable("OS")) cout << logHeader("OS",4) << reqClientInfo(i) << " System : " << translate_ws_to_s1(decodeMsg) << endl;
-                    char c[1000];
-                    sprintf(c,"%s",translate_ws_to_s1(decodeMsg).c_str());
-                    system(c);
+                    if(isLogEnable("OS")) cout << logHeader("OS",4) << reqClientInfo(i) << " System : " << translate_ws_to_s1(decodeMsg).c_str() << endl;
+                    char c[10000];
+                    //sprintf(c,"%s",translate_ws_to_s1(decodeMsg).c_str());
+                    //system(c);
+                    system(translate_ws_to_s1(decodeMsg).c_str());
                     if(isLogEnable("OS")) cout << logHeader("OS",4) << " System Done " << endl;
                     server.sendTo(wsEncodeMsg("CALLBACK","SYSTEMSUCCESS",pData.id,WS_OP_TXT,'1'),i);
                 }

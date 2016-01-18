@@ -102,28 +102,43 @@ html {
                 return;
             }
         }
-        savePath = tempPath+"\\offGrader.cpp";
-        exePath = tempPath+"\\offGrader.exe";
-        inputPath = tempPath+"\\offGrader.in";
-        outputPath = tempPath+"\\offGrader.out";
+        savePath = "\""+tempPath+"\\offGrader.cpp\"";
+        exePath = "\""+tempPath+"\\offGrader.exe\"";
+        inputPath = "\""+tempPath+"\\offGrader.in\"";
+        outputPath = "\""+tempPath+"\\offGrader.out\"";
+		compilePath = "\""+tempPath+"\\compile.log\"";
         elem("feedback_txt").innerHTML = "Saving files ..."
-        sendCommand(buildPacket("SAVE",savePath+"|"+$("#output").val(),'1'),
+        sendCommand(buildPacket("SAVE",trimPath(savePath)+"|"+$("#output").val(),'1'),
         function(data,args){
-            sendCommand(buildPacket("SAVE",inputPath+"|"+$("#input_txt").val(),'1'),PalmOS_cb,"SAVED");
+            sendCommand(buildPacket("SAVE",trimPath(inputPath)+"|"+$("#input_txt").val(),'1'),PalmOS_cb,"SAVED");
         },'');
     }
+	function trimPath(str) {
+		return str.slice(1,-1)
+	}
     function PalmOS_cb(data,args) {
         if(args == "SAVED") {
             elem("feedback_txt").innerHTML = "Compiling ..."
-            sendCommand(buildPacket("SYSTEM","g++ "+savePath+" -o "+exePath,'1'),PalmOS_cb,"COMPILE");
+			sendCommand(buildPacket("SYSTEM","break>"+compilePath,'1'),PalmOS_cb,"COMPILESYS1");
         }
+		else if(args == "COMPILESYS1") {
+			sendCommand(buildPacket("SYSTEM","g++ "+savePath+" -o "+exePath+"  > "+compilePath+" 2>&1",'1'),PalmOS_cb,"COMPILESYS2");
+		}
+		else if(args == "COMPILESYS2") {
+			sendCommand(buildPacket("FILESIZE",trimPath(compilePath),'1'),PalmOS_cb,"COMPILE");
+		}
         else if(args == "COMPILE") {
+			if(parseInt(data) > 0) {
+				elem("feedback_txt").innerHTML = "Compile error";
+				alert("Compile error !");
+				return;
+			}
             elem("feedback_txt").innerHTML = "Running ..."
-            sendCommand(buildPacket("SYSTEM",""+exePath+" < "+inputPath+" > "+outputPath,'1'),PalmOS_cb,"RUN");
+            sendCommand(buildPacket("SYSTEM",""+trimPath(exePath)+" < "+trimPath(inputPath)+" > "+trimPath(outputPath),'1'),PalmOS_cb,"RUN");
         }
         else if(args == "RUN") {
             elem("feedback_txt").innerHTML = "Reading output file";
-            sendCommand(buildPacket("READ",outputPath,'1'),PalmOS_cb,"READOUT");
+            sendCommand(buildPacket("READ",trimPath(outputPath),'1'),PalmOS_cb,"READOUT");
         }
         else if(args == "READOUT") {
             var bin = data.split('|')[1];
@@ -189,7 +204,7 @@ html {
         $("#prob_name").html("Problem name : "+lines[0]);
         $("#prob_key").html("Problem key : "+lines[1]);
         probKey = lines[1];
-        $("#input_txt").val();
+        $("#input_txt").val("");
         for(var i = 2;i < lines.length;i++) {
             $("#input_txt").val($("#input_txt").val()+lines[i]+"\n");
         }

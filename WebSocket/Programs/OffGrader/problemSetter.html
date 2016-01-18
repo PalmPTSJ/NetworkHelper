@@ -51,7 +51,7 @@ html {
             var ans = $("#output").val().trim().replace(/\r\n/g,'\n').replace(/[\n]+/g,'\n').replace(/[ ]+/g,' ');
             ans = ans.replace(/[ ]\n/g,'\n').replace(/\n[ ]/g,'\n');
             console.log("Ans ",JSON.stringify(ans));
-            var key = CryptoJS.SHA256(ans) + ans;
+            var key = CryptoJS.SHA256(ans) + "" + ans;
             $("#output2_txt").val(JSON.stringify(key));
             var enc = CryptoJS.AES.encrypt(toCheck, key)
             $("#output3_txt").val(enc.toString(CryptoJS.enc.b64));
